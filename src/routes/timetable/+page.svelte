@@ -21,12 +21,11 @@
 
 <Seo
 	title="Timetable"
-	description="The full weekly class timetable at Amala Lifestyle, Banani, Dhaka — including women-only sessions on the separate floor."
+	description="The full weekly class timetable at Amala Lifestyle, Dhaka — including women-only sessions on the separate floor."
 	image="/images/studio.jpg"
 />
 
 <PageHeader
-	eyebrow="Timetable"
 	title="Every session is coached and capped"
 	standfirst="Every class is capped and coached. Spaces open fourteen days ahead and you book from your phone — no queueing at reception, and no session runs without a coach on the floor."
 	image="/images/studio.jpg"
@@ -34,14 +33,14 @@
 >
 	{#snippet actions()}
 		<Button href="/contact" variant="solid" arrow>Book a free session</Button>
-		<Button href="/membership" variant="ghost">Membership</Button>
+		<Button href="/membership" variant="ghost">See prices</Button>
 	{/snippet}
 </PageHeader>
 
-<Section label="This week">
+<Section>
 	<div class="head">
 		<div>
-			<h2 class="t-h2">The week, Sunday to Saturday.</h2>
+			<h2 class="t-h2">Weekly timetable</h2>
 			<p class="t-body-lg head__lede">
 				Times are fixed through the year apart from Ramadan, when the whole timetable moves and we
 				publish it two weeks ahead.
@@ -100,8 +99,8 @@
 	</p>
 </Section>
 
-<Section label="The classes">
-	<h2 class="t-h2">What each class actually is.</h2>
+<Section>
+	<h2 class="t-h2">The classes</h2>
 	<p class="t-body-lg head__lede">
 		Four classes, repeated all week, so you can build a routine instead of chasing a different
 		workout every day.
@@ -114,7 +113,7 @@
 	</div>
 </Section>
 
-<Section label="Before you come">
+<Section>
 	<div class="notes">
 		<div class="notes__item">
 			<Icon name="clock" size={20} />
@@ -144,7 +143,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="Try any class on the timetable, free."
 	body="Pick a session that fits your week and come to it as a guest. No card details, no tour you have to sit through afterwards."
 	primary={{ href: '/contact', text: 'Book a free session' }}

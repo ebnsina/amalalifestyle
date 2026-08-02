@@ -35,7 +35,6 @@
 />
 
 <PageHeader
-	eyebrow="Method"
 	title="Assess. Plan. Coach. Review."
 	standfirst="No secret system. Just an order of operations that most plans skip, and a review often enough to catch a mistake while it is still small."
 	image="/images/method-rack.jpg"
@@ -46,10 +45,10 @@
 	{/snippet}
 </PageHeader>
 
-<Section label="The sequence">
+<Section>
 	<ol class="steps">
 		{#each method as step (step.n)}
-			<li class="steps__item">
+			<li class="steps__item tile-hover">
 				<span class="t-num steps__n">{step.n}</span>
 				<div>
 					<h2 class="t-h2">{step.title}</h2>
@@ -63,8 +62,8 @@
 	</p>
 </Section>
 
-<Section label="What we believe">
-	<h2 class="t-h2">What we will not argue about.</h2>
+<Section>
+	<h2 class="t-h2">What we stand for</h2>
 	<ul class="beliefs">
 		{#each beliefs as b (b.title)}
 			<li class="beliefs__item">
@@ -75,10 +74,10 @@
 	</ul>
 </Section>
 
-<Section label="Questions">
+<Section>
 	<div class="split">
 		<div>
-			<h2 class="t-h2">The ones we get asked most.</h2>
+			<h2 class="t-h2">FAQ</h2>
 			<p class="t-body-lg faqs__lede">
 				If yours is not here, ask it at the first session — or email and we will answer properly
 				rather than sending you a brochure.
@@ -102,7 +101,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="The first session costs nothing and commits you to nothing."
 	body="Ninety minutes, and no sales pitch at the end of it. If we are not the right fit we will say so and point you somewhere better."
 	primary={{ href: '/contact', text: 'Book a free session' }}

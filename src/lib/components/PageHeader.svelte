@@ -3,7 +3,6 @@
 	import type { Snippet } from 'svelte';
 
 	let {
-		eyebrow,
 		title,
 		standfirst,
 		image,
@@ -11,7 +10,6 @@
 		vivid = false,
 		actions
 	}: {
-		eyebrow: string;
 		title: string;
 		standfirst?: string;
 		image?: string;
@@ -25,7 +23,6 @@
 	<div class="container">
 		<div class="page-header__grid" class:page-header__grid--split={!!image}>
 			<div>
-				<p class="t-label">{eyebrow}</p>
 				<h1 class="t-h1 page-header__title">{title}</h1>
 				{#if standfirst}
 					<p class="t-body-lg page-header__standfirst">{standfirst}</p>
@@ -69,7 +66,6 @@
 	}
 
 	.page-header__title {
-		margin-top: 20px;
 		max-width: 15ch;
 	}
 

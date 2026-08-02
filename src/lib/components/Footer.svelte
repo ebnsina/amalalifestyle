@@ -1,24 +1,41 @@
 <script lang="ts">
 	import Wordmark from './Wordmark.svelte';
 	import Icon from './Icon.svelte';
-	import Button from './Button.svelte';
 	import { site, socials, footerNav } from '$lib/data/site';
 
 	const year = new Date().getFullYear();
 	const tel = site.phone.replace(/\s/g, '');
-	const columns = [footerNav.train, footerNav.about];
 </script>
 
+<!--
+	Three columns, and no call to action. The page above already ends on one,
+	the header carries a button, and on a phone the fixed bar carries another —
+	a fourth ask here was only ever noise.
+-->
 <footer class="site-footer band">
 	<div class="container">
-		<!-- A last, quiet prompt. The loud one is the CTA band above it. -->
 		<div class="site-footer__top">
-			<div>
+			<div class="site-footer__col">
 				<Wordmark tone="light" />
 				<p class="t-body site-footer__tagline">{site.tagline}</p>
+				<ul class="socials">
+					{#each socials as s (s.label)}
+						<li>
+							<a
+								class="socials__link"
+								href={s.href}
+								aria-label={s.label}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								<Icon name={s.icon} size={17} />
+							</a>
+						</li>
+					{/each}
+				</ul>
 			</div>
 
-			{#each columns as col (col.title)}
+			{#each footerNav as col (col.title)}
 				<nav class="site-footer__col" aria-label={col.title}>
 					<p class="t-label">{col.title}</p>
 					{#each col.links as link (link.href)}
@@ -42,10 +59,7 @@
 					<Icon name="phone" size={14} />
 					{site.phone}
 				</a>
-			</div>
 
-			<div class="site-footer__col">
-				<p class="t-label">Opening hours</p>
 				<dl class="hours">
 					{#each site.hours as [days, time] (days)}
 						<div class="hours__row">
@@ -54,33 +68,11 @@
 						</div>
 					{/each}
 				</dl>
-				<p class="site-footer__note-small">Closed Friday until 16:00 for Jumu‘ah.</p>
 			</div>
-		</div>
-
-		<div class="site-footer__cta">
-			<p class="t-h3 site-footer__cta-text">Not signed up yet? The first session is free.</p>
-			<Button href="/contact" variant="solid" arrow>Book a free session</Button>
 		</div>
 
 		<div class="site-footer__bottom">
 			<p class="t-label">© {year} {site.name}</p>
-
-			<ul class="socials">
-				{#each socials as s (s.label)}
-					<li>
-						<a
-							class="socials__link"
-							href={s.href}
-							aria-label={s.label}
-							rel="noopener noreferrer"
-							target="_blank"
-						>
-							<Icon name={s.icon} size={17} />
-						</a>
-					</li>
-				{/each}
-			</ul>
 		</div>
 	</div>
 </footer>
@@ -98,12 +90,13 @@
 	@media (min-width: 720px) {
 		.site-footer__top {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 48px 40px;
 		}
 	}
 
-	@media (min-width: 1100px) {
+	@media (min-width: 1080px) {
 		.site-footer__top {
-			grid-template-columns: 1.5fr 1fr 1fr 1.3fr 1.2fr;
+			grid-template-columns: 1.5fr 1fr 1fr 1.1fr 1.1fr;
 			gap: 40px;
 		}
 	}
@@ -117,6 +110,7 @@
 	.socials {
 		display: flex;
 		gap: 10px;
+		margin-top: 10px;
 	}
 
 	/* Bordered box: these are controls, not decorative marks. */
@@ -173,6 +167,7 @@
 		gap: 8px;
 		width: 100%;
 		max-width: 26ch;
+		margin-top: 8px;
 	}
 
 	.hours__row {
@@ -183,34 +178,8 @@
 		color: var(--band-muted);
 	}
 
-	.site-footer__note-small {
-		font-size: 13px;
-		color: #7c7d84;
-		max-width: 26ch;
-	}
-
-	.site-footer__cta {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 20px 32px;
-		margin-top: clamp(48px, 6vw, 72px);
-		padding-top: 36px;
-		border-top: 1px solid var(--band-rule);
-	}
-
-	.site-footer__cta-text {
-		max-width: 26ch;
-	}
-
 	.site-footer__bottom {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 20px 32px;
-		margin-top: 40px;
+		margin-top: clamp(48px, 6vw, 72px);
 		padding-top: 24px;
 		border-top: 1px solid var(--band-rule);
 	}

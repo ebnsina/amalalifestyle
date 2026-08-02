@@ -10,12 +10,11 @@
 
 <Seo
 	title="Coaches"
-	description="The five coaches at Amala Lifestyle in Banani, Dhaka — strength, conditioning, mobility, speed and the women’s floor."
+	description="The five coaches at Amala Lifestyle in Dhaka — strength, conditioning, mobility, speed and the women’s floor."
 	image="/images/coaching-spot.jpg"
 />
 
 <PageHeader
-	eyebrow="Coaches"
 	title="One thing each, done properly"
 	standfirst="Nobody here claims to be good at everything. Each coach owns one part of the programme, and you will work with more than one of them over a twelve-week block."
 	image="/images/coaching-spot.jpg"
@@ -27,7 +26,7 @@
 	{/snippet}
 </PageHeader>
 
-<Section label="The team" ruled={false}>
+<Section ruled={false}>
 	<div class="team">
 		{#each coaches as c (c.id)}
 			<CoachCard {...c} />
@@ -35,10 +34,10 @@
 	</div>
 </Section>
 
-<Section label="How we coach">
+<Section>
 	<div class="split">
 		<div>
-			<h2 class="t-h2">What a coach is actually for.</h2>
+			<h2 class="t-h2">What a coach does</h2>
 			<p class="t-body-lg split__lede">
 				Not motivation and not counting your reps out loud. A coach is there to pick the weight,
 				watch the bar path, and stop the session one set before you would have stopped it yourself.
@@ -77,7 +76,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="Meet whoever will be coaching you, first."
 	body="The free session is with the coach who would actually write your programme — not with a salesperson who hands you over afterwards."
 	primary={{ href: '/contact', text: 'Book a free session' }}

@@ -3,7 +3,6 @@
 	import Button from './Button.svelte';
 
 	let {
-		label = 'Next step',
 		title,
 		body,
 		primary = { href: '/contact', text: 'Book a free session' },
@@ -11,7 +10,6 @@
 		image,
 		alt = ''
 	}: {
-		label?: string;
 		title: string;
 		body?: string;
 		primary?: { href: string; text: string };
@@ -30,7 +28,6 @@
 	{/if}
 
 	<div class="container cta__inner">
-		<p class="t-label cta__label">{label}</p>
 		<div class="cta__grid">
 			<h2 class="t-h1 cta__title">{title}</h2>
 			<div>
@@ -87,14 +84,6 @@
 
 	.cta__inner {
 		position: relative;
-	}
-
-	.cta__label {
-		color: var(--faint);
-	}
-
-	.cta--photo .cta__label {
-		color: rgb(245 245 243 / 0.66);
 	}
 
 	/* Statement on the left, the answer to it on the right — the band uses the

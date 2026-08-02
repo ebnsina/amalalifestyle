@@ -24,7 +24,6 @@
 />
 
 <PageHeader
-	eyebrow="Nutrition"
 	title="Food that fits the life you already have"
 	standfirst="Nutrition coaching runs alongside your training rather than replacing it. We change one habit at a time and leave the rest of your week intact, because a plan you have to escape from at the weekend was never really a plan."
 	image="/images/nutrition-bowl.jpg"
@@ -37,16 +36,16 @@
 	{/snippet}
 </PageHeader>
 
-<Section label="Principles">
-	<h2 class="t-h2">This is <em>the whole system.</em></h2>
+<Section>
+	<h2 class="t-h2">Our approach to food</h2>
 	<p class="t-body-lg section__lede">
 		These run at the same time, not in sequence. None of them is a step towards the next one.
 	</p>
 
 	<ul class="principles">
 		{#each nutritionPrinciples as p (p.title)}
-			<li class="principles__item">
-				<Icon name={p.icon} size={20} />
+			<li class="principles__item tile-hover">
+				<span class="icon-badge"><Icon name={p.icon} size={24} /></span>
 				<h3 class="t-h3 principles__title">{p.title}</h3>
 				<p class="t-body principles__body">{p.body}</p>
 			</li>
@@ -54,10 +53,10 @@
 	</ul>
 </Section>
 
-<Section label="A sample day">
+<Section>
 	<div class="split">
 		<div>
-			<h2 class="t-h2">A day that is not impressive.</h2>
+			<h2 class="t-h2">A sample day</h2>
 			<p class="t-body-lg section__lede">
 				Ordinary food, in an order that puts fuel near the training that needs it. Your own version
 				will look different — this is the shape, not the menu. The protein figures are an example
@@ -100,7 +99,7 @@
 	</div>
 </Section>
 
-<Section label="What we don't do">
+<Section>
 	<div class="split split--tight">
 		<div>
 			<h2 class="t-h2">
@@ -123,7 +122,7 @@
 	</div>
 </Section>
 
-<Section label="Care">
+<Section>
 	<div class="split">
 		<blockquote class="statement">
 			<p class="t-h2" style="max-width: 22ch">
@@ -149,7 +148,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="Bring one week of honest food notes."
 	body="Nothing to buy and nothing to prepare. Write down what you actually ate for seven days and we will have something genuinely useful to work with on day one."
 	primary={{ href: '/contact', text: 'Book a free session' }}
@@ -177,8 +175,8 @@
 		}
 	}
 
+	/* Surface comes from .tile-hover. */
 	.principles__item {
-		background: var(--paper);
 		padding: 32px 30px 36px;
 		color: var(--muted);
 	}

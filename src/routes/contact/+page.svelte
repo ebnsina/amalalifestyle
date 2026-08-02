@@ -52,24 +52,23 @@
 
 <Seo
 	title="Contact"
-	description="Book a free first session at Amala Lifestyle in Banani, Dhaka. Ninety minutes, nothing to sign, no sales pitch."
+	description="Book a free first session at Amala Lifestyle in Dhaka. Ninety minutes, nothing to sign, no sales pitch."
 	image="/images/studio.jpg"
 />
 
 <PageHeader
-	eyebrow="Contact"
 	title="Book the first session"
 	standfirst="Ninety minutes, free, and nothing to sign at the end. Tell us roughly where you are now and we will come back within one working day."
 	image="/images/studio.jpg"
 	alt="The training floor at Amala Lifestyle, set up and empty before a session"
 />
 
-<Section label="Enquiry" ruled={false}>
+<Section ruled={false}>
 	<div class="contact">
 		<div class="contact__form">
 			{#if form?.sent}
 				<div class="sent">
-					<span class="icon-box"><Icon name="check" size={14} /></span>
+					<span class="icon-badge icon-badge--solid"><Icon name="check" size={20} /></span>
 					<h2 class="t-h3 sent__title">Thanks — that reached us.</h2>
 					<p class="t-body sent__body">
 						We will reply within one working day. If it is urgent, call the gym on

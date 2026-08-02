@@ -1,72 +1,162 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Icon from './Icon.svelte';
-	import type { IconName } from '$lib/icons';
 
 	let {
 		href,
-		icon,
+		image,
+		alt,
 		name,
 		summary,
 		meta
-	}: { href: string; icon: IconName; name: string; summary: string; meta: string } = $props();
+	}: {
+		href: string;
+		image: string;
+		alt: string;
+		name: string;
+		summary: string;
+		meta: string;
+	} = $props();
 </script>
 
-<a class="card card--hover discipline" {href}>
-	<span class="discipline__head">
-		<span class="icon-box"><Icon name={icon} size={18} /></span>
-		<span class="chip chip--quiet">{meta}</span>
-	</span>
+<a class="discipline" {href}>
+	<enhanced:img
+		class="discipline__img"
+		src={img(image)}
+		{alt}
+		sizes="(min-width: 1040px) 24vw, (min-width: 620px) 48vw, 100vw"
+		loading="lazy"
+	/>
 
-	<h3 class="t-h3 discipline__name">{name}</h3>
-	<p class="t-body discipline__summary">{summary}</p>
+	<!--
+		Two layers, not one. The flat wash holds a floor under the whole picture
+		so a pale patch of gym wall can never wash out the meta chip, and the
+		gradient adds the extra weight the paragraph needs at the bottom.
+	-->
+	<span class="discipline__wash" aria-hidden="true"></span>
+	<span class="discipline__scrim" aria-hidden="true"></span>
 
-	<span class="discipline__more">
-		<Icon name="arrow-right" size={17} />
+	<span class="discipline__body">
+		<span class="chip discipline__meta">{meta}</span>
+
+		<span class="discipline__foot">
+			<h3 class="t-h3 discipline__name">{name}</h3>
+			<p class="t-body discipline__summary">{summary}</p>
+			<span class="discipline__more"><Icon name="arrow-right" size={17} /></span>
+		</span>
 	</span>
 </a>
 
 <style>
 	.discipline {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		padding: 26px 24px 24px;
-		color: var(--ink);
+		position: relative;
+		display: block;
+		aspect-ratio: 3 / 4;
+		overflow: hidden;
+		background: #0b0b0d;
+		color: #f5f5f3;
+		isolation: isolate;
 	}
 
-	.discipline__head {
+	.discipline__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: -2;
+		filter: saturate(0.68) contrast(1.04) brightness(0.82);
+		transition: transform 500ms ease;
+	}
+
+	.discipline__wash,
+	.discipline__scrim {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+	}
+
+	.discipline__wash {
+		background: rgb(6 7 8 / 0.34);
+	}
+
+	.discipline__scrim {
+		background: linear-gradient(
+			to top,
+			rgb(6 7 8 / 0.9) 0%,
+			rgb(6 7 8 / 0.66) 34%,
+			rgb(6 7 8 / 0.24) 66%,
+			rgb(6 7 8 / 0.1) 100%
+		);
+	}
+
+	.discipline__body {
+		position: relative;
 		display: flex;
-		align-items: center;
+		flex-direction: column;
 		justify-content: space-between;
-		gap: 16px;
+		height: 100%;
+		padding: 22px 22px 24px;
+	}
+
+	.discipline__meta {
+		align-self: flex-start;
+		background: rgb(245 245 243 / 0.16);
+		color: #f5f5f3;
+		-webkit-backdrop-filter: blur(6px);
+		backdrop-filter: blur(6px);
 	}
 
 	.discipline__name {
-		margin-top: 26px;
+		/* A hairline of shadow, not a glow: enough to hold the edge of the
+		   letterform if the photograph behind it runs light. */
+		text-shadow: 0 1px 12px rgb(6 7 8 / 0.6);
 	}
 
+	/*
+		The block is anchored to the bottom of the card, so a summary that wraps
+		to two lines instead of three would lift its heading above the others.
+		Holding the longest case reserves the space and the four names sit on
+		one line. In em, so it tracks the type rather than a pixel guess.
+	*/
 	.discipline__summary {
 		margin-top: 10px;
-		color: var(--muted);
+		min-height: 4.8em;
+		color: rgb(245 245 243 / 0.86);
+		text-shadow: 0 1px 10px rgb(6 7 8 / 0.6);
 	}
 
 	.discipline__more {
 		display: flex;
-		margin-top: auto;
-		padding-top: 26px;
-		color: var(--faint);
+		margin-top: 20px;
+		color: rgb(245 245 243 / 0.72);
 		transition:
 			transform 200ms ease,
 			color 200ms ease;
 	}
 
+	.discipline:hover .discipline__img {
+		transform: scale(1.04);
+	}
+
 	.discipline:hover .discipline__more {
-		color: var(--ink);
+		color: #f5f5f3;
 		transform: translateX(4px);
 	}
 
-	.discipline:hover .icon-box {
-		border-color: var(--ink);
-		color: var(--ink);
+	.discipline:focus-visible {
+		outline: 2px solid var(--lime);
+		outline-offset: 3px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.discipline__img,
+		.discipline__more {
+			transition: none;
+		}
+
+		.discipline:hover .discipline__img {
+			transform: none;
+		}
 	}
 </style>

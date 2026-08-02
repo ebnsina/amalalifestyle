@@ -5,47 +5,55 @@
 	import Section from '$lib/components/Section.svelte';
 	import DisciplineCard from '$lib/components/DisciplineCard.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
-	import ClassCard from '$lib/components/ClassCard.svelte';
-	import CoachCard from '$lib/components/CoachCard.svelte';
 	import PlanCard from '$lib/components/PlanCard.svelte';
-	import JournalCard from '$lib/components/JournalCard.svelte';
-	import Testimonials from '$lib/components/Testimonials.svelte';
-	import Newsletter from '$lib/components/Newsletter.svelte';
+	import Disclosure from '$lib/components/Disclosure.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import SessionSlot from '$lib/components/SessionSlot.svelte';
-	import {
-		classes,
-		coaches,
-		disciplines,
-		facilities,
-		journal,
-		method,
-		nutritionPrinciples,
-		plans,
-		site,
-		timetable,
-		womensFloor
-	} from '$lib/data/site';
+	import { disciplines, faqs, plans, site } from '$lib/data/site';
 
-	/* Facts about how the gym runs. Not claims about results. */
-	const figures = [
-		['04', 'People per session, at most'],
-		['12', 'Weeks in a training block'],
-		['16', 'Coached classes a week'],
-		['00', 'Foods on a banned list']
+	/*
+		The first thing on the page after the headline. A visitor who has never
+		set foot in a gym and one who has trained for years need different next
+		pages, and asking them to work that out from a menu of eleven items is
+		what makes a website feel like homework. So the page asks the question
+		instead, in the words people use about themselves.
+	*/
+	const routes = [
+		{
+			href: '/about',
+			icon: 'target' as const,
+			who: 'I have never trained before',
+			what: 'Start with how coaching works here. Nothing assumes you know a squat from a hinge.'
+		},
+		{
+			href: '/training',
+			icon: 'dumbbell' as const,
+			who: 'I train, but I have stalled',
+			what: 'Look at the programmes. Twelve-week blocks, written down, reviewed every four weeks.'
+		},
+		{
+			href: '/womens',
+			icon: 'users' as const,
+			who: 'I would rather train with women',
+			what: 'A separate floor with its own entrance and its own hours, coached only by women.'
+		},
+		{
+			href: '/membership',
+			icon: 'scale' as const,
+			who: 'I just want to use the gym',
+			what: 'Open Floor gets you the equipment and the opening hours, without the coaching.'
+		}
 	];
 
-	const today = timetable.slice(0, 3);
 </script>
 
 <Seo
 	title={site.name}
-	description="A coached strength and conditioning gym in Banani, Dhaka. Twelve-week blocks, four people to a session, nutrition that fits your life."
+	description="A coached strength and conditioning gym in Dhaka. Twelve-week blocks, four people to a session, nutrition that fits your life."
 	image="/images/hero-deadlift.jpg"
 />
 
 <!-- Hero. Content ships visible in the HTML; nothing is hidden and revealed. -->
-<section class="hero on-dark">
+<section class="hero on-dark" data-hero>
 	<div class="hero__media">
 		<enhanced:img
 			src={img('/images/hero-deadlift.jpg')}
@@ -57,44 +65,52 @@
 	</div>
 
 	<div class="container hero__inner">
-		<p class="t-label hero__eyebrow">Banani, Dhaka · Strength · Nutrition</p>
-
 		<h1 class="t-display hero__title">
 			Get strong.<br />
-			<em>Stay</em> strong.
+			<!-- Lime as a fill behind the word, never as the colour of it — the one
+				 rule the accent follows everywhere else on the site. -->
+			<span class="mark">Stay</span> strong.
 		</h1>
 
-		<div class="hero__foot">
-			<p class="t-body-lg hero__standfirst">
-				A coached gym for people who want to lift well, eat well and still have a life outside the
-				building. Twelve-week blocks, four people to a session, and a plan built around the week you
-				actually have.
-			</p>
-			<div class="hero__actions">
-				<Button href="/contact" variant="solid" arrow>Book a free session</Button>
-				<Button href="/timetable" variant="ghost">See the timetable</Button>
-			</div>
-		</div>
+		<p class="t-body-lg hero__standfirst">
+			A coached gym for people who want to lift well and eat well. If you have never
+			trained properly before, that is where most people here started.
+		</p>
+
+		<p class="t-label hero__cue" aria-hidden="true">
+			<span class="hero__cue-rule"></span>
+			Scroll
+		</p>
 	</div>
 </section>
 
-<section class="figures band">
-	<div class="container">
-		<dl class="figures__list">
-			{#each figures as [value, label] (label)}
-				<div class="figures__item">
-					<dd class="t-num figures__value">{value}</dd>
-					<dt class="t-label figures__label">{label}</dt>
-				</div>
-			{/each}
-		</dl>
-	</div>
-</section>
+<!--
+	Signposting before selling. Whichever of these three a visitor recognises
+	as themselves, they leave this section on a page written for them.
+-->
+<Section ruled={false}>
+	<h2 class="t-h2">Which one of these is you?</h2>
 
-<Section label="What we coach" ruled={false}>
-	<h2 class="t-h2">
-		Coached together, <em>never in isolation.</em>
-	</h2>
+	<div class="routes">
+		{#each routes as r (r.href)}
+			<a class="route tile-hover" href={r.href}>
+				<span class="icon-badge"><Icon name={r.icon} size={24} /></span>
+				<h3 class="t-h3 route__who">“{r.who}”</h3>
+				<p class="t-body route__what">{r.what}</p>
+				<span class="route__go t-label">
+					Take me there
+					<Icon name="arrow-right" size={15} />
+				</span>
+			</a>
+		{/each}
+	</div>
+</Section>
+
+<Section>
+	<div class="head">
+		<h2 class="t-h2">Our programmes</h2>
+		<Button href="/training" variant="ghost" arrow>See the programmes</Button>
+	</div>
 	<div class="cards cards--4">
 		{#each disciplines as d (d.name)}
 			<DisciplineCard {...d} />
@@ -102,102 +118,20 @@
 	</div>
 </Section>
 
-<Section label="Classes">
+<!--
+	Pricing in full, not a teaser. It is the question everyone has and the one
+	nobody should have to open another page to answer — /membership stays for
+	the line-by-line comparison, which is genuinely a different job.
+-->
+<Section id="pricing">
 	<div class="head">
 		<div>
-			<h2 class="t-h2">The same classes, on repeat.</h2>
+			<h2 class="t-h2">Pricing</h2>
 			<p class="t-body-lg head__lede">
-				Every class is capped and coached. Turn up, and someone tells you what weight to use and
-				watches you use it.
+				Cancel with thirty days’ notice, and freeze for up to three months a year.
 			</p>
 		</div>
-		<Button href="/timetable" variant="ghost" arrow>Full timetable</Button>
-	</div>
-
-	<div class="cards cards--4">
-		{#each classes as c (c.id)}
-			<ClassCard {...c} />
-		{/each}
-	</div>
-</Section>
-
-<Section label="This week">
-	<div class="head">
-		<div>
-			<h2 class="t-h2">Sessions from 06:15.</h2>
-			<p class="t-body-lg head__lede">
-				The start of the week, Sunday to Tuesday. Book from your phone; spaces open fourteen days
-				ahead.
-			</p>
-		</div>
-		<Button href="/timetable" variant="ghost" arrow>All seven days</Button>
-	</div>
-
-	<div class="week">
-		{#each today as day (day.day)}
-			<div class="week__col">
-				<h3 class="t-label-sm week__day">{day.day}</h3>
-				<ul>
-						{#each day.sessions as s (s.time + s.name)}
-							<li><SessionSlot {...s} /></li>
-						{/each}
-				</ul>
-			</div>
-		{/each}
-	</div>
-
-	<p class="legend t-label">
-		<span class="chip" aria-hidden="true">Women only</span>
-		sessions run on the separate floor
-	</p>
-</Section>
-
-<Section label="Women’s floor">
-	<div class="split">
-		<div class="split__text">
-			<h2 class="t-h2">A separate floor, and the same programme.</h2>
-			<p class="t-body-lg split__body">
-				Its own room, its own entrance and its own hours, coached only by women. Not a lighter
-				version of the main floor — the same lifts, the same progression, the same expectations.
-			</p>
-
-			<ul class="womens">
-				{#each womensFloor.points as p (p.title)}
-					<li class="womens__item">
-						<Icon name={p.icon} size={17} />
-						<span>
-							<span class="womens__name">{p.title}</span>
-							<span class="womens__note">{p.body}</span>
-						</span>
-					</li>
-				{/each}
-			</ul>
-
-			<div class="split__cta">
-				<Button href="/womens" variant="ghost" arrow>The women’s floor</Button>
-			</div>
-		</div>
-
-		<div class="media media--card media--muted">
-			<enhanced:img
-				src={img('/images/womens-gym.jpg')}
-				alt="A woman in hijab stretching through a warm-up on the women’s floor"
-				sizes="(min-width: 980px) 50vw, 100vw"
-				loading="lazy"
-			/>
-		</div>
-	</div>
-</Section>
-
-<Section label="Membership">
-	<div class="head">
-		<div>
-			<h2 class="t-h2">Monthly, with no joining fee.</h2>
-			<p class="t-body-lg head__lede">
-				Monthly, cancel with thirty days’ notice, and you can freeze for up to three months a year.
-			</p>
-		</div>
-		<Button href="/membership" variant="ghost" arrow>Compare in full</Button>
+		<Button href="/membership" variant="ghost" arrow>Compare line by line</Button>
 	</div>
 
 	<div class="plans">
@@ -207,148 +141,19 @@
 	</div>
 </Section>
 
-<Section label="The gym">
-	<div class="split">
-		<div class="split__text">
-			<h2 class="t-h2">A floor, not a showroom.</h2>
-			<p class="t-body-lg split__body">
-				Platforms, racks, bars and enough space to use them. No queue for the squat rack at six in
-				the evening, because there are never more than four people in a coached session.
-			</p>
-			<ul class="facilities">
-				{#each facilities as f (f.name)}
-					<li class="facilities__item">
-						<Icon name={f.icon} size={17} />
-						<span>
-							<span class="facilities__name">{f.name}</span>
-							<span class="facilities__note">{f.note}</span>
-						</span>
-					</li>
-				{/each}
-			</ul>
-			<div class="split__cta">
-				<Button href="/contact" variant="ghost" arrow>Come and look around</Button>
-			</div>
-		</div>
+<!-- Every question, not the first four. The worries that stop people booking
+	 are answered here rather than one click further away. -->
+<Section id="faq">
+	<h2 class="t-h2 faq__title">FAQ</h2>
 
-		<div class="split__media">
-			<div class="media media--portrait media--muted">
-				<enhanced:img
-					src={img('/images/facility-racks.jpg')}
-					alt="Squat racks and barbells set up across a bright training floor"
-					sizes="(min-width: 980px) 50vw, 100vw"
-					loading="lazy"
-				/>
-			</div>
-			<div class="media media--square media--muted split__media-small">
-				<enhanced:img
-					src={img('/images/equipment.jpg')}
-					alt="A kettlebell, medicine ball and rope resting on a wooden box"
-					sizes="(min-width: 980px) 25vw, 50vw"
-					loading="lazy"
-				/>
-			</div>
-		</div>
-	</div>
-</Section>
-
-<Section label="Coaches">
-	<div class="head">
-		<div>
-			<h2 class="t-h2">The people who will actually coach you.</h2>
-			<p class="t-body-lg head__lede">
-				Four coaches, each with one thing they are genuinely good at. You will work with more than
-				one of them.
-			</p>
-		</div>
-		<Button href="/coaches" variant="ghost" arrow>Meet the team</Button>
-	</div>
-
-	<!-- Five across on wide screens: a four-column grid would strand the fifth
-		 coach alone on a second row. -->
-	<div class="cards cards--5">
-		{#each coaches as c (c.id)}
-			<CoachCard {...c} compact />
+	<div class="faq">
+		{#each faqs as f (f.question)}
+			<Disclosure {...f} />
 		{/each}
 	</div>
 </Section>
-
-<Section label="How it works">
-	<h2 class="t-h2">Always in this order.</h2>
-	<p class="t-body-lg head__lede">
-		Numbered because the sequence matters. Skipping the first one is why most plans quietly stop
-		working around week three.
-	</p>
-
-	<ol class="steps">
-		{#each method as step (step.n)}
-			<li class="steps__item">
-				<span class="t-num steps__n">{step.n}</span>
-				<h3 class="t-h3 steps__title">{step.title}</h3>
-				<p class="t-body steps__body">{step.body}</p>
-			</li>
-		{/each}
-	</ol>
-
-	<div class="section__cta">
-		<Button href="/method" variant="ghost" arrow>Read the method</Button>
-	</div>
-</Section>
-
-<Section label="Nutrition">
-	<div class="split split--top">
-		<div class="split__text">
-			<h2 class="t-h2">
-				Eat like an adult. <em>Not like a spreadsheet.</em>
-			</h2>
-			<p class="t-body-lg split__body">
-				No shakes to buy, no foods banned, no six-week transformation. We set protein, put your
-				carbohydrate where the training is, and leave the rest of your life alone.
-			</p>
-			<div class="split__cta">
-				<Button href="/nutrition" variant="ghost" arrow>How we handle food</Button>
-			</div>
-		</div>
-
-		<ul class="principles">
-			{#each nutritionPrinciples as p (p.title)}
-				<li class="principles__item">
-					<Icon name={p.icon} size={20} />
-					<h3 class="t-h3 principles__title">{p.title}</h3>
-					<p class="t-body principles__body">{p.body}</p>
-				</li>
-			{/each}
-		</ul>
-	</div>
-</Section>
-
-<Section label="Members">
-	<h2 class="t-h2">What people say once they stay.</h2>
-	<Testimonials />
-</Section>
-
-<Section label="Journal">
-	<div class="head">
-		<div>
-			<h2 class="t-h2">Reading, if you want it.</h2>
-			<p class="t-body-lg head__lede">
-				Training and food, written plainly. No listicles and nothing you need to buy at the end.
-			</p>
-		</div>
-		<Button href="/journal" variant="ghost" arrow>All articles</Button>
-	</div>
-
-	<div class="cards cards--3">
-		{#each journal.slice(0, 3) as post (post.slug)}
-			<JournalCard {...post} />
-		{/each}
-	</div>
-</Section>
-
-<Newsletter />
 
 <CtaBand
-	label="Start here"
 	title="Start where you are, not where you think you should be."
 	body="The first session is free and there is nothing to sign. We look at how you move, talk about what you want, and tell you honestly whether this is the right gym for it."
 	primary={{ href: '/contact', text: 'Book a free session' }}
@@ -359,14 +164,23 @@
 <style>
 	/* --- Hero ------------------------------------------------------------ */
 
+	/* Pulled up under the sticky bar so the photograph runs to the top of the
+	   window and the header reads as part of it. The top padding gives the
+	   height back as padding, so nothing sits beneath the bar. */
 	.hero {
 		position: relative;
 		display: flex;
-		align-items: flex-end;
-		min-height: clamp(560px, 82vh, 860px);
+		/* Centred rather than sunk to the bottom edge. The old composition left
+		   a dead half-screen above the type; this puts the headline where the
+		   eye already is and lets the photograph breathe on both sides of it. */
+		align-items: center;
+		/* svh, not vh: on a phone vh is the tallest the viewport ever gets, so
+		   the bottom of the hero would sit behind the browser's own chrome. */
+		min-height: 100svh;
+		margin-top: calc(-1 * var(--header-h));
 		background: var(--band);
 		color: #f5f5f3;
-		padding-block: clamp(56px, 8vw, 88px);
+		padding-block: calc(var(--header-h) + clamp(48px, 6vw, 72px)) clamp(72px, 9vw, 104px);
 		isolation: isolate;
 	}
 
@@ -377,6 +191,37 @@
 		overflow: hidden;
 	}
 
+	/*
+		The shared scrim is weighted to the bottom of the frame, which was right
+		when the type sat on the bottom edge. Centred, the headline crosses the
+		middle where that gradient is at its thinnest — so a light even wash
+		carries the contrast there instead.
+	*/
+	.hero__media::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: rgb(6 7 8 / 0.2);
+	}
+
+	/* The bar carries no surface of its own here, so the photograph has to
+	   supply the contrast behind it. A short gradient at the top does that
+	   without darkening the whole frame the way a flat wash would. */
+	.hero__media::after {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto 0;
+		z-index: 2;
+		height: 260px;
+		background: linear-gradient(
+			to bottom,
+			rgb(6 7 8 / 0.74) 0%,
+			rgb(6 7 8 / 0.44) 44%,
+			rgb(6 7 8 / 0) 100%
+		);
+	}
+
 	/* enhanced:img wraps the image in <picture>, which scoped selectors do not
 	   reach, so these are global inside the hero. */
 	.hero__media :global(picture) {
@@ -385,87 +230,78 @@
 		height: 100%;
 	}
 
+	/* Brighter and less desaturated than before: the photograph now has to hold
+	   a lime mark sitting on top of it, and a murky frame made the accent look
+	   like a mistake rather than a decision. */
 	.hero__media :global(img) {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: center 40%;
-		filter: saturate(0.72) contrast(1.06) brightness(0.86);
+		object-position: center 42%;
+		filter: saturate(0.86) contrast(1.04) brightness(0.94);
 	}
 
 	.hero__inner {
 		width: 100%;
 	}
 
-	.hero__eyebrow {
-		color: rgb(245 245 243 / 0.72);
+	/*
+		An inline background is drawn to the font's ascender and descender, and
+		Archivo's are generous — at display size that left a slab with far more
+		lime above and below the caps than beside them. inline-block plus a
+		tight line-height hands the box back to us so it hugs the word.
+	*/
+	.hero__title :global(.mark) {
+		display: inline-block;
+		line-height: 0.82;
+		padding: 0.1em 0.12em 0.08em;
 	}
 
-	.hero__title {
-		margin-top: clamp(20px, 3vw, 32px);
-	}
+	/*
+		Asymmetric, not stacked. The sentence moves out of the headline's shadow
+		into its own column and sits on the headline's last line, so the two
+		read as one composition instead of one block of text under another.
+	*/
+	@media (min-width: 1000px) {
+		.hero__inner {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 0.52fr);
+			align-items: end;
+			column-gap: clamp(40px, 5vw, 80px);
+		}
 
-	.hero__foot {
-		display: grid;
-		gap: 32px;
-		margin-top: clamp(36px, 5vw, 52px);
-		padding-top: 32px;
-		border-top: 1px solid rgb(245 245 243 / 0.22);
-	}
+		.hero__standfirst {
+			margin-top: 0;
+			padding-bottom: 0.6em;
+		}
 
-	@media (min-width: 900px) {
-		.hero__foot {
-			grid-template-columns: minmax(0, 1fr) auto;
-			align-items: start;
-			gap: 64px;
+		.hero__cue {
+			grid-column: 1 / -1;
 		}
 	}
 
 	.hero__standfirst {
-		color: rgb(245 245 243 / 0.86);
+		margin-top: 24px;
+		max-width: 46ch;
+		color: rgb(245 245 243 / 0.9);
 	}
 
-	.hero__actions {
+	/* A small promise that the page continues. Sits below both columns, in the
+	   space the centred composition leaves at the bottom of the frame. */
+	.hero__cue {
 		display: flex;
-		flex-wrap: wrap;
+		align-items: center;
 		gap: 12px;
+		margin-top: clamp(48px, 7vw, 88px);
+		color: rgb(245 245 243 / 0.6);
 	}
 
-	/* --- Figures --------------------------------------------------------- */
-
-	/* Solid dark under the hero photograph: the stats read as one block with it
-	   and the page gets a breath before the white starts. */
-	.figures {
-		padding-block: clamp(48px, 6vw, 76px);
-	}
-
-	.figures__list {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 32px 24px;
-	}
-
-	@media (min-width: 860px) {
-		.figures__list {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
-	}
-
-	.figures__item {
-		padding-top: 18px;
-		border-top: 1px solid var(--band-rule);
-	}
-
-	.figures__value {
-		font-size: clamp(38px, 4.6vw, 56px);
-		line-height: 1;
-		letter-spacing: -0.045em;
-		color: var(--lime);
-	}
-
-	.figures__label {
-		margin-top: 10px;
-		max-width: 18ch;
+	.hero__cue-rule {
+		display: block;
+		width: 44px;
+		height: 2px;
+		background: var(--lime);
+		flex: none;
 	}
 
 	/* --- Shared section furniture ---------------------------------------- */
@@ -490,14 +326,76 @@
 		color: var(--muted);
 	}
 
-	.section__cta {
-		margin-top: 44px;
+	/* --- Start here ------------------------------------------------------- */
+
+	.routes {
+		display: grid;
+		gap: 1px;
+		margin-top: 56px;
+		background: var(--rule);
+		border: 1px solid var(--rule);
+	}
+
+	/* Two by two rather than four across: these are sentences to read and
+	   recognise yourself in, not labels to scan. */
+	@media (min-width: 720px) {
+		.routes {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	.route {
+		display: flex;
+		flex-direction: column;
+		padding: 32px 30px 34px;
+		color: var(--ink);
+	}
+
+	.route__who {
+		margin-top: 20px;
+		text-wrap: pretty;
+	}
+
+	.route__what {
+		margin-top: 12px;
+		margin-bottom: 26px;
+		color: var(--muted);
+	}
+
+	/* Pushed to the bottom so the three prompts line up however long the
+	   sentence above them runs. */
+	.route__go {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: auto;
+		color: var(--ink);
+	}
+
+	.route:hover .route__go {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+
+	/* --- FAQ preview -------------------------------------------------------- */
+
+	/* Centred column. A list of questions is read one at a time down a single
+	   axis, so it is the one block on the page that does not want to be pinned
+	   to the left edge of a full-width container. */
+	.faq {
+		margin-top: 48px;
+		max-width: 78ch;
+		margin-inline: auto;
+	}
+
+	.faq__title {
+		text-align: center;
 	}
 
 	.cards {
 		display: grid;
 		gap: 40px 28px;
-		margin-top: 48px;
+		margin-top: 64px;
 	}
 
 	@media (min-width: 620px) {
@@ -506,249 +404,18 @@
 		}
 	}
 
-	@media (min-width: 900px) {
-		.cards--5 {
-			grid-template-columns: repeat(5, minmax(0, 1fr));
-			gap: 28px 20px;
-		}
-	}
-
 	@media (min-width: 1040px) {
-		.cards--3 {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
 		.cards--4 {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 	}
 
-	/* --- Timetable preview ----------------------------------------------- */
-
-	.week {
-		display: grid;
-		gap: 1px;
-		margin-top: 48px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	@media (min-width: 780px) {
-		.week {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	.week__col {
-		background: var(--paper);
-		padding: 24px 22px 28px;
-	}
-
-	.week__day {
-		color: var(--faint);
-	}
-
-	.week__col ul {
-		margin-top: 20px;
-	}
-
-	.legend {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		margin-top: 20px;
-	}
-
-
-
-	.womens {
-		margin-top: 32px;
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	.womens__item {
-		display: flex;
-		align-items: flex-start;
-		gap: 12px;
-		background: var(--paper);
-		padding: 18px 20px 20px;
-	}
-
-	.womens__name,
-	.womens__note {
-		display: block;
-		font-size: 15px;
-		line-height: 1.45;
-	}
-
-	.womens__note {
-		margin-top: 4px;
-		color: var(--faint);
-		font-size: 14px;
-	}
-
 	/* --- Plans ------------------------------------------------------------ */
 
+	/* The grid itself is in layout.css so this page and /membership share one
+	   row template; only the space above it belongs to this page. */
 	.plans {
-		display: grid;
-		gap: 1px;
-		margin-top: 48px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
+		margin-top: 64px;
 	}
 
-	@media (min-width: 900px) {
-		.plans {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	/* --- Split sections --------------------------------------------------- */
-
-	.split {
-		display: grid;
-		gap: 48px;
-	}
-
-	@media (min-width: 980px) {
-		.split {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-			gap: 72px;
-			align-items: center;
-		}
-
-		.split--top {
-			align-items: start;
-		}
-	}
-
-	.split__body {
-		margin-top: 20px;
-		color: var(--muted);
-	}
-
-	.split__cta {
-		margin-top: 32px;
-	}
-
-	.facilities {
-		margin-top: 32px;
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	@media (min-width: 560px) {
-		.facilities {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	.facilities__item {
-		display: flex;
-		align-items: flex-start;
-		gap: 12px;
-		background: var(--paper);
-		padding: 18px 20px 20px;
-	}
-
-	.facilities__name,
-	.facilities__note {
-		display: block;
-		font-size: 15px;
-		line-height: 1.4;
-	}
-
-	.facilities__note {
-		margin-top: 4px;
-		color: var(--faint);
-		font-size: 14px;
-	}
-
-	.split__media {
-		display: grid;
-		gap: 16px;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		align-items: start;
-	}
-
-	.split__media > :first-child {
-		grid-column: 1 / -1;
-	}
-
-	.split__media-small {
-		grid-column: 1 / 2;
-	}
-
-	/* --- Steps ------------------------------------------------------------ */
-
-	.steps {
-		display: grid;
-		gap: 1px;
-		margin-top: 48px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	@media (min-width: 760px) {
-		.steps {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	.steps__item {
-		background: var(--paper);
-		padding: 32px 30px 36px;
-	}
-
-	.steps__n {
-		font-size: 11px;
-		letter-spacing: 0.12em;
-		color: var(--faint);
-	}
-
-	.steps__title {
-		margin-top: 16px;
-	}
-
-	.steps__body {
-		margin-top: 12px;
-		color: var(--muted);
-		max-width: 44ch;
-	}
-
-	/* --- Nutrition principles ---------------------------------------------- */
-
-	/* Four items, so 2x2 rather than auto-fit — which would strand the fourth
-	   alone on a second row. No outer border: the surface change is the edge. */
-	.principles {
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	@media (min-width: 560px) {
-		.principles {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	.principles__item {
-		background: var(--paper);
-		padding: 30px 28px 34px;
-		color: var(--muted);
-	}
-
-	.principles__title {
-		margin-top: 20px;
-		color: var(--ink);
-	}
-
-	.principles__body {
-		margin-top: 10px;
-	}
 </style>

@@ -45,7 +45,7 @@
 		{:else}
 			<p class="t-body intro">
 				Your protein and carbohydrate split across {profile.mealCount} meals and turned into portions
-				of food you can buy in Banani. Swap any item for something similar — the amount is the part that
+				of food you can buy locally. Swap any item for something similar — the amount is the part that
 				matters, not the ingredient.
 			</p>
 

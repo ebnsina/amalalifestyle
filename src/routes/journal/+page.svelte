@@ -14,12 +14,11 @@
 />
 
 <PageHeader
-	eyebrow="Journal"
 	title="Reading, if you want it"
 	standfirst="Written by the coaches, about the things members actually ask. No listicles, no supplements at the end of the article, and nothing you have to sign up for to finish reading."
 />
 
-<Section label="All articles" ruled={false}>
+<Section ruled={false}>
 	<div class="posts">
 		{#each journal as post (post.slug)}
 			<JournalCard {...post} />

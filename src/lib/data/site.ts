@@ -23,70 +23,102 @@ export const socials: { label: string; href: string; icon: IconName }[] = [
 	{ label: 'WhatsApp', href: 'https://wa.me/8801712345678', icon: 'whatsapp' }
 ];
 
-export const nav = [
-	{ href: '/training', label: 'Training' },
-	{ href: '/timetable', label: 'Timetable' },
-	{ href: '/membership', label: 'Membership' },
-	{ href: '/nutrition', label: 'Nutrition' },
-	{ href: '/womens', label: 'Women' },
-	{ href: '/app', label: 'App' },
-	{ href: '/contact', label: 'Contact' }
+/*
+	Six items, each a place you would actually go. No "Home": the wordmark is
+	the home link on every site ever built, and spending a menu slot repeating
+	it is a slot wasted. Things people want to read rather than navigate to —
+	pricing and the FAQ — live on the home page and are linked from there and
+	the footer. Photographs of the gym sit on Facilities, where someone asking
+	"what is it like" is already standing.
+
+	Each item carries a line saying what is behind it: the sheet shows those
+	lines, the desktop bar shows them on hover. A label alone asks the visitor
+	to already know what "Programmes" means here.
+*/
+export const nav: { href: string; label: string; blurb: string }[] = [
+	{ href: '/about', label: 'About us', blurb: 'Who we are and how we coach' },
+	{ href: '/training', label: 'Programmes', blurb: 'What you actually train' },
+	{ href: '/facilities', label: 'Facilities', blurb: 'The floor, the rooms, photographs' },
+	{ href: '/coaches', label: 'Team', blurb: 'The people who coach you' },
+	{ href: '/journal', label: 'Blog', blurb: 'Training and food, written plainly' },
+	{ href: '/contact', label: 'Contact', blurb: 'Book your free first session' }
 ];
 
-export const footerNav = {
-	train: {
-		title: 'Train',
+/*
+	The footer is a directory, not a second nav — so it groups by the question
+	being asked rather than repeating the bar in order. It is also the only
+	place the deeper pages (timetable, nutrition, women's floor, calculators)
+	are guaranteed to appear.
+*/
+export const footerNav = [
+	{
+		title: 'Find your way in',
 		links: [
+			{ href: '/about', label: 'About us' },
+			{ href: '/method', label: 'How coaching works' },
 			{ href: '/training', label: 'Programmes' },
-			{ href: '/timetable', label: 'Timetable' },
-			{ href: '/womens', label: "Women's floor" },
-			{ href: '/coaches', label: 'Coaches' }
+			{ href: '/nutrition', label: 'Nutrition' }
 		]
 	},
-	about: {
-		title: 'About',
+	{
+		title: 'Practical things',
 		links: [
-			{ href: '/method', label: 'Our method' },
-			{ href: '/nutrition', label: 'Nutrition' },
-			{ href: '/membership', label: 'Membership' },
-			{ href: '/app', label: 'Free tools' },
-			{ href: '/journal', label: 'Journal' }
+			{ href: '/#pricing', label: 'Pricing' },
+			{ href: '/membership', label: 'Compare plans' },
+			{ href: '/timetable', label: 'Timetable' },
+			{ href: '/#faq', label: 'Common questions' }
+		]
+	},
+	{
+		title: 'Have a look around',
+		links: [
+			{ href: '/facilities', label: 'Facilities and photos' },
+			{ href: '/coaches', label: 'Meet the team' },
+			{ href: '/success-stories', label: 'Success stories' },
+			{ href: '/womens', label: "Women's floor" },
+			{ href: '/journal', label: 'Blog' },
+			{ href: '/app', label: 'Free calculators' }
 		]
 	}
-};
+];
 
 /** Not numbered: these run alongside each other, not in sequence. */
 export const disciplines: {
 	href: string;
-	icon: IconName;
+	image: string;
+	alt: string;
 	name: string;
 	summary: string;
 	meta: string;
 }[] = [
 	{
 		href: '/training#strength',
-		icon: 'dumbbell',
+		image: '/images/prog-strength.jpg',
+		alt: 'A lifter setting up under a loaded barbell in a squat rack',
 		name: 'Strength',
 		summary: 'Squat, hinge, push, pull, carry. Load added slowly enough that it sticks.',
 		meta: '3 × week'
 	},
 	{
 		href: '/training#conditioning',
-		icon: 'pulse',
+		image: '/images/prog-conditioning.jpg',
+		alt: 'Someone mid-effort on a rower during a conditioning piece',
 		name: 'Conditioning',
 		summary: 'Fitness you notice on the stairs, not just on the rower.',
 		meta: '2 × week'
 	},
 	{
 		href: '/nutrition',
-		icon: 'leaf',
+		image: '/images/nutrition-bowl.jpg',
+		alt: 'A bowl of rice, vegetables and grilled protein on a kitchen counter',
 		name: 'Nutrition',
 		summary: 'Food you would eat anyway, in amounts that match your training.',
 		meta: 'Ongoing'
 	},
 	{
 		href: '/training#recovery',
-		icon: 'moon',
+		image: '/images/prog-recovery.jpg',
+		alt: 'A mobility drill being held on a mat at the end of a session',
 		name: 'Recovery',
 		summary: 'Sleep, mobility, and knowing what to do on the days you rest.',
 		meta: 'Daily'

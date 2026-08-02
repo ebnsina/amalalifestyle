@@ -26,6 +26,8 @@
 
 	--lime: #d7fb31;
 	--lime-deep: #bfe310;
+	/* The same hue laid down thin. Used as a surface where lime would shout. */
+	--lime-wash: #f5fddc;
 
 	/* Dark bands: photography, figures, the closing call to action. */
 	--band: #0e0f10;
@@ -39,10 +41,16 @@
 	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
 
+	/* One number for the sticky bar, one row at every width. The hero pulls
+	   itself up by exactly this and the menu sheet starts at it. */
+	--header-h: 68px;
+
 	--gutter: clamp(20px, 4.4vw, 56px);
 	--measure: 62ch;
 	--container: 1280px;
-	--section-y: clamp(72px, 9vw, 128px);
+	/* Generous on purpose. With fewer sections on a page, the space between
+	   them is what separates one idea from the next. */
+	--section-y: clamp(88px, 11vw, 168px);
 }
 
 @theme inline {
@@ -235,23 +243,128 @@ img {
 
 .section {
 	padding-block: var(--section-y);
+	/* Sections are link targets now that pricing and the FAQ live on the home
+	   page — without this the sticky bar lands on top of the heading. */
+	scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+/*
+	Three plans side by side. The rows are declared here rather than inside the
+	card, and each card opts into them with subgrid — so the name, the price,
+	the feature list and the button land on the same line across all three.
+	Comparing columns that do not share a baseline is just reading three
+	separate cards. The feature row takes the slack (1fr) so the buttons sit on
+	one line however many features a plan lists.
+*/
+.plans {
+	display: grid;
+	gap: 1px;
+	background: var(--rule);
+	border: 1px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+	.plans {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-rows: auto auto auto auto 1fr auto;
+	}
 }
 
 .section--ruled {
 	border-top: 1px solid var(--rule);
 }
 
-/* White, one hairline, square. The border firms up on hover so a grid of
-   them reads as separate objects without needing a fill. */
+/* White, one hairline, square. On hover the surface warms to the lime wash and
+   the border firms up — enough colour to show the thing responds without
+   spending the accent on anything at rest. */
 .card {
 	background: var(--paper);
 	border: 1px solid var(--rule);
-	transition: border-color 200ms ease;
+	transition:
+		border-color 200ms ease,
+		background-color 200ms ease;
 }
 
 .card--hover:hover,
 .card--hover:focus-within {
 	border-color: var(--rule-strong);
+	background: var(--lime-wash);
+}
+
+/*
+	The same warming applied to the bordered-grid blocks — the numbered steps,
+	the facility and principle lists, the timetable columns. They are built as
+	1px gaps over a rule-coloured parent rather than as .card, so they need the
+	hover of their own.
+*/
+/* The resting surface lives here too, not on the block's own rule. Split
+   across the two files they tie on specificity and the component — loaded
+   later — silently wins, so the hover never paints. */
+/*
+	An icon on its own is a small grey mark that reads as decoration. Given a
+	tile of its own it becomes the thing you look at first, and the tile fills
+	solid when its parent is hovered — so a grid of them lights up as you move
+	down the page rather than sitting inert.
+*/
+.icon-badge {
+	display: grid;
+	place-items: center;
+	width: 54px;
+	height: 54px;
+	flex: none;
+	background: var(--lime-wash);
+	color: var(--ink);
+	transition:
+		background-color 200ms ease,
+		transform 200ms ease;
+}
+
+.tile-hover:hover .icon-badge,
+.card--hover:hover .icon-badge,
+.card--hover:focus-within .icon-badge,
+.card:hover .icon-badge {
+	background: var(--lime);
+}
+
+/* Confirmations get the accent at full strength — it is the one moment the
+   page has good news and should look like it. */
+.icon-badge--solid {
+	background: var(--lime);
+}
+
+/*
+	A step number as a filled marker rather than a grey caption. Numbered
+	sequences are the one place the page is asking you to follow an order, so
+	the marker is worth the accent.
+*/
+.step-badge {
+	display: inline-grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	background: var(--lime);
+	color: #0b0b0d;
+	font-family: var(--font-mono);
+	font-size: 15px;
+	letter-spacing: 0.02em;
+}
+
+.tile-hover {
+	background: var(--paper);
+	transition: background-color 200ms ease;
+}
+
+.tile-hover:hover,
+.tile-hover:focus-within {
+	background: var(--lime-wash);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.card,
+	.tile-hover,
+	.icon-badge {
+		transition: none;
+	}
 }
 
 /* Emphasis rides on a filled chip rather than a coloured stub border, so a

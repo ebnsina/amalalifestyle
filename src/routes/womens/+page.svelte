@@ -20,12 +20,11 @@
 
 <Seo
 	title="Women’s floor"
-	description="A separate women-only training floor in Banani, Dhaka. Own entrance, own hours, women coaches, prayer room and no photography."
+	description="A separate women-only training floor in Dhaka. Own entrance, own hours, women coaches, prayer room and no photography."
 	image="/images/womens-gym.jpg"
 />
 
 <PageHeader
-	eyebrow="Women’s floor"
 	title="A room of your own to get strong in"
 	standfirst="A separate floor with its own entrance and its own hours, coached only by women. The programme is not a lighter version of the main floor — it is the same lifts, the same progression and the same expectations."
 	image="/images/womens-gym.jpg"
@@ -37,8 +36,8 @@
 	{/snippet}
 </PageHeader>
 
-<Section label="How it works" ruled={false}>
-	<h2 class="t-h2">What we will not compromise on.</h2>
+<Section ruled={false}>
+	<h2 class="t-h2">What we stand for</h2>
 
 	<ul class="points">
 		{#each womensFloor.points as p (p.title)}
@@ -51,10 +50,10 @@
 	</ul>
 </Section>
 
-<Section label="Hours" id="hours">
+<Section id="hours">
 	<div class="split">
 		<div>
-			<h2 class="t-h2">When the floor is yours.</h2>
+			<h2 class="t-h2">Women-only hours</h2>
 			<p class="t-body-lg split__lede">
 				During these hours no men are in the room — coaches, staff or members. Outside them the
 				space is used for one-to-one sessions by arrangement.
@@ -86,8 +85,8 @@
 	</div>
 </Section>
 
-<Section label="Sessions">
-	<h2 class="t-h2">Women-only classes, every day but Friday.</h2>
+<Section>
+	<h2 class="t-h2">Women-only classes</h2>
 
 	<div class="schedule">
 		{#each schedule as day (day.day)}
@@ -111,13 +110,13 @@
 	</div>
 </Section>
 
-<Section label="Your coach">
+<Section>
 	<div class="split split--coach">
 		<div class="coach-wrap">
 			<CoachCard {...amina} />
 		</div>
 		<div>
-			<h2 class="t-h2">One coach, who knows your programme.</h2>
+			<h2 class="t-h2">Your coach</h2>
 			<p class="t-body-lg split__lede">
 				You are not handed to whoever is free. Amina writes the programme, coaches the sessions and
 				runs the four-weekly review, so nobody has to be brought up to speed on your knee, your
@@ -138,7 +137,7 @@
 	</div>
 </Section>
 
-<Section label="Strength">
+<Section>
 	<div class="split">
 		<blockquote class="statement">
 			<p class="t-h2" style="max-width: 21ch">
@@ -163,11 +162,10 @@
 </Section>
 
 <CtaBand
-	label="Start here"
 	title="Come and see the floor before you decide."
 	body="Visit during women’s hours, meet Amina, and try a session. Nothing to sign and no card details taken."
 	primary={{ href: '/contact', text: 'Book a free session' }}
-	secondary={{ href: '/membership', text: 'Membership' }}
+	secondary={{ href: '/membership', text: 'See prices' }}
 	image="/images/womens-gym.jpg"
 />
 

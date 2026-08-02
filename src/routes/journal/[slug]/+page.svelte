@@ -74,7 +74,7 @@
 	</div>
 </article>
 
-<Section label="Keep reading">
+<Section>
 	<div class="more">
 		{#each data.more as p (p.slug)}
 			<JournalCard {...p} />
@@ -83,7 +83,6 @@
 </Section>
 
 <CtaBand
-	label="Start here"
 	title="Reading about it is not the same as doing it."
 	body="The first session is free, takes ninety minutes and commits you to nothing at all."
 	primary={{ href: '/contact', text: 'Book a free session' }}

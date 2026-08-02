@@ -1,12 +1,30 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { onNavigate } from '$app/navigation';
+	import { afterNavigate, onNavigate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import MobileBar from '$lib/components/MobileBar.svelte';
 
 	let { children } = $props();
+
+	/*
+		Pricing and the FAQ live on the home page, so links to them from another
+		route arrive as /#pricing. The router scrolls before the view transition
+		finishes and before the lazily-sized images settle, which lands the page
+		at the top instead of the section — so the anchor is re-targeted once a
+		frame has passed and the layout is final.
+	*/
+	afterNavigate(({ to }) => {
+		const hash = to?.url.hash;
+		if (!hash || hash === '#') return;
+		const target = document.querySelector(hash);
+		if (!target) return;
+		// Two frames, not one: the router's own scroll restoration runs after
+		// the first, so a single frame gets overwritten and lands at the top.
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+		});
+	});
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -35,16 +53,7 @@
 
 <Footer />
 
-<MobileBar />
-
 <style>
-	/* Clears the fixed bar so the footer is never trapped underneath it. */
-	@media (max-width: 899px) {
-		:global(body) {
-			padding-bottom: calc(74px + env(safe-area-inset-bottom));
-		}
-	}
-
 	.skip {
 		position: absolute;
 		left: -9999px;

@@ -22,12 +22,11 @@
 
 <Seo
 	title="Training"
-	description="Strength, conditioning, hybrid and recovery programmes in Banani, Dhaka. Twelve-week blocks, four people to a session, loads set for you."
+	description="Strength, conditioning, hybrid and recovery programmes in Dhaka. Twelve-week blocks, four people to a session, loads set for you."
 	image="/images/gym-floor.jpg"
 />
 
 <PageHeader
-	eyebrow="Training"
 	title="Programmes that run long enough to work"
 	standfirst="Four programmes, all built the same way: a small number of movements, repeated long enough that you get genuinely good at them, with weight going up in increments small enough that you barely notice."
 	image="/images/gym-floor.jpg"
@@ -40,10 +39,11 @@
 </PageHeader>
 
 {#each programmes as p, i (p.id)}
-	<Section id={p.id} label={`0${i + 1} / ${p.name}`}>
+	<!-- No eyebrow: it repeated the heading sitting directly beneath it. -->
+	<Section id={p.id}>
 		<div class="programme" class:programme--flip={i % 2 === 1}>
 			<div class="programme__text">
-				<span class="icon-box"><Icon name={p.icon} size={16} /></span>
+				<span class="icon-badge"><Icon name={p.icon} size={24} /></span>
 				<h2 class="t-h2 programme__title">{p.name}</h2>
 				<p class="t-body-lg programme__summary">{p.summary}</p>
 				<p class="t-body programme__detail">{p.detail}</p>
@@ -73,8 +73,8 @@
 	</Section>
 {/each}
 
-<Section label="A typical week">
-	<h2 class="t-h2">What a full week looks like.</h2>
+<Section>
+	<h2 class="t-h2">Weekly schedule</h2>
 	<p class="t-body-lg section__lede">
 		This is the hybrid programme at full tilt. Most people start on three days and add the fourth
 		once the first three are never missed.
@@ -92,7 +92,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="Not sure which one you need?"
 	body="That is exactly what the first session is for. Come in, move a bit, and we will tell you where to start — including if the honest answer is somewhere other than here."
 	primary={{ href: '/contact', text: 'Book a free session' }}

@@ -37,7 +37,6 @@
 />
 
 <PageHeader
-	eyebrow="Membership"
 	title="Monthly, with no joining fee"
 	standfirst="Everything is monthly and everything can be paused. Pick the level of coaching you want, not a contract length — and change it whenever your year changes."
 	image="/images/gym-floor.jpg"
@@ -49,7 +48,7 @@
 	{/snippet}
 </PageHeader>
 
-<Section label="Plans" ruled={false}>
+<Section ruled={false}>
 	<div class="plans">
 		{#each plans as p (p.id)}
 			<PlanCard {...p} />
@@ -60,8 +59,8 @@
 	</p>
 </Section>
 
-<Section label="Compare">
-	<h2 class="t-h2">Line by line.</h2>
+<Section>
+	<h2 class="t-h2">Compare memberships</h2>
 
 	<div class="matrix__scroll">
 		<table class="matrix">
@@ -98,7 +97,7 @@
 	</div>
 </Section>
 
-<Section label="Every plan">
+<Section>
 	<div class="included">
 		{#each included as item (item.title)}
 			<div class="included__item">
@@ -110,13 +109,13 @@
 	</div>
 </Section>
 
-<Section label="Members">
-	<h2 class="t-h2">What people say once they stay.</h2>
+<Section>
+	<h2 class="t-h2">Testimonials</h2>
 	<Testimonials />
 </Section>
 
-<Section label="Questions">
-	<h2 class="t-h2">Before you sign up.</h2>
+<Section>
+	<h2 class="t-h2">FAQ</h2>
 	<div class="faqs">
 		{#each faqs.slice(4) as faq (faq.question)}
 			<Disclosure {...faq} />
@@ -125,7 +124,6 @@
 </Section>
 
 <CtaBand
-	label="Next step"
 	title="Train once before you pay anything."
 	body="The first session is ninety minutes with a coach, and there is no card details form at the end of it. Decide afterwards."
 	primary={{ href: '/contact', text: 'Book a free session' }}
@@ -134,19 +132,6 @@
 />
 
 <style>
-	.plans {
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-	}
-
-	@media (min-width: 900px) {
-		.plans {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
 	.plans__note {
 		margin-top: 20px;
 	}

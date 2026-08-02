@@ -83,19 +83,18 @@
 
 {#if !active}
 	<PageHeader
-		eyebrow="App"
 		title="Pick a tool"
 		standfirst="Everything here runs in your browser from published formulas — no accounts, nothing sent anywhere, nothing stored. Your details carry across tools while the tab is open."
 		image="/images/equipment.jpg"
 		alt="A kettlebell, medicine ball and rope resting on a wooden box"
 	/>
 
-	<Section label="Tools" ruled={false}>
+	<Section ruled={false}>
 		<ul class="picker">
 			{#each tools as t (t.id)}
 				<li>
 					<button type="button" class="card" onclick={() => open(t.id)}>
-						<span class="icon-box"><Icon name={t.icon} size={17} /></span>
+						<span class="icon-badge"><Icon name={t.icon} size={22} /></span>
 						<span class="t-h3 card__name">{t.name}</span>
 						<span class="t-body card__blurb">{t.blurb}</span>
 						<span class="card__foot">
@@ -135,13 +134,13 @@
 		</nav>
 	</div>
 
-	<Section label={active.needs} ruled={false}>
+	<Section ruled={false}>
+		<p class="t-label">{active.needs}</p>
 		<active.component />
 	</Section>
 {/if}
 
 <CtaBand
-	label="Next step"
 	title="Numbers are easy. Twelve weeks is the hard part."
 	body="Bring your figures to a free first session and we will tell you which of them matter for you and which to ignore."
 	primary={{ href: '/contact', text: 'Book a free session' }}
