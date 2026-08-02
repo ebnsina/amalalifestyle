@@ -2,9 +2,11 @@
 	import { page } from '$app/state';
 	import Icon from './Icon.svelte';
 	import { site } from '$lib/data/site';
+	import { menu } from '$lib/state/nav.svelte';
 
-	// Nothing to prompt on the page that already is the prompt.
-	const hidden = $derived(page.url.pathname.startsWith('/contact'));
+	// Nothing to prompt on the page that already is the prompt, and the open
+	// menu carries its own call to action.
+	const hidden = $derived(page.url.pathname.startsWith('/contact') || menu.open);
 	const tel = site.phone.replace(/\s/g, '');
 </script>
 

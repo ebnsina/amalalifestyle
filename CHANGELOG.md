@@ -58,6 +58,10 @@ All notable changes to this project are recorded here. Format follows
 - Safe-area padding on `.container` was being overridden by a duplicate rule.
 - Meal plan suggested unrealistic portions (650 g of yoghurt) by dividing
   protein evenly and forcing one food to carry it.
+- Mobile menu was clipped to the height of the header bar: the header's
+  `backdrop-filter` makes it a containing block for fixed descendants, so the
+  sheet is now rendered outside it. The page behind is also scroll-locked, and
+  the sticky action bar steps aside while the menu is open.
 
 ### Notes for launch
 

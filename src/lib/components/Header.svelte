@@ -4,13 +4,20 @@
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
 	import { nav } from '$lib/data/site';
-
-	let open = $state(false);
+	import { menu } from '$lib/state/nav.svelte';
 
 	// Close the sheet whenever the route changes.
 	$effect(() => {
 		page.url.pathname;
-		open = false;
+		menu.open = false;
+	});
+
+	// The sheet covers the viewport, so the page behind it should not scroll.
+	$effect(() => {
+		document.body.style.overflow = menu.open ? 'hidden' : '';
+		return () => {
+			document.body.style.overflow = '';
+		};
 	});
 
 	function isCurrent(href: string) {
@@ -42,32 +49,36 @@
 			<button
 				class="icon-box site-header__menu"
 				type="button"
-				onclick={() => (open = !open)}
-				aria-expanded={open}
+				onclick={() => (menu.open = !menu.open)}
+				aria-expanded={menu.open}
 				aria-controls="mobile-nav"
-				aria-label={open ? 'Close menu' : 'Open menu'}
+				aria-label={menu.open ? 'Close menu' : 'Open menu'}
 			>
-				<Icon name={open ? 'close' : 'menu'} size={16} />
+				<Icon name={menu.open ? 'close' : 'menu'} size={16} />
 			</button>
 		</div>
 	</div>
-
-	{#if open}
-		<nav id="mobile-nav" class="mobile-nav" aria-label="Primary">
-			<div class="container">
-				{#each nav as item (item.href)}
-					<a href={item.href} class="mobile-nav__link" class:is-current={isCurrent(item.href)}>
-						<span class="t-h3">{item.label}</span>
-						<Icon name="arrow-up-right" size={18} />
-					</a>
-				{/each}
-				<div class="mobile-nav__cta">
-					<Button href="/contact" variant="solid" arrow>Book a session</Button>
-				</div>
-			</div>
-		</nav>
-	{/if}
 </header>
+
+<!--
+	Outside the header on purpose: its backdrop-filter makes it a containing
+	block for fixed children, which trapped this sheet inside the 72px bar.
+-->
+{#if menu.open}
+	<nav id="mobile-nav" class="mobile-nav" aria-label="Primary">
+		<div class="container">
+			{#each nav as item (item.href)}
+				<a href={item.href} class="mobile-nav__link" class:is-current={isCurrent(item.href)}>
+					<span class="t-h3">{item.label}</span>
+					<Icon name="arrow-up-right" size={18} />
+				</a>
+			{/each}
+			<div class="mobile-nav__cta">
+				<Button href="/contact" variant="solid" arrow>Book a session</Button>
+			</div>
+		</div>
+	</nav>
+{/if}
 
 <style>
 	.site-header {
