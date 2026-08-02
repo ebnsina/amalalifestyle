@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Seo from '$lib/components/Seo.svelte';
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -75,13 +76,11 @@
 		</div>
 
 		<div class="media media--card media--muted">
-			<img
-				src="/images/womens-mobility.jpg"
+			<enhanced:img
+				src={img('/images/womens-mobility.jpg')}
 				alt="A woman in hijab holding a deep squat during a mobility session"
-				width="1000"
-				height="750"
+				sizes="(min-width: 980px) 50vw, 100vw"
 				loading="lazy"
-				decoding="async"
 			/>
 		</div>
 	</div>
@@ -153,13 +152,11 @@
 		</blockquote>
 
 		<div class="media media--card media--muted">
-			<img
-				src="/images/womens-strength.jpg"
+			<enhanced:img
+				src={img('/images/womens-strength.jpg')}
 				alt="A woman in hijab holding dumbbells during a strength session"
-				width="900"
-				height="675"
+				sizes="(min-width: 980px) 50vw, 100vw"
 				loading="lazy"
-				decoding="async"
 			/>
 		</div>
 	</div>

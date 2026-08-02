@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import { formatDate } from '$lib/format';
 	import Seo from '$lib/components/Seo.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -43,13 +44,11 @@
 
 	<div class="container">
 		<div class="media media--wide media--muted hero">
-			<img
-				src={post.image}
+			<enhanced:img
+				src={img(post.image)}
 				alt={post.alt}
-				width="1200"
-				height="675"
+				sizes="(min-width: 900px) 900px, 100vw"
 				fetchpriority="high"
-				decoding="async"
 			/>
 		</div>
 	</div>

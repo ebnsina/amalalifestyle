@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -46,13 +47,11 @@
 <!-- Hero. Content ships visible in the HTML; nothing is hidden and revealed. -->
 <section class="hero on-dark">
 	<div class="hero__media">
-		<img
-			src="/images/hero-deadlift.jpg"
+		<enhanced:img
+			src={img('/images/hero-deadlift.jpg')}
 			alt="A loaded barbell being lifted from the floor in a gym"
-			width="1800"
-			height="1013"
+			sizes="100vw"
 			fetchpriority="high"
-			decoding="async"
 		/>
 		<div class="media__scrim"></div>
 	</div>
@@ -180,13 +179,11 @@
 		</div>
 
 		<div class="media media--card media--muted">
-			<img
-				src="/images/womens-gym.jpg"
+			<enhanced:img
+				src={img('/images/womens-gym.jpg')}
 				alt="A woman in hijab stretching through a warm-up on the women’s floor"
-				width="1200"
-				height="900"
+				sizes="(min-width: 980px) 50vw, 100vw"
 				loading="lazy"
-				decoding="async"
 			/>
 		</div>
 	</div>
@@ -236,23 +233,19 @@
 
 		<div class="split__media">
 			<div class="media media--portrait media--muted">
-				<img
-					src="/images/facility-racks.jpg"
+				<enhanced:img
+					src={img('/images/facility-racks.jpg')}
 					alt="Squat racks and barbells set up across a bright training floor"
-					width="1400"
-					height="1867"
+					sizes="(min-width: 980px) 50vw, 100vw"
 					loading="lazy"
-					decoding="async"
 				/>
 			</div>
 			<div class="media media--square media--muted split__media-small">
-				<img
-					src="/images/equipment.jpg"
+				<enhanced:img
+					src={img('/images/equipment.jpg')}
 					alt="A kettlebell, medicine ball and rope resting on a wooden box"
-					width="1200"
-					height="1200"
+					sizes="(min-width: 980px) 25vw, 50vw"
 					loading="lazy"
-					decoding="async"
 				/>
 			</div>
 		</div>
@@ -384,7 +377,15 @@
 		overflow: hidden;
 	}
 
-	.hero__media img {
+	/* enhanced:img wraps the image in <picture>, which scoped selectors do not
+	   reach, so these are global inside the hero. */
+	.hero__media :global(picture) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.hero__media :global(img) {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;

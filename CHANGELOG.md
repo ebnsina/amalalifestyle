@@ -46,6 +46,11 @@ All notable changes to this project are recorded here. Format follows
 - Home page figures strip moved onto the dark band with lime numerals, so the
   hero photograph resolves into a solid block before the white starts.
 
+- Images moved from `static/` into `src/lib/images/` and served through
+  `@sveltejs/enhanced-img`: AVIF and WebP at several widths with `srcset` and
+  `sizes`, resolved from the existing data paths by `src/lib/images.ts`.
+  Home page image weight on a phone dropped from 825 kB to 107 kB.
+
 ### Fixed
 
 - Horizontal overflow on `/nutrition` at phone widths, caused by a nowrap table

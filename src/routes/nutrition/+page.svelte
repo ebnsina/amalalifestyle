@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Seo from '$lib/components/Seo.svelte';
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -64,13 +65,11 @@
 			</p>
 
 			<div class="media media--wide media--vivid day__photo">
-				<img
-					src="/images/nutrition-prep.jpg"
+				<enhanced:img
+					src={img('/images/nutrition-prep.jpg')}
 					alt="Vegetables, eggs and a knife on a wooden chopping board"
-					width="900"
-					height="506"
+					sizes="(min-width: 980px) 46vw, 100vw"
 					loading="lazy"
-					decoding="async"
 				/>
 			</div>
 		</div>
@@ -139,13 +138,11 @@
 		</blockquote>
 
 		<div class="media media--card media--vivid">
-			<img
-				src="/images/nutrition-spread.jpg"
+			<enhanced:img
+				src={img('/images/nutrition-spread.jpg')}
 				alt="A spread of fresh vegetables, fruit and pulses in trays"
-				width="900"
-				height="675"
+				sizes="(min-width: 980px) 50vw, 100vw"
 				loading="lazy"
-				decoding="async"
 			/>
 		</div>
 	</div>

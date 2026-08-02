@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import { formatDate } from '$lib/format';
 	import Icon from './Icon.svelte';
 
@@ -29,7 +30,12 @@
 <article class="post">
 	<a class="post__link" href="/journal/{slug}">
 		<div class="media media--wide {vivid ? 'media--vivid' : 'media--muted'}">
-			<img src={image} {alt} width="900" height="506" loading="lazy" decoding="async" />
+			<enhanced:img
+				src={img(image)}
+				{alt}
+				sizes="(min-width: 1060px) 30vw, (min-width: 680px) 46vw, 100vw"
+				loading="lazy"
+			/>
 		</div>
 
 		<div class="post__body">

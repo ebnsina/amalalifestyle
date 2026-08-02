@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -36,9 +37,13 @@
 
 			{#if image}
 				<div class="media media--card {vivid ? 'media--vivid' : 'media--muted'}">
-					<!-- Above the fold on every inner page, so it is eager and holds
-						 its own ratio rather than reflowing the header as it decodes. -->
-					<img src={image} {alt} width="900" height="675" fetchpriority="high" decoding="async" />
+					<!-- Above the fold on every inner page, so it loads eagerly. -->
+					<enhanced:img
+						src={img(image)}
+						{alt}
+						sizes="(min-width: 980px) 46vw, 100vw"
+						fetchpriority="high"
+					/>
 				</div>
 			{/if}
 		</div>

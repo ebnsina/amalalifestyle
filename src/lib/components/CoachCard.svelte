@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	let {
 		name,
 		role,
@@ -20,7 +21,12 @@
 
 <article class="coach">
 	<div class="media media--portrait media--muted">
-		<img src={image} {alt} width="700" height="933" loading="lazy" decoding="async" />
+		<enhanced:img
+			src={img(image)}
+			{alt}
+			sizes="(min-width: 900px) 19vw, (min-width: 640px) 46vw, 100vw"
+			loading="lazy"
+		/>
 	</div>
 
 	<div class="coach__body">

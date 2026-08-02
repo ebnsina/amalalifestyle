@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Icon from './Icon.svelte';
 
 	let {
@@ -22,7 +23,12 @@
 
 <article class="class-card">
 	<div class="media media--card media--muted">
-		<img src={image} {alt} width="900" height="675" loading="lazy" decoding="async" />
+		<enhanced:img
+			src={img(image)}
+			{alt}
+			sizes="(min-width: 1040px) 23vw, (min-width: 620px) 46vw, 100vw"
+			loading="lazy"
+		/>
 	</div>
 
 	<div class="class-card__body">

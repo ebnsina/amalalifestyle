@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Seo from '$lib/components/Seo.svelte';
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -61,7 +62,12 @@
 			</div>
 
 			<div class="media media--card media--muted programme__media">
-				<img src={p.image} alt={p.alt} width="900" height="675" loading="lazy" decoding="async" />
+				<enhanced:img
+					src={img(p.image)}
+					alt={p.alt}
+					sizes="(min-width: 980px) 46vw, 100vw"
+					loading="lazy"
+				/>
 			</div>
 		</div>
 	</Section>

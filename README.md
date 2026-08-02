@@ -19,8 +19,9 @@ pnpm check      # svelte-check
 | `src/routes/layout.css` | The design system. Tokens, type scale, layout and component classes all live here — change values here, not in components. |
 | `src/lib/data/site.ts` | All site content: nav, classes, timetable, plans, coaches, facilities, FAQs, journal articles. |
 | `src/lib/components/` | Shared components. |
-| `src/lib/icons.ts` | Icon path data on a 24×24 grid. |
-| `static/images/` | Placeholder photography — see `CREDITS.md`. |
+| `src/lib/icons.ts` | Named icon registry mapping to HugeIcons. |
+| `src/lib/images.ts` | Resolves a `/images/name.jpg` path to its processed asset. |
+| `src/lib/images/` | Placeholder photography, processed to AVIF/WebP at build time — see `CREDITS.md`. |
 
 ### Pages
 

@@ -1,6 +1,9 @@
 // Fails if any route scrolls sideways at a real device width.
-// Run the dev server first, then: pnpm check:responsive
+// Run a server first, then: pnpm check:responsive
+// Override the target with BASE_URL, e.g. BASE_URL=http://localhost:5190
 import { chromium } from "playwright";
+
+const BASE = process.env.BASE_URL ?? 'http://localhost:5179';
 
 const routes = [
   "/",
@@ -33,7 +36,7 @@ for (const w of widths) {
     deviceScaleFactor: 1,
   });
   for (const r of routes) {
-    await page.goto("http://localhost:5179" + r, { waitUntil: "networkidle" });
+    await page.goto(BASE + r, { waitUntil: "networkidle" });
     const res = await page.evaluate(async () => {
       window.scrollTo(600, 0);
       await new Promise((r) => requestAnimationFrame(r));

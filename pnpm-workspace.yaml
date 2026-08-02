@@ -1,3 +1,5 @@
 allowBuilds:
-  '@hugeicons/svelte': set this to true or false
+  '@hugeicons/svelte': false
   esbuild: true
+  # Prebuilt @img/sharp-darwin-* binaries are installed; the source build only fails.
+  sharp: false

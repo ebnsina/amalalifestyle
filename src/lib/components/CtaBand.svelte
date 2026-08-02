@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Button from './Button.svelte';
 
 	let {
@@ -23,7 +24,7 @@
 <section class="cta" class:on-dark={!!image} class:cta--photo={!!image}>
 	{#if image}
 		<div class="cta__media" aria-hidden={alt ? undefined : 'true'}>
-			<img src={image} {alt} loading="lazy" decoding="async" width="1200" height="675" />
+			<enhanced:img src={img(image)} {alt} sizes="100vw" loading="lazy" />
 			<div class="media__scrim"></div>
 		</div>
 	{/if}
@@ -69,12 +70,18 @@
 		overflow: hidden;
 	}
 
-	.cta__media img {
+	.cta__media :global(picture) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Held well back — this photograph is a texture behind type, not a picture
+	   in its own right, and the type has to win. */
+	.cta__media :global(img) {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		/* Held well back — this photograph is a texture behind type, not a
-		   picture in its own right, and the type has to win. */
 		filter: saturate(0.55) brightness(0.42);
 	}
 

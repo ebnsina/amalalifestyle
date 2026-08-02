@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { image as img } from '$lib/images';
 	import Seo from '$lib/components/Seo.svelte';
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import Section from '$lib/components/Section.svelte';
@@ -83,13 +84,11 @@
 				rather than sending you a brochure.
 			</p>
 			<div class="media media--card media--muted faqs__photo">
-				<img
-					src="/images/studio.jpg"
+				<enhanced:img
+					src={img('/images/studio.jpg')}
 					alt="A bright studio floor set up with training equipment"
-					width="1200"
-					height="900"
+					sizes="(min-width: 980px) 40vw, 100vw"
 					loading="lazy"
-					decoding="async"
 				/>
 			</div>
 		</div>
