@@ -248,7 +248,7 @@
 		justify-content: space-between;
 		gap: 24px;
 		background: var(--paper);
-		padding-block: 16px;
+		padding: 16px 18px;
 		font-size: 16px;
 	}
 
