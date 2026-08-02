@@ -26,8 +26,25 @@ own `vite dev` on 5173/5179, so never kill by a pattern that catches `dev`.
 
 ## Information architecture
 
-Six top-level items, deliberately. Order matters — it is the order a visitor
+Seven top-level items, and **the three that own deeper pages open a panel**
+(`under` in `src/lib/data/site.ts`). Order matters — it is the order a visitor
 asks the questions.
+
+The bar used to be six bare labels, and the seven pages beneath them —
+timetable, nutrition, the women's floor, the comparison table, the calculators,
+the method, the stories — existed only in the footer. That is the last place
+anyone looks and the first place they give up. Revealing them under the label
+they belong to costs no extra top-level slots and is the whole reason the menu
+is navigable. **Do not flatten it back.**
+
+**"Pricing" is in the bar** (`/#pricing`), against the earlier rule that a menu
+entry for a block of text is a slot wasted. It is the question every visitor
+has and the bar was the one place that did not answer it. Its panel carries the
+comparison table and the FAQ.
+
+The **phone number in the bar appears only at ≥1500px**. It is the least-used
+thing there and the seventh nav item is worth more than it; it is still in the
+sheet, the footer and on `/contact`.
 
 **There is no "Home" item.** The wordmark links to `/`; a menu slot repeating
 that is a slot wasted. Do not add one back.
@@ -60,9 +77,29 @@ Do not re-add teaser sections.
 - There is **no `/gallery` or `/faq` route** — they were built and then folded in.
   Do not recreate them.
 - Every nav item carries a `blurb` in `src/lib/data/site.ts`. The menu sheet
-  shows it under the label; the desktop bar uses it as `title`. Eleven bare
-  labels is what made the old menu unreadable — keep the blurbs if items are
-  added.
+  shows it under the label; the desktop bar uses it as `title`; the flyouts show
+  one per sub-page. Bare labels are what made the old menu unreadable — keep the
+  blurbs if items are added.
+- **The mobile sheet shows sub-pages open, not behind an accordion.** A tap
+  spent finding out whether a page exists is a tap most people never make.
+
+### Wayfinding
+
+Three devices, added together, because the site read as a set of pages rather
+than a place you could move around in:
+
+1. **The flyouts** above — every page reachable from the bar.
+2. **`trailFor()`** in `site.ts` → the breadcrumb in `PageHeader`. Every H1 on
+   this site is a slogan ("A floor, not a showroom", "Pick a tool"), so no inner
+   page said which page it was. The trail supplies the plain name.
+   **It renders only when it has more than one step** — a single step above a
+   heading is not a breadcrumb, it is the eyebrow label that was deliberately
+   removed, and on a top-level page the lime mark in the bar has already said it.
+3. **`NextUp`** (`nextUp` in `site.ts`) — every page used to end on the same
+   dark band asking for a booking. That is the right ending for someone who has
+   decided and a dead end for everyone else, so each page names two or three
+   places to go on first. `/contact` is deliberately absent: it is where the
+   paths end.
 
 ## Layout and header
 
@@ -71,9 +108,14 @@ Do not re-add teaser sections.
   up by exactly this, the menu sheet starts at it, and the scroll observer
   measures `bar.offsetHeight`. **Do not hardcode a header height anywhere.**
 - The header is **one row**: wordmark, then the nav centred in the space left
-  (`flex: 1; justify-content: center`), then phone + CTA. Six links fit beside a
-  wordmark and a button with room to spare — it was briefly two tiers when the
-  menu had eleven items, and that is no longer needed.
+  (`flex: 1; justify-content: center`), then phone + CTA. Seven links fit beside
+  a wordmark and a button — it was briefly two tiers when the menu had eleven
+  items, and that is no longer needed.
+- The nav is **stretched to the full bar height** (`align-self: stretch`) so a
+  flyout can hang off the bar's bottom edge with `top: 100%` and no gap. A gap
+  is a hole the pointer falls through on its way into the panel.
+- The bar goes **solid while a flyout is open**, or white labels would sit
+  beside a white panel over the hero photograph.
 - The header is **transparent only while the home page is at rest at the top**,
   and takes its white surface back on `scrollY > 8`. It is *not* transparent for
   the whole length of the hero: the headline scrolls under the bar and white

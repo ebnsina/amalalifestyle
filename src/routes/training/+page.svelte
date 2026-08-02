@@ -5,6 +5,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { programmes } from '$lib/data/site';
 
@@ -90,6 +91,8 @@
 		{/each}
 	</ul>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Not sure which one you need?"

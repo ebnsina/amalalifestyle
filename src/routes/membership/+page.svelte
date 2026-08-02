@@ -4,6 +4,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import PlanCard from '$lib/components/PlanCard.svelte';
 	import Disclosure from '$lib/components/Disclosure.svelte';
 	import Icon from '$lib/components/Icon.svelte';
@@ -122,6 +123,8 @@
 		{/each}
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Train once before you pay anything."

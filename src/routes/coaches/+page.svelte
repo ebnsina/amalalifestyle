@@ -4,6 +4,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import CoachCard from '$lib/components/CoachCard.svelte';
 	import { coaches } from '$lib/data/site';
 </script>
@@ -74,6 +75,8 @@
 		</ol>
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Meet whoever will be coaching you, first."

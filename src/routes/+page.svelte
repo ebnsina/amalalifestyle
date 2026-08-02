@@ -19,28 +19,34 @@
 	*/
 	const routes = [
 		{
-			href: '/about',
+			href: '/method',
 			icon: 'target' as const,
 			who: 'I have never trained before',
-			what: 'Start with how coaching works here. Nothing assumes you know a squat from a hinge.'
+			what: 'Start with how coaching works here. Nothing assumes you know a squat from a hinge.',
+			// Named, not "take me there" four times over. A prompt that does not
+			// say where it goes is a door with no sign on it.
+			go: 'How coaching works'
 		},
 		{
 			href: '/training',
 			icon: 'dumbbell' as const,
 			who: 'I train, but I have stalled',
-			what: 'Look at the programmes. Twelve-week blocks, written down, reviewed every four weeks.'
+			what: 'Look at the programmes. Twelve-week blocks, written down, reviewed every four weeks.',
+			go: 'The programmes'
 		},
 		{
 			href: '/womens',
 			icon: 'users' as const,
 			who: 'I would rather train with women',
-			what: 'A separate floor with its own entrance and its own hours, coached only by women.'
+			what: 'A separate floor with its own entrance and its own hours, coached only by women.',
+			go: 'The women’s floor'
 		},
 		{
 			href: '/membership',
 			icon: 'scale' as const,
 			who: 'I just want to use the gym',
-			what: 'Open Floor gets you the equipment and the opening hours, without the coaching.'
+			what: 'Open Floor gets you the equipment and the opening hours, without the coaching.',
+			go: 'Compare the plans'
 		}
 	];
 
@@ -98,7 +104,7 @@
 				<h3 class="t-h3 route__who">“{r.who}”</h3>
 				<p class="t-body route__what">{r.what}</p>
 				<span class="route__go t-label">
-					Take me there
+					{r.go}
 					<Icon name="arrow-right" size={15} />
 				</span>
 			</a>

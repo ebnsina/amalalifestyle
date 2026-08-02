@@ -5,6 +5,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import { facilities, site } from '$lib/data/site';
 
 	/*
@@ -115,6 +116,8 @@
 		</dl>
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Stand on the floor before you decide anything."

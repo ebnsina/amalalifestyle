@@ -5,6 +5,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { nutritionPrinciples, sampleDay } from '$lib/data/site';
 
@@ -146,6 +147,8 @@
 		</div>
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Bring one week of honest food notes."

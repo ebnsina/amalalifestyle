@@ -4,6 +4,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import JournalCard from '$lib/components/JournalCard.svelte';
 	import Newsletter from '$lib/components/Newsletter.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import { journal } from '$lib/data/site';
 </script>
 
@@ -25,6 +26,8 @@
 		{/each}
 	</div>
 </Section>
+
+<NextUp />
 
 <Newsletter />
 

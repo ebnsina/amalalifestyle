@@ -4,6 +4,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import ClassCard from '$lib/components/ClassCard.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import SessionSlot from '$lib/components/SessionSlot.svelte';
@@ -141,6 +142,8 @@
 		</div>
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="Try any class on the timetable, free."

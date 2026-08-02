@@ -1,5 +1,6 @@
 import {
 	Activity03Icon,
+	ArrowDown01Icon,
 	ArrowRight02Icon,
 	ArrowUpRight01Icon,
 	Book02Icon,
@@ -34,6 +35,7 @@ export const icons = {
 	book: Book02Icon,
 	calendar: Calendar03Icon,
 	check: Tick02Icon,
+	'chevron-down': ArrowDown01Icon,
 	clock: Clock01Icon,
 	close: Cancel01Icon,
 	dumbbell: Dumbbell01Icon,

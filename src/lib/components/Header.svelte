@@ -3,7 +3,7 @@
 	import Wordmark from './Wordmark.svelte';
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
-	import { nav, site } from '$lib/data/site';
+	import { nav, site, type NavItem } from '$lib/data/site';
 
 	let open = $state(false);
 
@@ -11,12 +11,17 @@
 	// would be invisible. Only a dark hero underneath earns the transparent bar.
 	let solid = $state(true);
 
+	// Which section's flyout is showing. Pointer and keyboard both drive it, so
+	// it cannot be pure :hover — tabbing into a panel has to open it too.
+	let openSection = $state<string | null>(null);
+
 	const tel = site.phone.replace(/\s/g, '');
 
-	// Close the sheet whenever the route changes.
+	// Close the sheet and any flyout whenever the route changes.
 	$effect(() => {
 		page.url.pathname;
 		open = false;
+		openSection = null;
 	});
 
 	// The sheet covers the viewport, so the page behind it should not scroll.
@@ -46,28 +51,87 @@
 		return () => window.removeEventListener('scroll', onScroll);
 	});
 
-	function isCurrent(href: string) {
+	// A hash link is a place on a page, not a page — it never claims the mark,
+	// or "Pricing" would read as the current page for the whole of the home page.
+	function matches(href: string) {
+		if (href.includes('#')) return false;
 		return href === '/' ? page.url.pathname === '/' : page.url.pathname.startsWith(href);
+	}
+
+	// A section is current when you are on it *or on anything under it*, so the
+	// bar still tells you where you are on the seven pages that have no label
+	// of their own.
+	function isCurrent(item: NavItem) {
+		return matches(item.href) || (item.under?.some((c) => matches(c.href)) ?? false);
+	}
+
+	function onKeydown(event: KeyboardEvent) {
+		if (event.key !== 'Escape') return;
+		if (openSection) openSection = null;
+		else if (open) open = false;
 	}
 </script>
 
-<!-- One row. Six links sit beside the wordmark and the button with room to
-	 spare, so a second tier would only add height for nothing. -->
-<header class="site-header" class:is-solid={solid || open}>
-	<div class="container site-header__inner">
-		<Wordmark tone={solid || open ? 'ink' : 'light'} />
+<svelte:window on:keydown={onKeydown} />
 
-		<nav class="site-nav" aria-label="Primary">
+<!-- One row. Seven links sit beside the wordmark and the button, and the three
+	 that own deeper pages open a panel rather than hiding them in the footer. -->
+<header class="site-header" class:is-solid={solid || open || !!openSection}>
+	<div class="container site-header__inner">
+		<Wordmark tone={solid || open || openSection ? 'ink' : 'light'} />
+
+		<nav
+			class="site-nav"
+			aria-label="Primary"
+			onmouseleave={() => (openSection = null)}
+			onfocusout={(e) => {
+				if (!e.currentTarget.contains(e.relatedTarget as Node)) openSection = null;
+			}}
+		>
 			{#each nav as item (item.href)}
-				<a
-					href={item.href}
-					class="site-nav__link"
-					class:is-current={isCurrent(item.href)}
-					aria-current={isCurrent(item.href) ? 'page' : undefined}
-					title={item.blurb}
-				>
-					{item.label}
-				</a>
+				{@const current = isCurrent(item)}
+				<div class="site-nav__item">
+					<!-- Pointer and keyboard open it the same way; the panel then hangs
+						 off the bar with no gap, so travelling into it keeps it open and
+						 leaving the whole nav is what closes it. -->
+					<a
+						href={item.href}
+						class="site-nav__link"
+						class:is-current={current}
+						class:is-open={openSection === item.href}
+						aria-current={current ? 'page' : undefined}
+						aria-expanded={item.under ? openSection === item.href : undefined}
+						title={item.blurb}
+						onmouseenter={() => (openSection = item.under ? item.href : null)}
+						onfocus={() => (openSection = item.under ? item.href : null)}
+					>
+						{item.label}
+						{#if item.under}
+							<span class="site-nav__caret" aria-hidden="true">
+								<Icon name="chevron-down" size={12} />
+							</span>
+						{/if}
+					</a>
+
+					{#if item.under && openSection === item.href}
+						<!--
+							The panel hangs off the bottom edge of the bar with no gap, so
+							the pointer can travel from the label into it without the
+							hover dropping out from under it halfway.
+						-->
+						<div class="flyout">
+							{#each item.under as child (child.href)}
+								<a href={child.href} class="flyout__link" class:is-current={matches(child.href)}>
+									<span class="flyout__text">
+										<span class="flyout__label">{child.label}</span>
+										<span class="flyout__blurb">{child.blurb}</span>
+									</span>
+									<Icon name="arrow-right" size={15} />
+								</a>
+							{/each}
+						</div>
+					{/if}
+				</div>
 			{/each}
 		</nav>
 
@@ -103,14 +167,35 @@
 			<ul class="menu__list">
 				{#each nav as item (item.href)}
 					<li>
-						<a href={item.href} class="menu__link" class:is-current={isCurrent(item.href)}>
+						<a href={item.href} class="menu__link" class:is-current={isCurrent(item)}>
 							<span class="menu__text">
 								<span class="t-h3 menu__label">{item.label}</span>
-								<!-- The line that makes eleven items navigable rather than a wall. -->
+								<!-- The line that makes a list of labels navigable rather than a wall. -->
 								<span class="menu__blurb">{item.blurb}</span>
 							</span>
 							<Icon name="arrow-right" size={18} />
 						</a>
+
+						<!--
+							Open, not behind an accordion. Every one of these pages was
+							footer-only, and a tap to find out a page exists is a tap most
+							people never make.
+						-->
+						{#if item.under}
+							<ul class="submenu">
+								{#each item.under as child (child.href)}
+									<li>
+										<a
+											href={child.href}
+											class="submenu__link"
+											class:is-current={matches(child.href)}
+										>
+											{child.label}
+										</a>
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</li>
 				{/each}
 			</ul>
@@ -170,6 +255,8 @@
 	.site-header__tel {
 		align-items: center;
 		gap: 8px;
+		flex: none;
+		white-space: nowrap;
 		color: var(--muted);
 		transition: color 160ms ease;
 	}
@@ -179,17 +266,27 @@
 	}
 
 	/* Takes the space left between the wordmark and the actions and centres in
-	   it, rather than bunching up against the wordmark. */
+	   it, rather than bunching up against the wordmark. Stretched to the full
+	   bar height so a flyout can hang off the bar's bottom edge with no gap for
+	   the pointer to fall through. */
 	.site-nav {
 		flex: 1;
-		align-items: center;
+		align-self: stretch;
+		align-items: stretch;
 		justify-content: center;
-		gap: clamp(16px, 2.2vw, 34px);
+		gap: clamp(14px, 1.9vw, 30px);
+	}
+
+	.site-nav__item {
+		position: relative;
+		display: flex;
+		align-items: center;
 	}
 
 	.site-nav__link {
 		display: inline-flex;
 		align-items: center;
+		gap: 5px;
 		font-family: var(--font-mono);
 		font-size: 11px;
 		letter-spacing: 0.08em;
@@ -203,14 +300,96 @@
 			border-color 160ms ease;
 	}
 
-	.site-nav__link:hover {
+	.site-nav__link:hover,
+	.site-nav__link.is-open {
 		color: var(--ink);
 	}
 
-	/* Lime marks the page you are on — a fill under the label, never the label. */
+	/* Lime marks the page you are on — a fill under the label, never the label.
+	   A section counts as current for every page under it, so the bar answers
+	   "where am I" on the pages that have no label of their own. */
 	.site-nav__link.is-current {
 		color: var(--ink);
 		border-bottom-color: var(--lime);
+	}
+
+	.site-nav__caret {
+		display: inline-flex;
+		color: var(--faint);
+		transition: transform 160ms ease;
+	}
+
+	.site-nav__link.is-open .site-nav__caret {
+		transform: rotate(180deg);
+	}
+
+	/* --- The flyout ------------------------------------------------------- */
+
+	/*
+		Hangs off the bar's own bottom rule, so that rule is the panel's top edge
+		and the boundary is still marked exactly once.
+	*/
+	.flyout {
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: max-content;
+		min-width: 300px;
+		max-width: 360px;
+		padding-block: 8px;
+		background: var(--paper);
+		border: 1px solid var(--rule);
+		border-top: none;
+	}
+
+	.flyout__link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 18px;
+		padding: 11px 20px;
+		color: var(--ink);
+		transition: background-color 160ms ease;
+	}
+
+	.flyout__link:hover {
+		background: var(--lime-wash);
+	}
+
+	.flyout__link :global(svg) {
+		flex: none;
+		color: var(--faint);
+		transition: transform 160ms ease;
+	}
+
+	.flyout__link:hover :global(svg) {
+		transform: translateX(3px);
+		color: var(--ink);
+	}
+
+	.flyout__text {
+		display: grid;
+		gap: 2px;
+		justify-items: start;
+	}
+
+	.flyout__label {
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+		border-bottom: 2px solid transparent;
+	}
+
+	.flyout__link.is-current .flyout__label {
+		border-bottom-color: var(--lime);
+	}
+
+	.flyout__blurb {
+		font-size: 13px;
+		line-height: 1.4;
+		color: var(--muted);
 	}
 
 	/* Over the hero photograph the bar carries no surface of its own, so the
@@ -237,13 +416,23 @@
 
 	@media (min-width: 1120px) {
 		.site-nav,
-		.site-header__tel,
 		.site-header__cta {
 			display: flex;
 		}
 
 		.site-header__menu {
 			display: none;
+		}
+	}
+
+	/*
+		The number is the least-used thing in the bar and the seventh nav item is
+		worth more than it, so it only appears once there is room for both without
+		the nav bunching up. It is still in the sheet, the footer and on /contact.
+	*/
+	@media (min-width: 1500px) {
+		.site-header__tel {
+			display: flex;
 		}
 	}
 
@@ -285,14 +474,53 @@
 		border-bottom: 2px solid var(--lime);
 	}
 
+	/*
+		Shown open rather than behind an accordion. Every page in here used to be
+		footer-only, and a tap taken to find out whether a page exists is a tap
+		most people never make. The hairline down the left is the rail that says
+		these belong to the label above them; the current one lights it lime.
+	*/
+	.menu__list li:has(.submenu) .menu__link {
+		border-bottom: none;
+	}
+
+	.submenu {
+		display: grid;
+		padding-bottom: 14px;
+		border-bottom: 1px solid var(--rule);
+	}
+
+	.submenu__link {
+		padding: 9px 0 9px 18px;
+		border-left: 2px solid var(--rule);
+		font-size: 15px;
+		color: var(--muted);
+		transition:
+			color 160ms ease,
+			border-color 160ms ease;
+	}
+
+	.submenu__link:hover {
+		color: var(--ink);
+		border-left-color: var(--rule-strong);
+	}
+
+	.submenu__link.is-current {
+		color: var(--ink);
+		border-left-color: var(--lime);
+	}
+
 	.menu__label {
 		justify-self: start;
 	}
 
+	/* Fainter than the sub-links below it. Three things in a row at the same
+	   weight — label, description, sub-page — and the description reads as
+	   another destination you could tap. */
 	.menu__blurb {
-		font-size: 14px;
+		font-size: 13px;
 		line-height: 1.4;
-		color: var(--muted);
+		color: var(--faint);
 	}
 
 	.menu__foot {
@@ -312,7 +540,10 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		.site-header,
-		.menu__link {
+		.menu__link,
+		.submenu__link,
+		.flyout__link,
+		.site-nav__caret {
 			transition: none;
 		}
 	}

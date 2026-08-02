@@ -5,6 +5,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import { method } from '$lib/data/site';
 
 	/* What the place refuses to do, written plainly. Easier to judge a gym by
@@ -103,6 +104,8 @@
 		{/each}
 	</ol>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="The best way to judge a gym is to stand in it."

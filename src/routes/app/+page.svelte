@@ -5,6 +5,7 @@
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import Section from '$lib/components/Section.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import BodyTool from '$lib/components/tools/BodyTool.svelte';
 	import CaloriesTool from '$lib/components/tools/CaloriesTool.svelte';
@@ -139,6 +140,8 @@
 		<active.component />
 	</Section>
 {/if}
+
+<NextUp />
 
 <CtaBand
 	title="Numbers are easy. Twelve weeks is the hard part."

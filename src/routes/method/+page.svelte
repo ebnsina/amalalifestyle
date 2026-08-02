@@ -5,6 +5,7 @@
 	import Section from '$lib/components/Section.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
+	import NextUp from '$lib/components/NextUp.svelte';
 	import Disclosure from '$lib/components/Disclosure.svelte';
 	import { method, faqs } from '$lib/data/site';
 
@@ -99,6 +100,8 @@
 		</div>
 	</div>
 </Section>
+
+<NextUp />
 
 <CtaBand
 	title="The first session costs nothing and commits you to nothing."

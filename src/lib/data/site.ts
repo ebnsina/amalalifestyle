@@ -24,25 +24,121 @@ export const socials: { label: string; href: string; icon: IconName }[] = [
 ];
 
 /*
-	Six items, each a place you would actually go. No "Home": the wordmark is
-	the home link on every site ever built, and spending a menu slot repeating
-	it is a slot wasted. Things people want to read rather than navigate to —
-	pricing and the FAQ — live on the home page and are linked from there and
-	the footer. Photographs of the gym sit on Facilities, where someone asking
-	"what is it like" is already standing.
+	Seven doors onto thirteen pages. No "Home": the wordmark is the home link on
+	every site ever built, and spending a menu slot repeating it is a slot
+	wasted.
 
-	Each item carries a line saying what is behind it: the sheet shows those
-	lines, the desktop bar shows them on hover. A label alone asks the visitor
-	to already know what "Programmes" means here.
+	The three doors that lead somewhere deeper carry `under` — the pages that
+	genuinely belong to them. The bar was six bare labels and the seven pages
+	underneath them (timetable, nutrition, the women's floor, the comparison
+	table, the calculators, the method, the stories) existed only in the footer,
+	which is the last place a visitor looks and the first place they give up.
+	Revealing them under the label they belong to is what stops the menu being
+	a memory test — and it costs no extra top-level slots.
+
+	Each item carries a line saying what is behind it. A label alone asks the
+	visitor to already know what "Programmes" means here.
 */
-export const nav: { href: string; label: string; blurb: string }[] = [
-	{ href: '/about', label: 'About us', blurb: 'Who we are and how we coach' },
-	{ href: '/training', label: 'Programmes', blurb: 'What you actually train' },
+export type NavItem = {
+	href: string;
+	label: string;
+	blurb: string;
+	under?: { href: string; label: string; blurb: string }[];
+};
+
+export const nav: NavItem[] = [
+	{
+		href: '/about',
+		label: 'About us',
+		blurb: 'Who we are and how we coach',
+		under: [
+			{ href: '/about', label: 'Our story', blurb: 'Why the gym exists and who runs it' },
+			{
+				href: '/method',
+				label: 'How coaching works',
+				blurb: 'Assess, plan, coach, review — in that order'
+			},
+			{
+				href: '/success-stories',
+				label: 'Success stories',
+				blurb: 'What members say after a year of it'
+			}
+		]
+	},
+	{
+		href: '/training',
+		label: 'Programmes',
+		blurb: 'What you actually train',
+		under: [
+			{
+				href: '/training',
+				label: 'All four programmes',
+				blurb: 'Strength, conditioning, nutrition, recovery'
+			},
+			{ href: '/nutrition', label: 'Nutrition', blurb: 'Food that fits the life you have' },
+			{ href: '/timetable', label: 'Weekly timetable', blurb: 'Every class, capped and coached' },
+			{
+				href: '/womens',
+				label: 'Women’s floor',
+				blurb: 'Own entrance, own hours, women coaches'
+			},
+			{ href: '/app', label: 'Free calculators', blurb: 'Calories, macros and one-rep max' }
+		]
+	},
+	/*
+		Pricing is the question every visitor has and it was the one thing the bar
+		did not answer. It costs a slot; leaving people to guess costs the booking.
+	*/
+	{
+		href: '/#pricing',
+		label: 'Pricing',
+		blurb: 'What it costs to train here',
+		under: [
+			{ href: '/#pricing', label: 'Plans and prices', blurb: 'Three plans, monthly, no joining fee' },
+			{
+				href: '/membership',
+				label: 'Compare line by line',
+				blurb: 'Every plan against every feature'
+			},
+			{
+				href: '/#faq',
+				label: 'Common questions',
+				blurb: 'Cancelling, freezing, injuries, shift work'
+			}
+		]
+	},
 	{ href: '/facilities', label: 'Facilities', blurb: 'The floor, the rooms, photographs' },
 	{ href: '/coaches', label: 'Team', blurb: 'The people who coach you' },
 	{ href: '/journal', label: 'Blog', blurb: 'Training and food, written plainly' },
 	{ href: '/contact', label: 'Contact', blurb: 'Book your free first session' }
 ];
+
+/*
+	Where a path sits in the menu above, read off the same data the bar and the
+	flyouts use so the two can never disagree.
+
+	Every H1 on the site is a slogan — "A floor, not a showroom", "Pick a tool",
+	"A room of your own to get strong in". They are good headlines and none of
+	them tells you which page you are on, which is fine when you arrived through
+	the menu and useless when you arrived from the footer or a search result.
+	The trail supplies the plain name the headline is too good to be.
+*/
+export function trailFor(pathname: string): { href?: string; label: string }[] {
+	const hit = (href: string) =>
+		!href.includes('#') && (href === '/' ? pathname === '/' : pathname.startsWith(href));
+
+	for (const item of nav) {
+		const child = item.under?.find((c) => hit(c.href));
+
+		// A section's own page is its first child. Naming it twice — "About us /
+		// Our story" — is a trail that says nothing the label did not.
+		if (child && child.href !== item.href) {
+			return [{ href: item.href, label: item.label }, { label: child.label }];
+		}
+		if (child || hit(item.href)) return [{ label: item.label }];
+	}
+	return [];
+}
 
 /*
 	The footer is a directory, not a second nav — so it groups by the question
@@ -81,6 +177,110 @@ export const footerNav = [
 		]
 	}
 ];
+
+/*
+	What to read after each page.
+
+	Every page ended on the same dark band asking for a booking, with one
+	secondary link beside it. That is the right ending for someone who has
+	decided and a dead end for everyone else, so each page now also names two or
+	three places to go on — picked for the question a reader of *that* page is
+	most likely to have next, not by relatedness in the abstract.
+
+	/contact is deliberately absent: it is where the paths end, and offering an
+	exit next to a form you want filled in is an odd thing to do.
+*/
+type NextStep = { href: string; label: string; blurb: string; cta: string };
+
+const step = {
+	method: {
+		href: '/method',
+		label: 'How coaching works',
+		blurb: 'Assess, plan, coach, review — and what happens in each of them.',
+		cta: 'Read the method'
+	},
+	training: {
+		href: '/training',
+		label: 'The programmes',
+		blurb: 'Strength, conditioning, nutrition and recovery, in twelve-week blocks.',
+		cta: 'See the programmes'
+	},
+	timetable: {
+		href: '/timetable',
+		label: 'Weekly timetable',
+		blurb: 'Every class we run, when it runs, and how many people are in it.',
+		cta: 'See the timetable'
+	},
+	nutrition: {
+		href: '/nutrition',
+		label: 'Nutrition coaching',
+		blurb: 'One habit at a time, built around the food you already eat.',
+		cta: 'Read about food'
+	},
+	pricing: {
+		href: '/#pricing',
+		label: 'What it costs',
+		blurb: 'Three plans, monthly, no joining fee and no contract length.',
+		cta: 'See the prices'
+	},
+	faq: {
+		href: '/#faq',
+		label: 'Common questions',
+		blurb: 'Cancelling, freezing, injuries, shift work and the rest of it.',
+		cta: 'Read the questions'
+	},
+	coaches: {
+		href: '/coaches',
+		label: 'The coaches',
+		blurb: 'Who they are, what each of them owns, and who you would work with.',
+		cta: 'Meet them'
+	},
+	facilities: {
+		href: '/facilities',
+		label: 'The facilities',
+		blurb: 'The floor, the rooms and the photographs, before you visit.',
+		cta: 'Look around'
+	},
+	stories: {
+		href: '/success-stories',
+		label: 'Success stories',
+		blurb: 'What members say, and an honest note on what training cannot fix.',
+		cta: 'Read them'
+	},
+	womens: {
+		href: '/womens',
+		label: 'Women’s floor',
+		blurb: 'A separate floor with its own entrance, hours and women coaches.',
+		cta: 'See the floor'
+	},
+	tools: {
+		href: '/app',
+		label: 'Free calculators',
+		blurb: 'Calories, macros and one-rep max, worked out in your browser.',
+		cta: 'Open the tools'
+	},
+	journal: {
+		href: '/journal',
+		label: 'The blog',
+		blurb: 'Written by the coaches, about the things members actually ask.',
+		cta: 'Start reading'
+	}
+} satisfies Record<string, NextStep>;
+
+export const nextUp: Record<string, NextStep[]> = {
+	'/about': [step.method, step.coaches, step.pricing],
+	'/method': [step.training, step.timetable, step.coaches],
+	'/training': [step.timetable, step.nutrition, step.pricing],
+	'/nutrition': [step.tools, step.training, step.pricing],
+	'/timetable': [step.facilities, step.womens, step.pricing],
+	'/womens': [step.timetable, step.coaches, step.pricing],
+	'/facilities': [step.timetable, step.coaches, step.pricing],
+	'/coaches': [step.method, step.stories, step.training],
+	'/membership': [step.training, step.method, step.faq],
+	'/success-stories': [step.method, step.training, step.pricing],
+	'/app': [step.nutrition, step.training, step.journal],
+	'/journal': [step.nutrition, step.method, step.training]
+};
 
 /** Not numbered: these run alongside each other, not in sequence. */
 export const disciplines: {

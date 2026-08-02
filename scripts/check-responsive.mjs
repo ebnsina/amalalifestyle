@@ -7,6 +7,9 @@ const BASE = process.env.BASE_URL ?? 'http://localhost:5179';
 
 const routes = [
   "/",
+  "/about",
+  "/facilities",
+  "/success-stories",
   "/training",
   "/timetable",
   "/membership",
