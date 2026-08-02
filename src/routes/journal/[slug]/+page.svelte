@@ -165,9 +165,9 @@
 	}
 
 	.body__quote {
-		margin-block: 40px;
-		padding-left: 26px;
-		border-left: 3px solid var(--lime);
+		margin-block: 44px;
+		padding-block: 28px;
+		border-block: 1px solid var(--rule);
 		font-family: var(--font-display);
 		font-size: 23px;
 		line-height: 1.35;

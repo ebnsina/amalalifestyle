@@ -63,7 +63,7 @@
 </Section>
 
 <Section label="What we believe">
-	<h2 class="t-h2" style="max-width: 17ch">Four things we will not argue about.</h2>
+	<h2 class="t-h2">What we will not argue about.</h2>
 	<ul class="beliefs">
 		{#each beliefs as b (b.title)}
 			<li class="beliefs__item">
@@ -77,7 +77,7 @@
 <Section label="Questions">
 	<div class="split">
 		<div>
-			<h2 class="t-h2" style="max-width: 14ch">The ones we get asked most.</h2>
+			<h2 class="t-h2">The ones we get asked most.</h2>
 			<p class="t-body-lg faqs__lede">
 				If yours is not here, ask it at the first session — or email and we will answer properly
 				rather than sending you a brochure.
@@ -150,6 +150,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 		margin-top: 48px;
 	}
 
@@ -161,13 +162,7 @@
 
 	.beliefs__item {
 		background: var(--paper);
-		padding: 34px 34px 38px 0;
-	}
-
-	@media (min-width: 760px) {
-		.beliefs__item:nth-child(even) {
-			padding-inline-start: 34px;
-		}
+		padding: 32px 30px 36px;
 	}
 
 	.beliefs__body {

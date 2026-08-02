@@ -36,10 +36,9 @@
 </PageHeader>
 
 <Section label="Principles">
-	<h2 class="t-h2" style="max-width: 19ch">Four rules. <em>That is the whole system.</em></h2>
+	<h2 class="t-h2">This is <em>the whole system.</em></h2>
 	<p class="t-body-lg section__lede">
-		Deliberately not numbered — they all run at the same time, and none of them is a step towards
-		the next one.
+		These run at the same time, not in sequence. None of them is a step towards the next one.
 	</p>
 
 	<ul class="principles">
@@ -56,7 +55,7 @@
 <Section label="A sample day">
 	<div class="split">
 		<div>
-			<h2 class="t-h2" style="max-width: 15ch">A day that is not impressive.</h2>
+			<h2 class="t-h2">A day that is not impressive.</h2>
 			<p class="t-body-lg section__lede">
 				Ordinary food, in an order that puts fuel near the training that needs it. Your own version
 				will look different — this is the shape, not the menu. The protein figures are an example
@@ -104,7 +103,7 @@
 <Section label="What we don't do">
 	<div class="split split--tight">
 		<div>
-			<h2 class="t-h2" style="max-width: 13ch">
+			<h2 class="t-h2">
 				The list of things we <em>will not</em> sell you.
 			</h2>
 			<p class="t-body-lg section__lede">
@@ -170,6 +169,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 		margin-top: 48px;
 	}
 

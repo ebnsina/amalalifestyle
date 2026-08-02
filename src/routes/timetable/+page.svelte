@@ -27,7 +27,7 @@
 
 <PageHeader
 	eyebrow="Timetable"
-	title="Sixteen coached sessions a week"
+	title="Every session is coached and capped"
 	standfirst="Every class is capped and coached. Spaces open fourteen days ahead and you book from your phone — no queueing at reception, and no session runs without a coach on the floor."
 	image="/images/studio.jpg"
 	alt="The training floor set up before a session"
@@ -41,7 +41,7 @@
 <Section label="This week">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">The week, Sunday to Saturday.</h2>
+			<h2 class="t-h2">The week, Sunday to Saturday.</h2>
 			<p class="t-body-lg head__lede">
 				Times are fixed through the year apart from Ramadan, when the whole timetable moves and we
 				publish it two weeks ahead.
@@ -95,13 +95,13 @@
 	</div>
 
 	<p class="legend t-label">
-		<span class="legend__key" aria-hidden="true">Women only</span>
+		<span class="chip" aria-hidden="true">Women only</span>
 		sessions run on the separate floor
 	</p>
 </Section>
 
 <Section label="The classes">
-	<h2 class="t-h2" style="max-width: 17ch">What each one actually is.</h2>
+	<h2 class="t-h2">What each class actually is.</h2>
 	<p class="t-body-lg head__lede">
 		Four classes, repeated all week, so you can build a routine instead of chasing a different
 		workout every day.
@@ -254,14 +254,7 @@
 		margin-top: 20px;
 	}
 
-	.legend__key {
-		font-family: var(--font-mono);
-		font-size: 9.5px;
-		letter-spacing: 0.1em;
-		background: var(--lime);
-		color: #0b0b0d;
-		padding: 3px 7px;
-	}
+
 
 	.cards {
 		display: grid;
@@ -285,6 +278,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 820px) {

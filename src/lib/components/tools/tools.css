@@ -116,13 +116,16 @@
 .stat {
 	background: var(--paper);
 	border: 1px solid var(--rule);
-	border-top: 2px solid var(--rule-strong);
 	padding: 20px 20px 24px;
 }
 
-/* The figure people came for gets the lime edge. Exactly one per group. */
-.stat--key {
-	border-top-color: var(--lime);
+/* The figure people came for is marked by its label, not by a coloured edge. */
+.stat--key .t-label {
+	background: var(--lime);
+	color: #0b0b0d;
+	padding: 5px 8px;
+	margin-inline-start: -2px;
+	display: inline-block;
 }
 
 .stat--wide {
@@ -189,11 +192,9 @@
 	margin-top: 2px;
 }
 
-/* A blocking advisory replaces the numbers, so it is marked more firmly. */
+/* A blocking advisory replaces the numbers, so it takes the firmer border. */
 .advisory--block {
-	border: 0;
-	border-left: 3px solid var(--ink);
-	background: var(--surface);
+	border-color: var(--ink);
 }
 
 .notice {

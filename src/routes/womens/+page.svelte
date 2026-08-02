@@ -37,7 +37,7 @@
 </PageHeader>
 
 <Section label="How it works" ruled={false}>
-	<h2 class="t-h2" style="max-width: 18ch">Four things we do not compromise on.</h2>
+	<h2 class="t-h2">What we will not compromise on.</h2>
 
 	<ul class="points">
 		{#each womensFloor.points as p (p.title)}
@@ -53,7 +53,7 @@
 <Section label="Hours" id="hours">
 	<div class="split">
 		<div>
-			<h2 class="t-h2" style="max-width: 15ch">When the floor is yours.</h2>
+			<h2 class="t-h2">When the floor is yours.</h2>
 			<p class="t-body-lg split__lede">
 				During these hours no men are in the room — coaches, staff or members. Outside them the
 				space is used for one-to-one sessions by arrangement.
@@ -88,7 +88,7 @@
 </Section>
 
 <Section label="Sessions">
-	<h2 class="t-h2" style="max-width: 17ch">Women-only classes, every day but Friday.</h2>
+	<h2 class="t-h2">Women-only classes, every day but Friday.</h2>
 
 	<div class="schedule">
 		{#each schedule as day (day.day)}
@@ -118,7 +118,7 @@
 			<CoachCard {...amina} />
 		</div>
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">One coach, who knows your programme.</h2>
+			<h2 class="t-h2">One coach, who knows your programme.</h2>
 			<p class="t-body-lg split__lede">
 				You are not handed to whoever is free. Amina writes the programme, coaches the sessions and
 				runs the four-weekly review, so nobody has to be brought up to speed on your knee, your
@@ -179,6 +179,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 		margin-top: 48px;
 	}
 
@@ -241,7 +242,7 @@
 		gap: 1px;
 		margin-top: 32px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 		max-width: 34ch;
 	}
 
@@ -259,7 +260,7 @@
 		gap: 1px;
 		margin-top: 48px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 700px) {

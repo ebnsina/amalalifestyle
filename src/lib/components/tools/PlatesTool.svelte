@@ -78,7 +78,6 @@
 		gap: 6px;
 		background: var(--paper);
 		border: 1px solid var(--rule);
-		border-top: 2px solid var(--lime);
 		padding: 16px 18px 18px;
 		min-width: 88px;
 	}

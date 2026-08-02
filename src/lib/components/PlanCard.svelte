@@ -63,11 +63,14 @@
 	   different size — the comparison only works if the columns stay equal. */
 	.plan--featured {
 		background: var(--paper);
-		border-top: 3px solid var(--lime);
 	}
 
+	/* align-self stops the flex column stretching the chip to full width. */
 	.plan__flag {
-		color: var(--ink);
+		align-self: flex-start;
+		background: var(--lime);
+		color: #0b0b0d;
+		padding: 6px 9px;
 		margin-bottom: 18px;
 	}
 

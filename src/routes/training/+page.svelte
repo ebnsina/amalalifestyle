@@ -68,7 +68,7 @@
 {/each}
 
 <Section label="A typical week">
-	<h2 class="t-h2" style="max-width: 17ch">What seven days actually looks like.</h2>
+	<h2 class="t-h2">What a full week looks like.</h2>
 	<p class="t-body-lg section__lede">
 		This is the hybrid programme at full tilt. Most people start on three days and add the fourth
 		once the first three are never missed.
@@ -149,7 +149,6 @@
 	.facts__item {
 		background: var(--paper);
 		border: 1px solid var(--rule);
-		border-top: 2px solid var(--lime);
 		padding: 18px 18px 22px;
 	}
 

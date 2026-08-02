@@ -322,7 +322,6 @@
 	.sent {
 		background: var(--paper);
 		border: 1px solid var(--rule);
-		border-top: 2px solid var(--lime);
 		padding: 40px 36px 44px;
 		max-width: 42ch;
 	}

@@ -38,7 +38,7 @@
 
 <PageHeader
 	eyebrow="Membership"
-	title="Three ways in. No joining fee."
+	title="Monthly, with no joining fee"
 	standfirst="Everything is monthly and everything can be paused. Pick the level of coaching you want, not a contract length — and change it whenever your year changes."
 	image="/images/gym-floor.jpg"
 	alt="The main training floor with racks and equipment"
@@ -61,7 +61,7 @@
 </Section>
 
 <Section label="Compare">
-	<h2 class="t-h2" style="max-width: 16ch">Line by line.</h2>
+	<h2 class="t-h2">Line by line.</h2>
 
 	<div class="matrix__scroll">
 		<table class="matrix">
@@ -111,12 +111,12 @@
 </Section>
 
 <Section label="Members">
-	<h2 class="t-h2" style="max-width: 15ch">What people say once they stay.</h2>
+	<h2 class="t-h2">What people say once they stay.</h2>
 	<Testimonials />
 </Section>
 
 <Section label="Questions">
-	<h2 class="t-h2" style="max-width: 15ch">Before you sign up.</h2>
+	<h2 class="t-h2">Before you sign up.</h2>
 	<div class="faqs">
 		{#each faqs.slice(4) as faq (faq.question)}
 			<Disclosure {...faq} />
@@ -243,6 +243,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 620px) {

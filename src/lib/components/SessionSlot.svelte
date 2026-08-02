@@ -59,19 +59,6 @@
 		flex-basis: 100%;
 	}
 
-	/* A chip states the rule outright — clearer at a glance than an edge marker,
-	   and it survives a narrow column where a border reads as an artefact. */
-	.chip {
-		font-family: var(--font-mono);
-		font-size: 9.5px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		background: var(--lime);
-		color: #0b0b0d;
-		padding: 3px 7px;
-		white-space: nowrap;
-	}
-
 	.slot--women .slot__name {
 		font-weight: 500;
 	}

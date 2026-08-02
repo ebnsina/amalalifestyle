@@ -114,7 +114,7 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 560px) {
@@ -125,11 +125,7 @@
 
 	.macro {
 		background: var(--paper);
-		padding: 18px 16px 20px 0;
-	}
-
-	.macro:not(:first-child) {
-		padding-inline-start: 16px;
+		padding: 18px 18px 20px;
 	}
 
 	.macro__value {

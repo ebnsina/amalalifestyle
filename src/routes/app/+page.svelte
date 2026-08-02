@@ -84,7 +84,7 @@
 {#if !active}
 	<PageHeader
 		eyebrow="App"
-		title="Five tools. Pick one."
+		title="Pick a tool"
 		standfirst="Everything here runs in your browser from published formulas — no accounts, nothing sent anywhere, nothing stored. Your details carry across tools while the tab is open."
 		image="/images/equipment.jpg"
 		alt="A kettlebell, medicine ball and rope resting on a wooden box"
@@ -177,17 +177,14 @@
 		text-align: left;
 		background: var(--paper);
 		border: 1px solid var(--rule);
-		border-top: 2px solid var(--rule-strong);
 		padding: 26px 24px 24px;
 		cursor: pointer;
 		transition: border-color 200ms ease;
 	}
 
-	/* The lime edge arrives on hover — five permanent lime rules would flatten
-	   the distinction the accent is supposed to carry. */
 	.card:hover,
 	.card:focus-visible {
-		border-top-color: var(--lime);
+		border-color: var(--rule-strong);
 	}
 
 	.card__name {

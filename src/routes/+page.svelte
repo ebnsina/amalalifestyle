@@ -2,7 +2,7 @@
 	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Section from '$lib/components/Section.svelte';
-	import ServiceRow from '$lib/components/ServiceRow.svelte';
+	import DisciplineCard from '$lib/components/DisciplineCard.svelte';
 	import CtaBand from '$lib/components/CtaBand.svelte';
 	import ClassCard from '$lib/components/ClassCard.svelte';
 	import CoachCard from '$lib/components/CoachCard.svelte';
@@ -93,12 +93,12 @@
 </section>
 
 <Section label="What we coach" ruled={false}>
-	<h2 class="t-h2" style="max-width: 19ch">
-		Four things, coached together. <em>None of them work alone.</em>
+	<h2 class="t-h2">
+		Coached together, <em>never in isolation.</em>
 	</h2>
-	<div class="rows">
+	<div class="cards cards--4">
 		{#each disciplines as d (d.name)}
-			<ServiceRow {...d} />
+			<DisciplineCard {...d} />
 		{/each}
 	</div>
 </Section>
@@ -106,7 +106,7 @@
 <Section label="Classes">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">Four classes, on repeat all week.</h2>
+			<h2 class="t-h2">The same classes, on repeat.</h2>
 			<p class="t-body-lg head__lede">
 				Every class is capped and coached. Turn up, and someone tells you what weight to use and
 				watches you use it.
@@ -125,7 +125,7 @@
 <Section label="This week">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 15ch">Sessions from 06:15.</h2>
+			<h2 class="t-h2">Sessions from 06:15.</h2>
 			<p class="t-body-lg head__lede">
 				The start of the week, Sunday to Tuesday. Book from your phone; spaces open fourteen days
 				ahead.
@@ -148,7 +148,7 @@
 	</div>
 
 	<p class="legend t-label">
-		<span class="legend__key" aria-hidden="true">Women only</span>
+		<span class="chip" aria-hidden="true">Women only</span>
 		sessions run on the separate floor
 	</p>
 </Section>
@@ -156,7 +156,7 @@
 <Section label="Women’s floor">
 	<div class="split">
 		<div class="split__text">
-			<h2 class="t-h2" style="max-width: 16ch">A separate floor, and the same programme.</h2>
+			<h2 class="t-h2">A separate floor, and the same programme.</h2>
 			<p class="t-body-lg split__body">
 				Its own room, its own entrance and its own hours, coached only by women. Not a lighter
 				version of the main floor — the same lifts, the same progression, the same expectations.
@@ -195,7 +195,7 @@
 <Section label="Membership">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">Three ways in. No joining fee.</h2>
+			<h2 class="t-h2">Monthly, with no joining fee.</h2>
 			<p class="t-body-lg head__lede">
 				Monthly, cancel with thirty days’ notice, and you can freeze for up to three months a year.
 			</p>
@@ -213,7 +213,7 @@
 <Section label="The gym">
 	<div class="split">
 		<div class="split__text">
-			<h2 class="t-h2" style="max-width: 14ch">A floor, not a showroom.</h2>
+			<h2 class="t-h2">A floor, not a showroom.</h2>
 			<p class="t-body-lg split__body">
 				Platforms, racks, bars and enough space to use them. No queue for the squat rack at six in
 				the evening, because there are never more than four people in a coached session.
@@ -262,7 +262,7 @@
 <Section label="Coaches">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">The people who will actually coach you.</h2>
+			<h2 class="t-h2">The people who will actually coach you.</h2>
 			<p class="t-body-lg head__lede">
 				Four coaches, each with one thing they are genuinely good at. You will work with more than
 				one of them.
@@ -281,7 +281,7 @@
 </Section>
 
 <Section label="How it works">
-	<h2 class="t-h2" style="max-width: 17ch">Four steps, in this order.</h2>
+	<h2 class="t-h2">Always in this order.</h2>
 	<p class="t-body-lg head__lede">
 		Numbered because the sequence matters. Skipping the first one is why most plans quietly stop
 		working around week three.
@@ -305,7 +305,7 @@
 <Section label="Nutrition">
 	<div class="split split--top">
 		<div class="split__text">
-			<h2 class="t-h2" style="max-width: 15ch">
+			<h2 class="t-h2">
 				Eat like an adult. <em>Not like a spreadsheet.</em>
 			</h2>
 			<p class="t-body-lg split__body">
@@ -330,14 +330,14 @@
 </Section>
 
 <Section label="Members">
-	<h2 class="t-h2" style="max-width: 15ch">What people say once they stay.</h2>
+	<h2 class="t-h2">What people say once they stay.</h2>
 	<Testimonials />
 </Section>
 
 <Section label="Journal">
 	<div class="head">
 		<div>
-			<h2 class="t-h2" style="max-width: 15ch">Reading, if you want it.</h2>
+			<h2 class="t-h2">Reading, if you want it.</h2>
 			<p class="t-body-lg head__lede">
 				Training and food, written plainly. No listicles and nothing you need to buy at the end.
 			</p>
@@ -451,7 +451,7 @@
 
 	.figures__item {
 		padding-top: 18px;
-		border-top: 2px solid var(--lime);
+		border-top: 1px solid var(--rule-strong);
 	}
 
 	.figures__value {
@@ -491,10 +491,6 @@
 		margin-top: 44px;
 	}
 
-	.rows {
-		margin-top: 48px;
-	}
-
 	.cards {
 		display: grid;
 		gap: 40px 28px;
@@ -530,7 +526,7 @@
 		gap: 1px;
 		margin-top: 48px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 780px) {
@@ -541,13 +537,7 @@
 
 	.week__col {
 		background: var(--paper);
-		padding: 26px 26px 30px 0;
-	}
-
-	@media (min-width: 780px) {
-		.week__col:not(:first-child) {
-			padding-inline-start: 26px;
-		}
+		padding: 24px 22px 28px;
 	}
 
 	.week__day {
@@ -565,21 +555,14 @@
 		margin-top: 20px;
 	}
 
-	.legend__key {
-		font-family: var(--font-mono);
-		font-size: 9.5px;
-		letter-spacing: 0.1em;
-		background: var(--lime);
-		color: #0b0b0d;
-		padding: 3px 7px;
-	}
+
 
 	.womens {
 		margin-top: 32px;
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	.womens__item {
@@ -587,7 +570,7 @@
 		align-items: flex-start;
 		gap: 12px;
 		background: var(--paper);
-		padding: 18px 18px 20px 0;
+		padding: 18px 20px 20px;
 	}
 
 	.womens__name,
@@ -652,7 +635,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 560px) {
@@ -666,13 +649,7 @@
 		align-items: flex-start;
 		gap: 12px;
 		background: var(--paper);
-		padding: 18px 18px 20px 0;
-	}
-
-	@media (min-width: 560px) {
-		.facilities__item:nth-child(even) {
-			padding-inline-start: 18px;
-		}
+		padding: 18px 20px 20px;
 	}
 
 	.facilities__name,
@@ -710,7 +687,7 @@
 		gap: 1px;
 		margin-top: 48px;
 		background: var(--rule);
-		border-block: 1px solid var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 760px) {
@@ -721,13 +698,7 @@
 
 	.steps__item {
 		background: var(--paper);
-		padding: 34px 40px 38px 0;
-	}
-
-	@media (min-width: 760px) {
-		.steps__item:nth-child(even) {
-			padding-inline-start: 40px;
-		}
+		padding: 32px 30px 36px;
 	}
 
 	.steps__n {
@@ -754,6 +725,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 	}
 
 	@media (min-width: 560px) {

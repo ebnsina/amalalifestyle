@@ -21,6 +21,7 @@
 		display: grid;
 		gap: 1px;
 		background: var(--rule);
+		border: 1px solid var(--rule);
 		margin-top: 48px;
 	}
 
@@ -32,13 +33,7 @@
 
 	.quotes__item {
 		background: var(--paper);
-		padding: 34px 34px 34px 0;
-	}
-
-	@media (min-width: 860px) {
-		.quotes__item:not(:first-child) {
-			padding-inline-start: 34px;
-		}
+		padding: 32px 30px;
 	}
 
 	.quotes__item figure {

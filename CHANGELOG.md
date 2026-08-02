@@ -34,6 +34,13 @@ All notable changes to this project are recorded here. Format follows
 - Number and date formatting centralised on `Intl` in `src/lib/format.ts`.
 - Cards changed from grey fills to white with hairline borders; neutrals cooled.
 - Women-only sessions marked with a chip rather than a left border.
+- Disciplines on the home page moved from a row list to a card grid.
+- Section headings no longer count items ("Four things..." to "Coached
+  together, never in isolation") and now sit on one line.
+- Coloured stub borders on card tops and edges replaced by a shared `.chip`,
+  so emphasis reads as a label rather than a fragment of a frame.
+- Hairline grids enclosed on all four sides with symmetric cell padding —
+  open left and right edges made the cells look unfinished.
 
 ### Fixed
 

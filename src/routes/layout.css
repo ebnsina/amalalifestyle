@@ -254,9 +254,25 @@ img {
 	border-color: var(--rule-strong);
 }
 
-/* Declared after the shorthand so it is not overwritten by it. */
-.card--key {
-	border-top: 2px solid var(--lime);
+/* Emphasis rides on a filled chip rather than a coloured stub border, so a
+   grid of cards keeps one clean rectangle each. */
+.chip {
+	display: inline-block;
+	font-family: var(--font-mono);
+	font-size: 9.5px;
+	line-height: 1;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 5px 8px;
+	background: var(--lime);
+	color: #0b0b0d;
+	white-space: nowrap;
+}
+
+.chip--quiet {
+	background: transparent;
+	border: 1px solid var(--rule-strong);
+	color: var(--muted);
 }
 
 .band {

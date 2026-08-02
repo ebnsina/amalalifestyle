@@ -16,7 +16,7 @@
 
 <PageHeader
 	eyebrow="Coaches"
-	title="Five coaches. One thing each."
+	title="One thing each, done properly"
 	standfirst="Nobody here claims to be good at everything. Each coach owns one part of the programme, and you will work with more than one of them over a twelve-week block."
 	image="/images/coaching-spot.jpg"
 	alt="A coach spotting a lifter through a set"
@@ -38,7 +38,7 @@
 <Section label="How we coach">
 	<div class="split">
 		<div>
-			<h2 class="t-h2" style="max-width: 16ch">What a coach is actually for.</h2>
+			<h2 class="t-h2">What a coach is actually for.</h2>
 			<p class="t-body-lg split__lede">
 				Not motivation and not counting your reps out loud. A coach is there to pick the weight,
 				watch the bar path, and stop the session one set before you would have stopped it yourself.

@@ -101,7 +101,6 @@
 	.meal {
 		background: var(--paper);
 		border: 1px solid var(--rule);
-		border-top: 2px solid var(--lime);
 		padding: 22px 20px 26px;
 	}
 
