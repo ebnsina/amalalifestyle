@@ -23,11 +23,12 @@
 	} = $props();
 
 	const formatted = $derived(formatDate(date, 'short'));
+	const vivid = $derived(category === 'Nutrition');
 </script>
 
 <article class="post">
 	<a class="post__link" href="/journal/{slug}">
-		<div class="media media--wide media--muted">
+		<div class="media media--wide {vivid ? 'media--vivid' : 'media--muted'}">
 			<img src={image} {alt} width="900" height="506" loading="lazy" decoding="async" />
 		</div>
 

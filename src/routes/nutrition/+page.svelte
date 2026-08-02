@@ -28,6 +28,7 @@
 	standfirst="Nutrition coaching runs alongside your training rather than replacing it. We change one habit at a time and leave the rest of your week intact, because a plan you have to escape from at the weekend was never really a plan."
 	image="/images/nutrition-bowl.jpg"
 	alt="A bowl of vegetables, chickpeas and avocado"
+	vivid
 >
 	{#snippet actions()}
 		<Button href="/contact" variant="solid" arrow>Book a free session</Button>
@@ -62,7 +63,7 @@
 				for one person at one bodyweight, not a target for you.
 			</p>
 
-			<div class="media media--wide media--muted day__photo">
+			<div class="media media--wide media--vivid day__photo">
 				<img
 					src="/images/nutrition-prep.jpg"
 					alt="Vegetables, eggs and a knife on a wooden chopping board"
@@ -137,7 +138,7 @@
 			</p>
 		</blockquote>
 
-		<div class="media media--card media--muted">
+		<div class="media media--card media--vivid">
 			<img
 				src="/images/nutrition-spread.jpg"
 				alt="A spread of fresh vegetables, fruit and pulses in trays"

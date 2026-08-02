@@ -41,6 +41,10 @@ All notable changes to this project are recorded here. Format follows
   so emphasis reads as a label rather than a fragment of a frame.
 - Hairline grids enclosed on all four sides with symmetric cell padding —
   open left and right edges made the cells look unfinished.
+- Food photography runs unfiltered via `.media--vivid`; the blanket
+  desaturation was draining the one subject where colour is the point.
+- Home page figures strip moved onto the dark band with lime numerals, so the
+  hero photograph resolves into a solid block before the white starts.
 
 ### Fixed
 

@@ -7,6 +7,7 @@
 		standfirst,
 		image,
 		alt = '',
+		vivid = false,
 		actions
 	}: {
 		eyebrow: string;
@@ -14,6 +15,7 @@
 		standfirst?: string;
 		image?: string;
 		alt?: string;
+		vivid?: boolean;
 		actions?: Snippet;
 	} = $props();
 </script>
@@ -33,7 +35,7 @@
 			</div>
 
 			{#if image}
-				<div class="media media--card media--muted">
+				<div class="media media--card {vivid ? 'media--vivid' : 'media--muted'}">
 					<!-- Above the fold on every inner page, so it is eager and holds
 						 its own ratio rather than reflowing the header as it decodes. -->
 					<img src={image} {alt} width="900" height="675" fetchpriority="high" decoding="async" />

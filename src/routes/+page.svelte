@@ -79,7 +79,7 @@
 	</div>
 </section>
 
-<section class="figures">
+<section class="figures band">
 	<div class="container">
 		<dl class="figures__list">
 			{#each figures as [value, label] (label)}
@@ -432,9 +432,10 @@
 
 	/* --- Figures --------------------------------------------------------- */
 
+	/* Solid dark under the hero photograph: the stats read as one block with it
+	   and the page gets a breath before the white starts. */
 	.figures {
-		padding-block: clamp(44px, 5vw, 68px);
-		border-bottom: 1px solid var(--rule);
+		padding-block: clamp(48px, 6vw, 76px);
 	}
 
 	.figures__list {
@@ -451,13 +452,14 @@
 
 	.figures__item {
 		padding-top: 18px;
-		border-top: 1px solid var(--rule-strong);
+		border-top: 1px solid var(--band-rule);
 	}
 
 	.figures__value {
 		font-size: clamp(38px, 4.6vw, 56px);
 		line-height: 1;
 		letter-spacing: -0.045em;
+		color: var(--lime);
 	}
 
 	.figures__label {
