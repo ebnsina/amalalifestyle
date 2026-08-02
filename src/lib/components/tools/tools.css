@@ -1,0 +1,201 @@
+/* Shared chrome for the /app tools, so a stat block or input row looks the
+   same in every one of them. */
+
+.tool-layout {
+	display: grid;
+	gap: 40px;
+}
+
+@media (min-width: 1040px) {
+	.tool-layout {
+		grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+		gap: 48px;
+		align-items: start;
+	}
+}
+
+/* Inputs are bordered, results are not, so numbers read as the output. */
+.tool-panel {
+	background: var(--paper);
+	border: 1px solid var(--rule);
+	padding: 30px 26px 32px;
+	display: grid;
+	gap: 22px;
+	align-content: start;
+}
+
+@media (min-width: 1040px) {
+	.tool-panel--sticky {
+		position: sticky;
+		top: 92px;
+	}
+}
+
+.tool-panel .field {
+	background: var(--paper);
+}
+
+.field-row {
+	display: grid;
+	gap: 9px;
+}
+
+.pair {
+	display: grid;
+	gap: 18px;
+}
+
+@media (min-width: 460px) {
+	.pair {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.hint {
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--faint);
+}
+
+.choice {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.choice__btn {
+	flex: 1 1 auto;
+	height: 44px;
+	padding-inline: 14px;
+	border: 1px solid var(--rule-strong);
+	background: var(--paper);
+	color: var(--muted);
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	transition:
+		background-color 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease;
+}
+
+.choice__btn:hover {
+	border-color: var(--ink);
+	color: var(--ink);
+}
+
+/* Selection is a lime fill — the same signal the primary button uses. */
+.choice__btn.is-on {
+	background: var(--lime);
+	border-color: var(--lime);
+	color: #0b0b0d;
+}
+
+.results {
+	display: grid;
+	gap: 28px;
+	align-content: start;
+}
+
+.stat-grid {
+	display: grid;
+	gap: 12px;
+}
+
+@media (min-width: 620px) {
+	.stat-grid--2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.stat-grid--3 {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.stat {
+	background: var(--paper);
+	border: 1px solid var(--rule);
+	border-top: 2px solid var(--rule-strong);
+	padding: 20px 20px 24px;
+}
+
+/* The figure people came for gets the lime edge. Exactly one per group. */
+.stat--key {
+	border-top-color: var(--lime);
+}
+
+.stat--wide {
+	grid-column: 1 / -1;
+}
+
+.stat__value {
+	font-family: var(--font-display);
+	font-weight: 800;
+	font-size: clamp(32px, 3.8vw, 44px);
+	line-height: 1;
+	letter-spacing: -0.035em;
+	font-stretch: 84%;
+	font-variant-numeric: tabular-nums;
+	margin-top: 12px;
+}
+
+.stat__unit {
+	font-size: 0.45em;
+	font-weight: 500;
+	margin-left: 4px;
+	color: var(--muted);
+}
+
+.stat .hint {
+	margin-top: 10px;
+}
+
+/* Status without a hue: wording carries it, lime marks only the healthy one. */
+.tag {
+	display: inline-block;
+	margin-top: 12px;
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 7px 11px;
+	border: 1px solid var(--rule-strong);
+	color: var(--muted);
+}
+
+.tag--ok {
+	background: var(--lime);
+	border-color: var(--lime);
+	color: #0b0b0d;
+}
+
+.tag--flag {
+	border-color: var(--ink);
+	color: var(--ink);
+	font-weight: 500;
+}
+
+.advisory {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 22px 20px;
+	border: 1px solid var(--rule-strong);
+}
+
+.advisory svg {
+	flex: none;
+	margin-top: 2px;
+}
+
+/* A blocking advisory replaces the numbers, so it is marked more firmly. */
+.advisory--block {
+	border: 0;
+	border-left: 3px solid var(--ink);
+	background: var(--surface);
+}
+
+.notice {
+	color: var(--muted);
+}
