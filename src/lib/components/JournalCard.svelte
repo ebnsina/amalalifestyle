@@ -80,7 +80,7 @@
 		gap: 8px;
 		margin-top: 20px;
 		padding-bottom: 3px;
-		border-bottom: 2px solid var(--lime);
+		border-bottom: 2px solid var(--sun);
 	}
 
 	.post__link:hover .post__more {

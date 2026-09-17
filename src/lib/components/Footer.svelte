@@ -128,9 +128,9 @@
 	}
 
 	.socials__link:hover {
-		background: var(--lime);
-		border-color: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		border-color: var(--sun);
+		color: var(--ink);
 	}
 
 	.site-footer__col {

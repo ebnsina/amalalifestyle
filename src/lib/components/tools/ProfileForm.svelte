@@ -156,7 +156,7 @@
 	.check input {
 		width: 20px;
 		height: 20px;
-		accent-color: var(--lime);
+		accent-color: var(--sun);
 	}
 
 	.tape {

@@ -44,7 +44,7 @@
 	<Section id={p.id}>
 		<div class="programme" class:programme--flip={i % 2 === 1}>
 			<div class="programme__text">
-				<span class="icon-badge"><Icon name={p.icon} size={24} /></span>
+				<span class="icon-badge"><Icon name={p.icon} size={30} /></span>
 				<h2 class="t-h2 programme__title">{p.name}</h2>
 				<p class="t-body-lg programme__summary">{p.summary}</p>
 				<p class="t-body programme__detail">{p.detail}</p>
@@ -168,7 +168,6 @@
 		font-size: 20px;
 		line-height: 1.15;
 		letter-spacing: -0.022em;
-		font-stretch: 92%;
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -204,10 +203,9 @@
 	}
 
 	.week__day {
-		font-size: 11px;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--faint);
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--muted);
 	}
 
 	.week__note {

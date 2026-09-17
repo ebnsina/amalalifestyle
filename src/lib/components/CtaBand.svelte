@@ -57,7 +57,7 @@
 
 	.cta--photo {
 		background: var(--band);
-		color: #f5f5f3;
+		color: var(--band-ink);
 	}
 
 	.cta__media {
@@ -79,7 +79,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		filter: saturate(0.55) brightness(0.42);
+		filter: saturate(0.9) brightness(0.4);
 	}
 
 	.cta__inner {

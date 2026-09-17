@@ -53,8 +53,9 @@
 		display: block;
 		aspect-ratio: 3 / 4;
 		overflow: hidden;
-		background: #0b0b0d;
-		color: #f5f5f3;
+		border-radius: var(--r-lg);
+		background: var(--ink);
+		color: var(--band-ink);
 		isolation: isolate;
 	}
 
@@ -65,7 +66,7 @@
 		height: 100%;
 		object-fit: cover;
 		z-index: -2;
-		filter: saturate(0.68) contrast(1.04) brightness(0.82);
+		filter: saturate(1.02) contrast(1.02) brightness(0.9);
 		transition: transform 500ms ease;
 	}
 
@@ -77,16 +78,16 @@
 	}
 
 	.discipline__wash {
-		background: rgb(6 7 8 / 0.34);
+		background: rgb(26 22 17 / 0.3);
 	}
 
 	.discipline__scrim {
 		background: linear-gradient(
 			to top,
-			rgb(6 7 8 / 0.9) 0%,
-			rgb(6 7 8 / 0.66) 34%,
-			rgb(6 7 8 / 0.24) 66%,
-			rgb(6 7 8 / 0.1) 100%
+			rgb(26 22 17 / 0.92) 0%,
+			rgb(26 22 17 / 0.68) 34%,
+			rgb(26 22 17 / 0.26) 66%,
+			rgb(26 22 17 / 0.08) 100%
 		);
 	}
 
@@ -102,7 +103,7 @@
 	.discipline__meta {
 		align-self: flex-start;
 		background: rgb(245 245 243 / 0.16);
-		color: #f5f5f3;
+		color: var(--band-ink);
 		-webkit-backdrop-filter: blur(6px);
 		backdrop-filter: blur(6px);
 	}
@@ -110,7 +111,7 @@
 	.discipline__name {
 		/* A hairline of shadow, not a glow: enough to hold the edge of the
 		   letterform if the photograph behind it runs light. */
-		text-shadow: 0 1px 12px rgb(6 7 8 / 0.6);
+		text-shadow: 0 1px 12px rgb(26 22 17 / 0.6);
 	}
 
 	/*
@@ -121,9 +122,9 @@
 	*/
 	.discipline__summary {
 		margin-top: 10px;
-		min-height: 4.8em;
+		min-height: 5.2em;
 		color: rgb(245 245 243 / 0.86);
-		text-shadow: 0 1px 10px rgb(6 7 8 / 0.6);
+		text-shadow: 0 1px 10px rgb(26 22 17 / 0.6);
 	}
 
 	.discipline__more {
@@ -140,12 +141,12 @@
 	}
 
 	.discipline:hover .discipline__more {
-		color: #f5f5f3;
+		color: var(--band-ink);
 		transform: translateX(4px);
 	}
 
 	.discipline:focus-visible {
-		outline: 2px solid var(--lime);
+		outline: 2px solid var(--sun);
 		outline-offset: 3px;
 	}
 

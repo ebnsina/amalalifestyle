@@ -65,7 +65,7 @@
 	<ul class="kit">
 		{#each facilities as f (f.name)}
 			<li class="kit__item tile-hover">
-				<span class="icon-badge"><Icon name={f.icon} size={24} /></span>
+				<span class="icon-badge"><Icon name={f.icon} size={30} /></span>
 				<h3 class="t-h3 kit__name">{f.name}</h3>
 				<p class="t-body kit__note">{f.note}</p>
 			</li>

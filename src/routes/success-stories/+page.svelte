@@ -242,6 +242,6 @@
 
 	.limits li {
 		padding-left: 20px;
-		border-left: 2px solid var(--lime);
+		border-left: 2px solid var(--sun);
 	}
 </style>

@@ -68,7 +68,7 @@
 		<div class="contact__form">
 			{#if form?.sent}
 				<div class="sent">
-					<span class="icon-badge icon-badge--solid"><Icon name="check" size={20} /></span>
+					<span class="icon-badge icon-badge--solid"><Icon name="check" size={30} /></span>
 					<h2 class="t-h3 sent__title">Thanks — that reached us.</h2>
 					<p class="t-body sent__body">
 						We will reply within one working day. If it is urgent, call the gym on
@@ -271,9 +271,9 @@
 
 	/* Selected is a lime fill, the same fill the primary button uses. */
 	.goal input:checked + .goal__text {
-		background: var(--lime);
-		border-color: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		border-color: var(--sun);
+		color: var(--ink);
 	}
 
 	.goal input:focus-visible + .goal__text {

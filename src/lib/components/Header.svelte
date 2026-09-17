@@ -287,10 +287,9 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 5px;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+		font-size: 15px;
+		font-weight: 600;
+		letter-spacing: -0.008em;
 		color: var(--muted);
 		padding-block: 7px;
 		border-bottom: 2px solid transparent;
@@ -310,7 +309,7 @@
 	   "where am I" on the pages that have no label of their own. */
 	.site-nav__link.is-current {
 		color: var(--ink);
-		border-bottom-color: var(--lime);
+		border-bottom-color: var(--sun);
 	}
 
 	.site-nav__caret {
@@ -341,6 +340,9 @@
 		background: var(--paper);
 		border: 1px solid var(--rule);
 		border-top: none;
+		/* Square where it meets the bar, rounded where it ends — it is hanging
+		   off the header, not floating beside it. */
+		border-radius: 0 0 var(--r-md) var(--r-md);
 	}
 
 	.flyout__link {
@@ -354,7 +356,7 @@
 	}
 
 	.flyout__link:hover {
-		background: var(--lime-wash);
+		background: var(--sun-wash);
 	}
 
 	.flyout__link :global(svg) {
@@ -383,7 +385,7 @@
 	}
 
 	.flyout__link.is-current .flyout__label {
-		border-bottom-color: var(--lime);
+		border-bottom-color: var(--sun);
 	}
 
 	.flyout__blurb {
@@ -402,16 +404,16 @@
 	.site-header:not(.is-solid) .site-nav__link:hover,
 	.site-header:not(.is-solid) .site-nav__link.is-current,
 	.site-header:not(.is-solid) .site-header__tel:hover {
-		color: #f5f5f3;
+		color: var(--band-ink);
 	}
 
 	.site-header:not(.is-solid) .site-header__menu {
 		border-color: rgb(245 245 243 / 0.38);
-		color: #f5f5f3;
+		color: var(--band-ink);
 	}
 
 	.site-header:not(.is-solid) .site-header__menu:hover {
-		border-color: #f5f5f3;
+		border-color: var(--band-ink);
 	}
 
 	@media (min-width: 1120px) {
@@ -462,7 +464,7 @@
 
 	.menu__link:hover,
 	.menu__link:active {
-		background: var(--lime-wash);
+		background: var(--sun-wash);
 	}
 
 	.menu__text {
@@ -471,7 +473,7 @@
 	}
 
 	.menu__link.is-current .menu__label {
-		border-bottom: 2px solid var(--lime);
+		border-bottom: 2px solid var(--sun);
 	}
 
 	/*
@@ -507,7 +509,7 @@
 
 	.submenu__link.is-current {
 		color: var(--ink);
-		border-left-color: var(--lime);
+		border-left-color: var(--sun);
 	}
 
 	.menu__label {

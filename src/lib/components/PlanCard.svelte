@@ -40,7 +40,7 @@
 	<p class="t-body plan__summary">{summary}</p>
 
 	<p class="plan__price">
-		<span class="plan__currency">{site.currency}</span><span class="t-num plan__amount">{price}</span>
+		<span class="plan__currency">{site.currency}</span><span class="plan__amount">{price}</span>
 		<span class="t-label plan__period">{period}</span>
 	</p>
 
@@ -65,13 +65,14 @@
 	.plan {
 		display: flex;
 		flex-direction: column;
-		background: var(--lime-wash);
+		background: var(--sun-wash);
+		border-radius: var(--r-lg);
 		padding: 34px 30px 36px;
 	}
 
 	.plan--featured {
-		background: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		color: var(--ink);
 	}
 
 	/* Each card claims the six rows its parent declares, so every band of
@@ -93,9 +94,10 @@
 	.plan__flag {
 		align-self: flex-start;
 		justify-self: start;
-		background: #0b0b0d;
-		color: var(--lime);
-		padding: 6px 9px;
+		background: var(--ink);
+		color: var(--sun);
+		border-radius: var(--r-pill);
+		padding: 7px 12px;
 		margin-bottom: 18px;
 	}
 
@@ -116,12 +118,18 @@
 
 	.plan__currency {
 		font-family: var(--font-display);
-		font-size: 24px;
-		font-weight: 700;
+		font-size: 26px;
+		font-weight: 800;
 	}
 
+	/* The display face, not the mono one. Tabular figures matter in a column of
+	   numbers that has to line up; three prices in three separate cards are read
+	   one at a time, and mono's wide, evenly-spaced digits made "6,000" look
+	   like a serial number rather than a price. */
 	.plan__amount {
-		font-size: 48px;
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: 52px;
 		line-height: 1;
 		letter-spacing: -0.04em;
 	}
@@ -172,8 +180,8 @@
 	}
 
 	.plan__cta :global(.btn:hover) {
-		background: #0b0b0d;
-		color: #f5f5f3;
+		background: var(--ink);
+		color: var(--band-ink);
 	}
 
 	/* On full lime the neutral greys lose their contrast, so the secondary text
@@ -193,8 +201,8 @@
 	/* A pale button on full lime would read as the quieter option, which is the
 	   opposite of what this card is for — so the featured one inverts. */
 	.plan--featured .plan__cta :global(.btn) {
-		background: #0b0b0d;
-		color: #f5f5f3;
+		background: var(--ink);
+		color: var(--band-ink);
 	}
 
 	.plan--featured .plan__cta :global(.btn:hover) {

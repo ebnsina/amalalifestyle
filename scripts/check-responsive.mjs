@@ -26,6 +26,7 @@ const routes = [
   "/app?tool=meals",
   "/app?tool=max",
   "/app?tool=plates",
+  "/v2",
   "/does-not-exist",
 ];
 const widths = [360, 390, 430, 768, 1024, 1280];

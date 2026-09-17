@@ -16,12 +16,32 @@
 </details>
 
 <style>
+	/*
+		A bordered block per question rather than rows separated by hairlines.
+		A hairline list reads as a table of contents; separate blocks read as
+		separate things you can open, which is what they are.
+	*/
 	.disclosure {
-		border-top: 1px solid var(--rule);
+		border: 1px solid var(--rule);
+		border-radius: var(--r-md);
+		background: var(--paper);
+		padding-inline: 24px;
+		transition:
+			border-color 200ms ease,
+			background-color 200ms ease;
 	}
 
-	.disclosure:last-of-type {
-		border-bottom: 1px solid var(--rule);
+	.disclosure + :global(.disclosure) {
+		margin-top: 12px;
+	}
+
+	.disclosure:hover,
+	.disclosure[open] {
+		border-color: var(--rule-strong);
+	}
+
+	.disclosure[open] {
+		background: var(--sun-wash);
 	}
 
 	.disclosure__summary {
@@ -29,7 +49,7 @@
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 32px;
-		padding-block: 26px;
+		padding-block: 22px;
 		cursor: pointer;
 		list-style: none;
 	}
@@ -40,7 +60,7 @@
 
 	.disclosure__answer {
 		color: var(--muted);
-		padding-bottom: 28px;
+		padding-bottom: 24px;
 		max-width: 58ch;
 	}
 </style>

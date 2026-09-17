@@ -95,7 +95,7 @@
 			{#each tools as t (t.id)}
 				<li>
 					<button type="button" class="card" onclick={() => open(t.id)}>
-						<span class="icon-badge"><Icon name={t.icon} size={22} /></span>
+						<span class="icon-badge"><Icon name={t.icon} size={30} /></span>
 						<span class="t-h3 card__name">{t.name}</span>
 						<span class="t-body card__blurb">{t.blurb}</span>
 						<span class="card__foot">
@@ -282,9 +282,9 @@
 	}
 
 	.switch__btn.is-on {
-		background: var(--lime);
-		border-color: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		border-color: var(--sun);
+		color: var(--ink);
 	}
 
 	.hint {

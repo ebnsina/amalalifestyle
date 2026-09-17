@@ -24,20 +24,26 @@ export const socials: { label: string; href: string; icon: IconName }[] = [
 ];
 
 /*
-	Seven doors onto thirteen pages. No "Home": the wordmark is the home link on
-	every site ever built, and spending a menu slot repeating it is a slot
-	wasted.
+	Three doors onto thirteen pages.
 
-	The three doors that lead somewhere deeper carry `under` — the pages that
-	genuinely belong to them. The bar was six bare labels and the seven pages
-	underneath them (timetable, nutrition, the women's floor, the comparison
-	table, the calculators, the method, the stories) existed only in the footer,
-	which is the last place a visitor looks and the first place they give up.
-	Revealing them under the label they belong to is what stops the menu being
-	a memory test — and it costs no extra top-level slots.
+	The bar had seven top-level items and it was the busiest thing on a page
+	whose whole brief is to feel like fresh air. Seven labels is not a menu a
+	first-time visitor reads — it is a menu they scan and give up on, and five of
+	the seven were answering questions nobody has before they have decided
+	whether to come in at all.
+
+	So the bar now asks the three questions somebody actually has, in order:
+	what would I do here, what does it cost, and how do I get in touch. The two
+	that lead somewhere deeper carry `under`, and every page that used to have
+	its own slot is inside one of those panels.
+
+	`/about`, `/method`, `/journal`, `/success-stories`, `/nutrition` and `/app`
+	are reachable from the footer — which is a directory, not a second nav — and
+	from in-page links. That is a deliberate cost: they are pages you read once
+	you are interested, not pages that help you decide to be.
 
 	Each item carries a line saying what is behind it. A label alone asks the
-	visitor to already know what "Programmes" means here.
+	visitor to already know what "Training" means here.
 */
 export type NavItem = {
 	href: string;
@@ -48,47 +54,25 @@ export type NavItem = {
 
 export const nav: NavItem[] = [
 	{
-		href: '/about',
-		label: 'About us',
-		blurb: 'Who we are and how we coach',
-		under: [
-			{ href: '/about', label: 'Our story', blurb: 'Why the gym exists and who runs it' },
-			{
-				href: '/method',
-				label: 'How coaching works',
-				blurb: 'Assess, plan, coach, review — in that order'
-			},
-			{
-				href: '/success-stories',
-				label: 'Success stories',
-				blurb: 'What members say after a year of it'
-			}
-		]
-	},
-	{
 		href: '/training',
-		label: 'Programmes',
-		blurb: 'What you actually train',
+		label: 'Training',
+		blurb: 'What you would actually do here',
 		under: [
 			{
 				href: '/training',
-				label: 'All four programmes',
-				blurb: 'Strength, conditioning, nutrition, recovery'
+				label: 'What you train',
+				blurb: 'Lifting, fitness, food and rest'
 			},
-			{ href: '/nutrition', label: 'Nutrition', blurb: 'Food that fits the life you have' },
-			{ href: '/timetable', label: 'Weekly timetable', blurb: 'Every class, capped and coached' },
+			{ href: '/timetable', label: 'Weekly timetable', blurb: 'Every class, and when it runs' },
+			{ href: '/coaches', label: 'The coaches', blurb: 'The people who would coach you' },
+			{ href: '/facilities', label: 'The gym itself', blurb: 'The floor, the rooms, photographs' },
 			{
 				href: '/womens',
 				label: 'Women’s floor',
-				blurb: 'Own entrance, own hours, women coaches'
-			},
-			{ href: '/app', label: 'Free calculators', blurb: 'Calories, macros and one-rep max' }
+				blurb: 'Own door, own hours, women coaches'
+			}
 		]
 	},
-	/*
-		Pricing is the question every visitor has and it was the one thing the bar
-		did not answer. It costs a slot; leaving people to guess costs the booking.
-	*/
 	{
 		href: '/#pricing',
 		label: 'Pricing',
@@ -103,13 +87,10 @@ export const nav: NavItem[] = [
 			{
 				href: '/#faq',
 				label: 'Common questions',
-				blurb: 'Cancelling, freezing, injuries, shift work'
+				blurb: 'Cancelling, pausing, injuries, shift work'
 			}
 		]
 	},
-	{ href: '/facilities', label: 'Facilities', blurb: 'The floor, the rooms, photographs' },
-	{ href: '/coaches', label: 'Team', blurb: 'The people who coach you' },
-	{ href: '/journal', label: 'Blog', blurb: 'Training and food, written plainly' },
 	{ href: '/contact', label: 'Contact', blurb: 'Book your free first session' }
 ];
 
@@ -282,6 +263,69 @@ export const nextUp: Record<string, NextStep[]> = {
 	'/journal': [step.nutrition, step.method, step.training]
 };
 
+/*
+	The home page is a story in four pictures, and then the price.
+
+	It used to be six sections of cards and lists. Someone who does not spend
+	their day on websites does not read a grid of four tiles as four choices —
+	they read it as a wall of text and leave. So the page now walks through what
+	actually happens to you, one big photograph and one short sentence at a
+	time, in the order it happens in.
+
+	Everything else the site can say has its own page. This one says four things.
+*/
+
+/** Four beats. Each one is a photograph, a heading and two sentences. */
+export const homeStory: {
+	n: string;
+	title: string;
+	body: string;
+	image: string;
+	alt: string;
+}[] = [
+	{
+		n: '1',
+		title: 'You come in and try it',
+		body: 'The first session costs nothing and you sign nothing. We watch how you move, and we tell you straight whether this is the right place for you.',
+		image: '/images/gym-floor.jpg',
+		alt: 'The main gym floor with racks and platforms'
+	},
+	{
+		n: '2',
+		title: 'A coach shows you what to do',
+		body: 'You never stand around wondering. Four people in a class, so somebody is watching you lift every single time.',
+		image: '/images/coaching-spot.jpg',
+		alt: 'A coach spotting a lifter through a set'
+	},
+	{
+		n: '3',
+		title: 'You get a plan on one page',
+		body: 'What to lift. What to eat. Short enough to read on the way home, and yours, not somebody else’s.',
+		image: '/images/method-rack.jpg',
+		alt: 'A loaded barbell resting in a squat rack'
+	},
+	{
+		n: '4',
+		title: 'You get stronger',
+		body: 'Every month we sit down and look at how it went. Then we change one thing. Never five things at once.',
+		image: '/images/prog-strength.jpg',
+		alt: 'Weight plates being loaded onto a barbell'
+	}
+];
+
+/*
+	Five questions, not eleven. The full set still lives on the pages that own
+	them; these are the five that stop a first-timer booking, and a list long
+	enough to scroll past is a list nobody opens.
+*/
+export const homeFaqQuestions = [
+	'I have never lifted weights. Is that a problem?',
+	'Do I have to sign a contract?',
+	'How fast will I see a change?',
+	'What if I am injured?',
+	'Is there somewhere to pray?'
+];
+
 /** Not numbered: these run alongside each other, not in sequence. */
 export const disciplines: {
 	href: string;
@@ -296,32 +340,32 @@ export const disciplines: {
 		image: '/images/prog-strength.jpg',
 		alt: 'A lifter setting up under a loaded barbell in a squat rack',
 		name: 'Strength',
-		summary: 'Squat, hinge, push, pull, carry. Load added slowly enough that it sticks.',
-		meta: '3 × week'
+		summary: 'Lift weights. Push, pull, squat, carry. A little heavier each week.',
+		meta: '3 days a week'
 	},
 	{
 		href: '/training#conditioning',
 		image: '/images/prog-conditioning.jpg',
 		alt: 'Someone mid-effort on a rower during a conditioning piece',
 		name: 'Conditioning',
-		summary: 'Fitness you notice on the stairs, not just on the rower.',
-		meta: '2 × week'
+		summary: 'Get fit enough that stairs stop being hard work.',
+		meta: '2 days a week'
 	},
 	{
 		href: '/nutrition',
 		image: '/images/nutrition-bowl.jpg',
 		alt: 'A bowl of rice, vegetables and grilled protein on a kitchen counter',
-		name: 'Nutrition',
-		summary: 'Food you would eat anyway, in amounts that match your training.',
-		meta: 'Ongoing'
+		name: 'Food',
+		summary: 'Eat the food you already eat. We help with how much.',
+		meta: 'Every day'
 	},
 	{
 		href: '/training#recovery',
 		image: '/images/prog-recovery.jpg',
 		alt: 'A mobility drill being held on a mat at the end of a session',
-		name: 'Recovery',
-		summary: 'Sleep, mobility, and knowing what to do on the days you rest.',
-		meta: 'Daily'
+		name: 'Rest',
+		summary: 'Sleep, stretching, and what to do on the days off.',
+		meta: 'Every day'
 	}
 ];
 
@@ -572,53 +616,53 @@ export const womensFloor = {
 export const plans = [
 	{
 		id: 'floor',
-		name: 'Open Floor',
+		name: 'Gym only',
 		price: '2,500',
-		period: 'per month',
-		summary: 'The gym, the equipment and the opening hours. You write your own sessions.',
+		period: 'a month',
+		summary: 'Use the gym whenever we are open. You decide what to do.',
 		includes: [
-			'Full access during opening hours',
-			'Platforms, racks, bars and machines',
-			'Changing rooms, showers and lockers',
-			'One induction session'
+			'Come in any time we are open',
+			'All the weights and machines',
+			'Showers, lockers and changing rooms',
+			'One session to show you around'
 		],
-		excludes: ['Coached classes', 'A written programme', 'Nutrition coaching'],
+		excludes: ['Classes with a coach', 'A plan made for you', 'Help with food'],
 		featured: false,
-		cta: 'Start on Open Floor'
+		cta: 'Pick this one'
 	},
 	{
 		id: 'coached',
-		name: 'Coached',
+		name: 'Gym + coach',
 		price: '6,000',
-		period: 'per month',
-		summary: 'Everything on Open Floor, plus the classes and a programme written for you.',
+		period: 'a month',
+		summary: 'Everything above, plus classes and a plan made for you.',
 		includes: [
-			'Everything in Open Floor',
-			'Unlimited coached classes',
-			'A written twelve-week programme',
-			'A review every four weeks',
-			'Form checked every session'
+			'Everything in Gym only',
+			'As many classes as you want',
+			'A 12-week plan made for you',
+			'We check how it is going every month',
+			'A coach watches you lift, every time'
 		],
-		excludes: ['One-to-one nutrition coaching'],
+		excludes: ['One-to-one help with food'],
 		featured: true,
-		cta: 'Start on Coached'
+		cta: 'Pick this one'
 	},
 	{
 		id: 'full',
-		name: 'Full Coaching',
+		name: 'Gym + coach + food',
 		price: '11,000',
-		period: 'per month',
-		summary: 'Training and food handled together, with a coach who knows both plans.',
+		period: 'a month',
+		summary: 'Training and food together, handled by the same coach.',
 		includes: [
-			'Everything in Coached',
-			'One-to-one nutrition coaching',
-			'Monthly food review',
+			'Everything in Gym + coach',
+			'One-to-one help with food',
+			'We look at what you eat every month',
 			'Two private sessions a month',
-			'Message your coach between sessions'
+			'Message your coach any day'
 		],
 		excludes: [],
 		featured: false,
-		cta: 'Start on Full Coaching'
+		cta: 'Pick this one'
 	}
 ];
 
@@ -938,58 +982,63 @@ export const sampleDay = [
 
 export const faqs = [
 	{
-		question: 'I have never lifted before. Is that a problem?',
+		question: 'I have never lifted weights. Is that a problem?',
 		answer:
-			'No — most people start exactly there. The first block is spent learning five movements well, with weight light enough that you can think about what you are doing.'
+			'No. Most people here started there. Your first weeks are spent learning five moves, with weights light enough that you can think about what you are doing.'
 	},
 	{
-		question: 'Do I have to track everything I eat?',
+		question: 'Do I have to count what I eat?',
 		answer:
-			'For the first two weeks, yes, so we both know where you are starting from. After that most people track protein only, and plenty stop tracking altogether.'
+			'For the first two weeks, yes, so we both know where you are starting. After that most people only count protein, and plenty stop counting altogether.'
 	},
 	{
-		question: 'How quickly will something change?',
+		question: 'How fast will I see a change?',
 		answer:
-			'Strength usually moves within a month, because a lot of early progress is skill rather than muscle. Body composition takes longer and depends far more on food and sleep than on training.'
+			'You will get stronger within a month. Most of that early gain is skill, not muscle. How you look takes longer, and depends more on food and sleep than on training.'
 	},
 	{
-		question: 'What if I have an injury?',
+		question: 'What if I am injured?',
 		answer:
-			'Tell us at the assessment. We train around it and, where it is appropriate, alongside your physiotherapist. We do not diagnose or treat injuries ourselves.'
+			'Tell us on day one. We train around it, and we work with your physio if you have one. We do not treat injuries ourselves.'
 	},
 	{
-		question: 'Can I train around shift work?',
+		question: 'I work shifts. Can I still train?',
 		answer:
-			'Yes. Classes run from 06:15 to 19:15 and the plan is written for the number of days you actually have rather than the number you wish you had.'
+			'Yes. Classes run from 6:15 in the morning to 7:15 at night. We build your plan around the days you really have, not the days you wish you had.'
 	},
 	{
-		question: 'Is there a contract?',
+		question: 'Do I have to sign a contract?',
 		answer:
-			'Memberships are monthly and you can stop with thirty days’ notice. Coaching blocks are paid up front, and at the end of each one you decide whether to run the next.'
+			'No. You pay month by month and you can stop with 30 days’ notice.'
 	},
 	{
-		question: 'Can I freeze my membership?',
+		question: 'Can I pause my membership?',
 		answer:
-			'Yes, for up to three months a year, for travel, injury or Ramadan. Tell us before the billing date and there is no charge for the freeze.'
+			'Yes, for up to three months a year — travel, injury or Ramadan. Tell us before your payment date and the pause costs nothing.'
 	},
 	{
 		question: 'Is there somewhere to pray?',
 		answer:
-			'Yes — two prayer rooms, one off each changing area, both with wudu facilities and open whenever the gym is. The building is closed on Friday until 16:00 for Jumu‘ah.'
+			'Yes. Two prayer rooms, one next to each changing room, both with wudu. We are closed on Friday until 4pm for Jumu‘ah.'
 	},
 	{
-		question: 'Is the women’s floor genuinely separate?',
+		question: 'Is the women’s floor really separate?',
 		answer:
-			'Yes. It is its own room with its own entrance, coached only by Amina, and no men are on that floor during women’s hours — staff included. Photography is not allowed anywhere in the building.'
+			'Yes. It is its own room with its own door. Only Amina coaches there. No men on that floor during women’s hours, staff included. No photos anywhere in the building.'
 	},
 	{
 		question: 'How do I pay?',
 		answer:
-			'bKash, Nagad, card or bank transfer, monthly. We will send you a payment link after the first session, and nothing is taken before you have trained here.'
+			'bKash, Nagad, card or bank transfer, once a month. We send you a link after your first session. You pay nothing before you have trained here.'
 	},
 	{
-		question: 'What happens during Ramadan?',
+		question: 'What happens in Ramadan?',
 		answer:
-			'The timetable moves to post-Taraweeh and pre-Suhoor slots, training volume drops, and you can freeze your membership for the month at no charge. We publish the Ramadan timetable two weeks before it starts.'
+			'Classes move to after Taraweeh and before Suhoor, and we train less. You can pause your membership for the month for free. We put the Ramadan timetable up two weeks before it starts.'
 	}
 ];
+
+/** The five picked above, in the order they are listed there. */
+export const homeFaqs = homeFaqQuestions.map(
+	(q) => faqs.find((f) => f.question === q) ?? { question: q, answer: '' }
+);

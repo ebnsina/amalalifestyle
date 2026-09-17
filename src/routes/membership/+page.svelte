@@ -192,7 +192,7 @@
 	/* The recommended column is tinted for its whole height, matching the lime
 	   edge on the plan card above it. */
 	.matrix :is(th, td):nth-child(3) {
-		background: color-mix(in srgb, var(--lime) 9%, transparent);
+		background: color-mix(in srgb, var(--sun) 9%, transparent);
 	}
 
 	.matrix__plan {

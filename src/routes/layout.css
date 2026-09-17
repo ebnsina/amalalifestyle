@@ -2,43 +2,79 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-/* The wdth build carries the width axis (62-125); the standard build has
-   weight only and headings would silently fall back to full width. */
-@import '@fontsource-variable/archivo/wdth.css';
-@import '@fontsource-variable/inter';
+/*
+	Bricolage Grotesque carries the headlines — a grotesque with visible warmth
+	in its curves, so a big word looks like someone said it rather than like a
+	sign bolted to a wall. Plus Jakarta Sans carries everything you read: open
+	apertures, tall x-height, and no clever letterforms to slow anyone down.
+	Geist Mono is now kept for figures alone, never for labels.
+*/
+@import '@fontsource-variable/bricolage-grotesque/wght.css';
+@import '@fontsource-variable/plus-jakarta-sans';
 @import '@fontsource-variable/geist-mono';
 
-/* Tokens. Light theme only. Lime is the single accent and appears only as a
-   fill — buttons, marks, current-page underline. Never as body text. */
+/*
+	Tokens. Light theme only.
+
+	Warm throughout. The palette used to be cool grey with an acid-lime accent
+	— sharp, and unmistakably a design object. This gym is a room in Dhaka that
+	someone who has never trained has to feel able to walk into, so the paper is
+	warm, the black is warm, and the accent is a colour people already read as
+	welcome rather than as a warning.
+
+	Two accents, and they do different jobs, which is why there are two:
+
+	  --sun    an amber fill. Dark text sits on it, so it can go behind a word,
+	           inside a badge or across a chip without ever risking legibility.
+	  --ember  the action colour, and the only one that carries white text.
+	           Buttons, and nothing else — if everything is an action, nothing
+	           looks like one.
+*/
 
 :root {
 	color-scheme: light;
 
-	--paper: #ffffff;
-	/* Full-bleed section tints only — never cards. Cool, not warm, so nothing
-	   reads muddy beside the lime. */
-	--surface: #f7f8f9;
-	--ink: #0b0b0d;
-	--muted: #5c5e66;
-	--faint: #8a8c95;
-	--rule: #eaeaee;
-	--rule-strong: #d7d8de;
+	--paper: #fffdf9;
+	/* Full-bleed section tints only — never cards. */
+	--surface: #f6f1e7;
+	--ink: #1c1a17;
+	--muted: #5f5a52;
+	--faint: #8d877d;
+	--rule: #e9e2d5;
+	--rule-strong: #d3cabb;
 
-	--lime: #d7fb31;
-	--lime-deep: #bfe310;
-	/* The same hue laid down thin. Used as a surface where lime would shout. */
-	--lime-wash: #f5fddc;
+	/* The fill. Always with ink on top of it. */
+	--sun: #ffc24d;
+	--sun-deep: #f2ad25;
+	/* The same hue laid down thin, for surfaces where the fill would shout. */
+	--sun-wash: #fff5e2;
 
-	/* Dark bands: photography, figures, the closing call to action. */
-	--band: #0e0f10;
-	--band-ink: #f5f5f3;
-	--band-muted: #a0a1a8;
-	--band-rule: #26272a;
+	/* The action. Always with --ember-ink on top of it. */
+	--ember: #d9481f;
+	--ember-deep: #b93a16;
+	--ember-ink: #fffdf9;
+	--ember-wash: #fdeee7;
 
-	/* Archivo carries the headlines on its width axis; Inter carries everything
-	   you actually read; Geist Mono carries labels, figures and metadata. */
-	--font-display: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+	/* Dark bands: photography, figures, the closing call to action. Warm black,
+	   so a dark band reads as the same page with the lights off. */
+	--band: #201d19;
+	--band-ink: #faf7f1;
+	--band-muted: #a79f93;
+	--band-rule: #3a352d;
+
+	/*
+		Corners. The site was square everywhere on the grounds that a boundary
+		should be marked once. It read as severe — a spec sheet rather than a
+		place — and severe is the opposite of approachable, which is what this
+		page has to be for someone who has never been in a gym.
+	*/
+	--r-sm: 8px;
+	--r-md: 14px;
+	--r-lg: 22px;
+	--r-pill: 999px;
+
+	--font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
 
 	/* One number for the sticky bar, one row at every width. The hero pulls
@@ -61,18 +97,12 @@
 	--color-faint: var(--faint);
 	--color-rule: var(--rule);
 	--color-rule-strong: var(--rule-strong);
-	--color-lime: var(--lime);
+	--color-sun: var(--sun);
+	--color-ember: var(--ember);
 	--color-band: var(--band);
 }
 
 /* === Base === */
-
-/* Square everywhere, including form controls the plugin would round. */
-*,
-*::before,
-*::after {
-	border-radius: 0;
-}
 
 html {
 	-webkit-text-size-adjust: 100%;
@@ -98,8 +128,11 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--font-sans);
-	font-size: 16px;
-	line-height: 1.6;
+	/* One step up from 16. The page is written for someone reading it on a
+	   phone in a hurry, and the cheapest readability win available is to make
+	   the words bigger. */
+	font-size: 17px;
+	line-height: 1.65;
 	-webkit-font-smoothing: antialiased;
 	/* Grey flash on tap is the clearest tell that a page is not an app. */
 	-webkit-tap-highlight-color: transparent;
@@ -124,8 +157,8 @@ img {
 }
 
 ::selection {
-	background: var(--lime);
-	color: #0b0b0d;
+	background: var(--sun);
+	color: var(--ink);
 }
 
 :where(a, button, input, textarea, select, summary):focus-visible {
@@ -143,42 +176,46 @@ img {
 	text-wrap: balance;
 }
 
-/* Poster voice: the two places the brand is allowed to shout. */
+/*
+	Sentence case throughout, including the two big sizes.
+
+	The display and H1 used to be compressed uppercase — a poster voice.
+	Uppercase strips the word-shapes that make a line quick to read, and
+	compressing it strips the rest, so the largest words on the site were the
+	slowest ones on it. They are now simply large: heavy, a little tighter than
+	the body, and shaped like ordinary words.
+
+	No font-stretch anywhere: Bricolage is loaded on the weight axis only.
+*/
 .t-display,
 .t-h1 {
 	font-weight: 800;
-	text-transform: uppercase;
 }
 
 .t-display {
-	font-size: clamp(52px, 9.4vw, 128px);
-	line-height: 0.88;
-	letter-spacing: -0.015em;
-	font-stretch: 74%;
+	font-size: clamp(46px, 7.4vw, 100px);
+	line-height: 1;
+	letter-spacing: -0.035em;
 }
 
 .t-h1 {
-	font-size: clamp(40px, 6.4vw, 84px);
-	line-height: 0.92;
-	letter-spacing: -0.012em;
-	font-stretch: 76%;
+	font-size: clamp(36px, 5.2vw, 64px);
+	line-height: 1.03;
+	letter-spacing: -0.03em;
 }
 
-/* Reading voice: sentence case, lightly condensed, sits under the poster. */
 .t-h2 {
 	font-weight: 700;
-	font-size: clamp(27px, 3.5vw, 42px);
-	line-height: 1.06;
-	letter-spacing: -0.024em;
-	font-stretch: 92%;
+	font-size: clamp(27px, 3.2vw, 40px);
+	line-height: 1.12;
+	letter-spacing: -0.026em;
 }
 
 .t-h3 {
 	font-weight: 700;
 	font-size: 21px;
-	line-height: 1.2;
-	letter-spacing: -0.016em;
-	font-stretch: 96%;
+	line-height: 1.3;
+	letter-spacing: -0.018em;
 }
 
 /* Emphasis inside a heading drops weight at full ink, never a lighter colour. */
@@ -188,41 +225,40 @@ img {
 }
 
 .t-body-lg {
-	font-size: 18px;
-	line-height: 1.62;
-	letter-spacing: -0.011em;
+	font-size: 20px;
+	line-height: 1.58;
+	letter-spacing: -0.013em;
 	max-width: var(--measure);
 }
 
 .t-body {
-	font-size: 16px;
-	line-height: 1.62;
+	font-size: 17px;
+	line-height: 1.65;
 	letter-spacing: -0.009em;
 	max-width: var(--measure);
 }
 
+/*
+	Labels were 10.5px mono, uppercase, at 0.16em tracking. That is a designer's
+	caption — it looks like data and reads like an eye test. They are now set in
+	the body face at a size a person can actually read, and the job of standing
+	apart is done by weight and colour rather than by being small and wide.
+*/
 .t-label {
-	font-family: var(--font-mono);
-	font-size: 10.5px;
+	font-family: var(--font-sans);
+	font-size: 13px;
+	font-weight: 600;
 	line-height: 1.4;
-	letter-spacing: 0.16em;
-	text-transform: uppercase;
-	color: var(--faint);
+	letter-spacing: 0.01em;
+	color: var(--muted);
 }
 
 .t-label-sm {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	line-height: 1;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-}
-
-/* Wide tracking eats the line on a phone, so it eases off below 560px. */
-@media (max-width: 560px) {
-	.t-label {
-		letter-spacing: 0.1em;
-	}
+	font-family: var(--font-sans);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.01em;
 }
 
 /* Figures that line up in a column are tabular. */
@@ -258,9 +294,7 @@ img {
 */
 .plans {
 	display: grid;
-	gap: 1px;
-	background: var(--rule);
-	border: 1px solid var(--rule);
+	gap: 16px;
 }
 
 @media (min-width: 900px) {
@@ -274,12 +308,20 @@ img {
 	border-top: 1px solid var(--rule);
 }
 
+/* A tinted full-bleed section. Global rather than page-scoped, because the
+   class is handed to <Section> as a prop and Svelte's scoping cannot follow a
+   class name across a component boundary. */
+.section--tint {
+	background: var(--surface);
+}
+
 /* White, one hairline, square. On hover the surface warms to the lime wash and
    the border firms up — enough colour to show the thing responds without
    spending the accent on anything at rest. */
 .card {
 	background: var(--paper);
 	border: 1px solid var(--rule);
+	border-radius: var(--r-md);
 	transition:
 		border-color 200ms ease,
 		background-color 200ms ease;
@@ -288,7 +330,7 @@ img {
 .card--hover:hover,
 .card--hover:focus-within {
 	border-color: var(--rule-strong);
-	background: var(--lime-wash);
+	background: var(--sun-wash);
 }
 
 /*
@@ -309,10 +351,13 @@ img {
 .icon-badge {
 	display: grid;
 	place-items: center;
-	width: 54px;
-	height: 54px;
+	/* 54px was a footnote beside 17px body text. An icon is only worth the
+	   space if it is the first thing you see in the block. */
+	width: 68px;
+	height: 68px;
 	flex: none;
-	background: var(--lime-wash);
+	border-radius: var(--r-md);
+	background: var(--sun-wash);
 	color: var(--ink);
 	transition:
 		background-color 200ms ease,
@@ -323,13 +368,13 @@ img {
 .card--hover:hover .icon-badge,
 .card--hover:focus-within .icon-badge,
 .card:hover .icon-badge {
-	background: var(--lime);
+	background: var(--sun);
 }
 
 /* Confirmations get the accent at full strength — it is the one moment the
    page has good news and should look like it. */
 .icon-badge--solid {
-	background: var(--lime);
+	background: var(--sun);
 }
 
 /*
@@ -342,8 +387,9 @@ img {
 	place-items: center;
 	width: 46px;
 	height: 46px;
-	background: var(--lime);
-	color: #0b0b0d;
+	border-radius: var(--r-pill);
+	background: var(--sun);
+	color: var(--ink);
 	font-family: var(--font-mono);
 	font-size: 15px;
 	letter-spacing: 0.02em;
@@ -356,7 +402,7 @@ img {
 
 .tile-hover:hover,
 .tile-hover:focus-within {
-	background: var(--lime-wash);
+	background: var(--sun-wash);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -371,14 +417,15 @@ img {
    grid of cards keeps one clean rectangle each. */
 .chip {
 	display: inline-block;
-	font-family: var(--font-mono);
-	font-size: 9.5px;
-	line-height: 1;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	padding: 5px 8px;
-	background: var(--lime);
-	color: #0b0b0d;
+	font-family: var(--font-sans);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: -0.004em;
+	padding: 5px 12px;
+	border-radius: var(--r-pill);
+	background: var(--sun);
+	color: var(--ink);
 	white-space: nowrap;
 }
 
@@ -403,6 +450,7 @@ img {
 .media {
 	position: relative;
 	overflow: hidden;
+	border-radius: var(--r-md);
 	background: var(--surface);
 }
 
@@ -444,9 +492,14 @@ a:hover .media--vivid img,
 	transform: scale(1.03);
 }
 
-/* Desaturated so lime stays the only strong colour; full colour on hover. */
+/*
+	Photographs were desaturated across the board so the lime accent stayed the
+	only strong colour on the page. The palette is warm now and the photographs
+	are the only thing on this site showing an actual room with actual people
+	in it, so they run warm and at full strength instead of being held back.
+*/
 .media--muted img {
-	filter: saturate(0.82) contrast(1.04);
+	filter: saturate(1.06) contrast(1.02) brightness(1.02);
 	transition:
 		filter 400ms ease,
 		transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -454,7 +507,7 @@ a:hover .media--vivid img,
 
 a:hover .media--muted img,
 .media--muted:hover img {
-	filter: saturate(1) contrast(1);
+	filter: saturate(1.14) contrast(1.04) brightness(1.04);
 	transform: scale(1.03);
 }
 
@@ -462,12 +515,14 @@ a:hover .media--muted img,
 .media__scrim {
 	position: absolute;
 	inset: 0;
+	/* Warm black, matching --band. A neutral scrim over a warm photograph
+	   turns the shadows grey and the whole frame goes cold. */
 	background: linear-gradient(
 		to top,
-		rgb(6 7 8 / 0.82) 0%,
-		rgb(6 7 8 / 0.52) 38%,
-		rgb(6 7 8 / 0.12) 72%,
-		rgb(6 7 8 / 0.05) 100%
+		rgb(26 22 17 / 0.84) 0%,
+		rgb(26 22 17 / 0.54) 38%,
+		rgb(26 22 17 / 0.14) 72%,
+		rgb(26 22 17 / 0.04) 100%
 	);
 }
 
@@ -478,15 +533,19 @@ a:hover .media--muted img,
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	height: 50px;
-	padding-inline: 26px;
-	font-family: var(--font-mono);
-	font-size: 11px;
+	height: 54px;
+	padding-inline: 28px;
+	/* Was 11px mono uppercase at 0.12em. A button is the one piece of text on
+	   a page that has to be read correctly at a glance, and that setting made
+	   it the hardest. Sentence case, body face, a size you can read. */
+	font-family: var(--font-sans);
+	font-size: 16px;
+	font-weight: 600;
 	line-height: 1;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
+	letter-spacing: -0.006em;
 	white-space: nowrap;
 	border: 1px solid transparent;
+	border-radius: var(--r-pill);
 	transition:
 		background-color 160ms ease,
 		color 160ms ease,
@@ -503,7 +562,7 @@ a:hover .media--muted img,
 @media (max-width: 560px) {
 	.btn {
 		width: 100%;
-		height: 54px;
+		height: 56px;
 	}
 }
 
@@ -516,12 +575,12 @@ a:hover .media--muted img,
 }
 
 .btn--solid {
-	background: var(--lime);
-	color: #0b0b0d;
+	background: var(--ember);
+	color: var(--ember-ink);
 }
 
 .btn--solid:hover {
-	background: var(--lime-deep);
+	background: var(--ember-deep);
 }
 
 .btn--ghost {
@@ -537,7 +596,7 @@ a:hover .media--muted img,
 /* Over a photograph the ghost button needs its own backdrop: a bright patch
    of image behind pale text is unreadable whatever the scrim does. */
 :is(.band, .on-dark) .btn--ghost {
-	color: #f5f5f3;
+	color: var(--band-ink);
 	border-color: rgb(245 245 243 / 0.42);
 	background: rgb(10 11 12 / 0.34);
 	-webkit-backdrop-filter: blur(6px);
@@ -545,7 +604,7 @@ a:hover .media--muted img,
 }
 
 :is(.band, .on-dark) .btn--ghost:hover {
-	border-color: #f5f5f3;
+	border-color: var(--band-ink);
 	background: rgb(10 11 12 / 0.55);
 }
 
@@ -557,6 +616,7 @@ a:hover .media--muted img,
 	width: 34px;
 	height: 34px;
 	border: 1px solid var(--rule-strong);
+	border-radius: var(--r-pill);
 	color: var(--muted);
 	background: transparent;
 	flex: none;
@@ -571,8 +631,9 @@ a:hover .media--muted img,
 }
 
 .mark {
-	background: var(--lime);
-	color: #0b0b0d;
+	background: var(--sun);
+	color: var(--ink);
+	border-radius: var(--r-sm);
 	padding: 0 0.14em;
 	box-decoration-break: clone;
 	-webkit-box-decoration-break: clone;
@@ -582,6 +643,7 @@ a:hover .media--muted img,
 	width: 100%;
 	background: transparent;
 	border: 1px solid var(--rule-strong);
+	border-radius: var(--r-sm);
 	color: var(--ink);
 	font-family: var(--font-sans);
 	font-size: 16px;
@@ -608,6 +670,7 @@ input[type='checkbox'] {
 	height: 20px;
 	flex: none;
 	border: 1px solid var(--rule-strong);
+	border-radius: 5px;
 	background-color: var(--paper);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -623,9 +686,9 @@ input[type='checkbox']:hover {
 }
 
 input[type='checkbox']:checked {
-	background-color: var(--lime);
-	border-color: var(--lime);
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b0b0d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.5 9.5 17.5 19.5 6.5'/%3E%3C/svg%3E");
+	background-color: var(--sun);
+	border-color: var(--sun);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23201d19' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.5 9.5 17.5 19.5 6.5'/%3E%3C/svg%3E");
 }
 
 /* Content ships visible; this only cross-fades routes. Snapshots need a

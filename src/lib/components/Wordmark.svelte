@@ -19,20 +19,20 @@
 	}
 
 	.wordmark--light {
-		color: #f5f5f3;
+		color: var(--band-ink);
 	}
 
 	.wordmark__badge {
 		display: grid;
 		place-items: center;
-		width: 30px;
-		height: 30px;
-		background: var(--lime);
-		color: #0b0b0d;
+		width: 32px;
+		height: 32px;
+		border-radius: var(--r-pill);
+		background: var(--ember);
+		color: var(--ember-ink);
 		font-family: var(--font-display);
 		font-weight: 800;
 		font-size: 17px;
-		font-stretch: 78%;
 		line-height: 1;
 	}
 
@@ -41,10 +41,8 @@
 		align-items: baseline;
 		gap: 0.36em;
 		font-family: var(--font-display);
-		font-size: 18px;
-		letter-spacing: -0.012em;
-		text-transform: uppercase;
-		font-stretch: 84%;
+		font-size: 19px;
+		letter-spacing: -0.024em;
 	}
 
 	.wordmark__name {
@@ -57,6 +55,6 @@
 	}
 
 	.wordmark--light .wordmark__suffix {
-		color: rgb(245 245 243 / 0.62);
+		color: rgb(250 247 241 / 0.66);
 	}
 </style>

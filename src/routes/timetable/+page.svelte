@@ -197,9 +197,9 @@
 	/* Lime fill marks the active filter — the state is in the fill, never in
 	   the colour of the label itself. */
 	.filter__btn.is-on {
-		background: var(--lime);
-		border-color: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		border-color: var(--sun);
+		color: var(--ink);
 	}
 
 	/* Seven days never fill a four- or two-column row, so borders sit on each

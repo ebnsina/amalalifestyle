@@ -8,6 +8,7 @@ should be swapped for the gym's own photography before launch.
 
 | File | Source |
 | --- | --- |
+| `hero-field.jpg` | unsplash.com/photos/7fQwXbLZXf0 — Bernd Dittrich (@hdbernd) |
 | `hero-deadlift.jpg` | unsplash.com/photos/photo-1517836357463-d25dfeac3438 |
 | `gym-floor.jpg` | unsplash.com/photos/photo-1571902943202-507ec2618e8f |
 | `facility-racks.jpg` | unsplash.com/photos/photo-1596357395217-80de13130e92 |

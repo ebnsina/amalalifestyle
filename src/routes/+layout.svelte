@@ -4,6 +4,7 @@
 	import { afterNavigate, onNavigate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import { page } from '$app/state';
 
 	let { children } = $props();
 
@@ -45,13 +46,14 @@
 
 <a class="skip" href="#main">Skip to content</a>
 
-<Header />
+<!-- /v2 is a self-contained Bangla redesign: its own bar, its own footer. -->
+{#if !page.url.pathname.startsWith('/v2')}<Header />{/if}
 
 <main id="main">
 	{@render children()}
 </main>
 
-<Footer />
+{#if !page.url.pathname.startsWith('/v2')}<Footer />{/if}
 
 <style>
 	.skip {
@@ -59,8 +61,8 @@
 		left: -9999px;
 		top: 0;
 		z-index: 100;
-		background: var(--lime);
-		color: #0b0b0d;
+		background: var(--sun);
+		color: var(--ink);
 		font-family: var(--font-mono);
 		font-size: 11px;
 		letter-spacing: 0.12em;

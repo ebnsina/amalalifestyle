@@ -48,7 +48,6 @@
 		font-size: 19px;
 		line-height: 1.42;
 		letter-spacing: -0.014em;
-		font-stretch: 96%;
 	}
 
 	.quotes__text::before {

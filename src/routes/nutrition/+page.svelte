@@ -46,7 +46,7 @@
 	<ul class="principles">
 		{#each nutritionPrinciples as p (p.title)}
 			<li class="principles__item tile-hover">
-				<span class="icon-badge"><Icon name={p.icon} size={24} /></span>
+				<span class="icon-badge"><Icon name={p.icon} size={30} /></span>
 				<h3 class="t-h3 principles__title">{p.title}</h3>
 				<p class="t-body principles__body">{p.body}</p>
 			</li>

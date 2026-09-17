@@ -65,11 +65,9 @@
 		margin-top: 20px;
 		padding-top: 16px;
 		border-top: 1px solid var(--rule);
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--faint);
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--muted);
 	}
 
 	.class-card__meta li {

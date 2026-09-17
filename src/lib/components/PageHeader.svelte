@@ -112,11 +112,9 @@
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 10px;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--ink);
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--muted);
 	}
 
 	.crumbs__item {
