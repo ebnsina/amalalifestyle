@@ -35,5 +35,8 @@
 		"@internationalized/date": "^3.12.4",
 		"@sqlite.org/sqlite-wasm": "^3.54.1-build1",
 		"valibot": "^1.5.0"
+	},
+	"engines": {
+		"node": ">=22.17"
 	}
 }

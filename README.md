@@ -35,6 +35,11 @@ npm run build && npm run preview   # the production build, with the offline serv
 location / { try_files $uri /index.html; }
 ```
 
+**Vercel**: `vercel.json` already sets it up (serve `build/`, send every route to `index.html`, cache hashed files for
+a year), and `engines` in `package.json` picks Node 22.17 or newer. Import the repo and deploy; no environment
+variables are needed. The build log says "Detected Vercel. Please remove adapter-static options": ignore it, because
+the `index.html` fallback those options set is what makes reloading `/books` work.
+
 ## How it works
 
 - **SvelteKit 3 + Svelte 5**, client-only (`ssr = false`), built with `adapter-static`.
