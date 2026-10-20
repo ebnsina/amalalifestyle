@@ -6,7 +6,7 @@
 	import Button from '#lib/sinaui/ui/Button.svelte';
 </script>
 
-<svelte:head><title>{t('স্বাগতম', 'Welcome')} · AMALA Lifestyle</title></svelte:head>
+<svelte:head><title>{t('স্বাগতম · আমালা লাইফস্টাইল', 'Welcome · AMALA Lifestyle')}</title></svelte:head>
 
 <div class="page">
 	<div class="lang"><LangSwitch /></div>
@@ -19,8 +19,8 @@
 	</div>
 
 	<div class="copy">
-		<p class="brand enter" style="--i: 2">AMALA</p>
-		<h1 class="enter" style="--i: 3" lang="en">Purify Your Life,<br /><span>Transform Your Future.</span></h1>
+		<p class="brand enter" style="--i: 2">{t('আমালা', 'AMALA')}</p>
+		<h1 class="enter" style="--i: 3">{t('জীবনকে পরিশুদ্ধ করুন,', 'Purify Your Life,')}<br /><span>{t('ভবিষ্যৎ বদলে দিন।', 'Transform Your Future.')}</span></h1>
 		<p class="muted enter" style="--i: 5">{t('খাবার, নামাজ, ব্যায়াম, বই আর রোজকার কাজ — ভালো অভ্যাস গড়ার সব এক জায়গায়।', 'Food, prayer, exercise, reading and daily tasks — everything for better habits in one place.')}</p>
 		<div class="enter" style="--i: 7"><Button size="lg" href={resolve('/onboarding')}>{t('শুরু করি', 'Get started')}</Button></div>
 	</div>
@@ -83,6 +83,10 @@
 		font-weight: 600;
 		letter-spacing: 0.2em;
 		color: var(--ui-accent);
+	}
+	/* Spacing letters apart breaks Bangla conjuncts. */
+	:global(html[lang='bn']) .brand {
+		letter-spacing: 0;
 	}
 	h1 span {
 		color: var(--ui-accent);

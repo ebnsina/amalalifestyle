@@ -31,7 +31,7 @@
 	]);
 </script>
 
-<svelte:head><title>{t('প্রোফাইল', 'Profile')} · AMALA</title></svelte:head>
+<svelte:head><title>{t('প্রোফাইল', 'Profile')} · {t('আমালা', 'AMALA')}</title></svelte:head>
 
 <Screen tabs>
 	<div class="head">

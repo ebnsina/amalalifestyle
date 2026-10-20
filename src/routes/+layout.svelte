@@ -24,7 +24,7 @@
 		<p class="emoji" aria-hidden="true">😕</p>
 		<h1 class="big">{t('অ্যাপটা খোলা যায়নি', 'The app couldn’t open')}</h1>
 		<p class="muted">
-			{t('অন্য কোনো ট্যাবে অ্যাপটা খোলা থাকলে সেটা বন্ধ করে আবার চেষ্টা করুন। প্রাইভেট উইন্ডো বা খুব পুরনো ব্রাউজারে তথ্য রাখা যায় না; সাধারণ উইন্ডোতে Chrome, Edge, Firefox বা Safari-র নতুন সংস্করণে খুলুন।',
+			{t('অন্য কোনো ট্যাবে অ্যাপটা খোলা থাকলে সেটা বন্ধ করে আবার চেষ্টা করুন। প্রাইভেট উইন্ডো বা খুব পুরনো ব্রাউজারে তথ্য রাখা যায় না; সাধারণ উইন্ডোতে ক্রোম, এজ, ফায়ারফক্স বা সাফারির নতুন সংস্করণে খুলুন।',
 				'If the app is open in another tab, close it and try again. Private windows and very old browsers can’t keep your data; open it in a normal window of a recent Chrome, Edge, Firefox or Safari.')}
 		</p>
 		<Button onclick={() => location.reload()}>{t('আবার চেষ্টা করুন', 'Try again')}</Button>

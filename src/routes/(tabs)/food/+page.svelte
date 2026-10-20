@@ -30,7 +30,7 @@
 	};
 </script>
 
-<svelte:head><title>{t('আজকের খাবার', 'Today’s food')} · AMALA</title></svelte:head>
+<svelte:head><title>{t('আজকের খাবার', 'Today’s food')} · {t('আমালা', 'AMALA')}</title></svelte:head>
 
 <Screen tabs>
 	<div class="row">

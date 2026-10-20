@@ -24,7 +24,7 @@
 		{ href: resolve('/fitness'), icon: Dumbbell01Icon, title: t('ফিটনেস', 'Fitness'), sub: t('ঘরে ও জিমে ব্যায়াম', 'Workouts at home and the gym'), tint: '--warm-soft', ink: '--warm' },
 		{ href: resolve('/books'), icon: Book02Icon, title: t('বই পড়া', 'Reading'), sub: t('কত পৃষ্ঠা পড়লেন', 'Pages you’ve read'), tint: '--plum-soft', ink: '--plum' },
 		{ href: resolve('/tasks'), icon: CheckListIcon, title: t('আজকের কাজ', 'Today’s tasks'), sub: t('তারিখ আর গুরুত্ব দিয়ে কাজের তালিকা', 'To-dos with dates and priority'), tint: '--plum-soft', ink: '--plum' },
-		{ href: resolve('/bmi'), icon: BodyWeightIcon, title: 'BMI', sub: t('ওজন ঠিক আছে কিনা', 'Is your weight healthy?'), tint: '--warm-soft', ink: '--warm' },
+		{ href: resolve('/bmi'), icon: BodyWeightIcon, title: t('বিএমআই', 'BMI'), sub: t('ওজন ঠিক আছে কিনা', 'Is your weight healthy?'), tint: '--warm-soft', ink: '--warm' },
 	]);
 
 	const left = $derived(dailyTarget(store.profile!) - Math.round(store.today.reduce((s, m) => s + kcalOf(m.portions), 0)));
@@ -35,7 +35,7 @@
 	]);
 </script>
 
-<svelte:head><title>AMALA Lifestyle</title></svelte:head>
+<svelte:head><title>{t('আমালা লাইফস্টাইল', 'AMALA Lifestyle')}</title></svelte:head>
 
 <Screen tabs>
 	<div>

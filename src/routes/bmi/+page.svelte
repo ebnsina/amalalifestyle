@@ -27,7 +27,7 @@
 	const numeric = { inputmode: 'decimal', autocomplete: 'off' } as const;
 </script>
 
-<Screen title={t('BMI মাপুন', 'BMI check')}>
+<Screen title={t('বিএমআই মাপুন', 'BMI check')}>
 	<p class="muted">{t('উচ্চতা আর ওজন দিন। আপনার প্রোফাইল থেকে আগেই বসানো আছে, চাইলে অন্য কারও জন্যও মাপতে পারেন।', 'Enter height and weight. Yours are filled in from your profile; you can check for someone else too.')}</p>
 	<div class="row">
 		<Input class="grow" label={t('উচ্চতা (ফুট)', 'Height (ft)')} bind:value={ft} {...numeric}>{#snippet end()}<span class="muted">{t('ফুট', 'ft')}</span>{/snippet}</Input>
@@ -41,7 +41,7 @@
 		<Card class="enter">
 			<div class="result" style:--band="var({bandColor[band.id]})">
 				<div class="center">
-					<p class="muted">{t('আপনার BMI', 'Your BMI')}</p>
+					<p class="muted">{t('আপনার বিএমআই', 'Your BMI')}</p>
 					<p class="value" aria-live="polite">{num(Math.round(value * 10) / 10)}</p>
 					<span class="chip">{name(band)}</span>
 				</div>
@@ -64,7 +64,7 @@
 		</Card>
 	{/if}
 
-	<Alert title={t('BMI শুধু একটা মোটামুটি ধারণা', 'BMI is only a rough guide')}>
+	<Alert title={t('বিএমআই শুধু একটা মোটামুটি ধারণা', 'BMI is only a rough guide')}>
 		{t('পেশি, বয়স বা শরীরের গঠন এতে ধরা পড়ে না। এখানে বাংলাদেশিদের জন্য উপযোগী এশীয় মাপকাঠি ব্যবহার করা হয়েছে। শিশু, গর্ভবতী বা অসুস্থ হলে ডাক্তারের পরামর্শ নিন।', 'It doesn’t account for muscle, age or body shape. It uses the Asian cut-offs, which suit people in Bangladesh. For children, pregnancy or illness, ask a doctor.')}
 	</Alert>
 </Screen>

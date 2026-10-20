@@ -50,7 +50,7 @@
 
 <Screen title={t('খাবার বেছে নিন', 'Choose foods')}>
 	<p class="small muted">{slotName(store.slot)} · {t('যা যা খাবেন সবগুলোতে টিক দিন', 'Tick everything you’ll eat')}</p>
-	<Input label={t('খাবার খুঁজুন', 'Search foods')} hideLabel type="search" bind:value={q} placeholder={t('খাবার খুঁজুন (যেমন: ডাল, misti kumra)', 'Search foods (e.g. dal, rice, ডাল)')}>
+	<Input label={t('খাবার খুঁজুন', 'Search foods')} hideLabel type="search" bind:value={q} placeholder={t('খাবার খুঁজুন (যেমন: ডাল, মিষ্টি কুমড়া)', 'Search foods (e.g. dal, rice, ডাল)')}>
 		{#snippet start()}<Icon icon={Search01Icon} size={20} />{/snippet}
 	</Input>
 	<Segmented label={t('ধরন', 'Category')} hideLabel bind:value={cat} options={categories.map((k) => ({ value: k.id, label: `${k.emoji} ${name(k)}` }))} />

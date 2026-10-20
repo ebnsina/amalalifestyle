@@ -42,7 +42,7 @@
 			const r = parseBackup(text);
 			if (!r.ok) {
 				status = { tone: 'warning', text: r.reason === 'json'
-					? t('এটা এই অ্যাপের ব্যাকআপ ফাইল নয়।', 'This isn’t an AMALA backup file.')
+					? t('এটা আমালার ব্যাকআপ ফাইল নয়।', 'This isn’t an AMALA backup file.')
 					: t('ফাইলটা নষ্ট বা অন্য কোনো সংস্করণের। ঠিক ফাইলটা বেছে নিন।', 'This file is damaged or from another version. Choose the right file.') };
 				return;
 			}

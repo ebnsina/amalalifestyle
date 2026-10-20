@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	{#if title}<title>{title} · AMALA</title>{/if}
+	{#if title}<title>{title} · {t('আমালা', 'AMALA')}</title>{/if}
 </svelte:head>
 
 {#if title !== undefined}
