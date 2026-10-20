@@ -1,45 +1,27 @@
 <script lang="ts">
 	import { Calendar03Icon } from '@hugeicons/core-free-icons';
-	import { getLocalTimeZone, startOfMonth, today } from '@internationalized/date';
-	import type { DateRange } from '#lib/sinaui/ui/Calendar.svelte';
 	import Plate from '#lib/components/Plate.svelte';
 	import Screen from '#lib/components/Screen.svelte';
-	import Button from '#lib/sinaui/ui/Button.svelte';
 	import Card from '#lib/sinaui/ui/Card.svelte';
-	import DateRangePicker from '#lib/sinaui/ui/DateRangePicker.svelte';
+	import RangeFilter from '#lib/components/RangeFilter.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Progress from '#lib/sinaui/ui/Progress.svelte';
 	import { num, dateLabel, parseDay } from '#lib/format.js';
 	import { dailyTarget, kcalOf } from '#lib/nutrition.js';
 	import { locale, name, t } from '#lib/i18n.svelte.js';
+	import { inRange, type DayRange } from '#lib/range.js';
 	import { slotName, store } from '#lib/store.svelte.js';
 
 	const target = $derived(store.profile ? dailyTarget(store.profile) : 0);
-	const now = today(getLocalTimeZone());
-	const presets = $derived([
-		{ label: t('গত ৭ দিন', 'Last 7 days'), start: now.subtract({ days: 7 }), end: now },
-		{ label: t('গত ৩০ দিন', 'Last 30 days'), start: now.subtract({ days: 30 }), end: now },
-		{ label: t('এই মাস', 'This month'), start: startOfMonth(now), end: now },
-	]);
-	let range = $state<DateRange>();
-
-	// Day keys are YYYY-MM-DD, so plain string comparison orders them by date.
-	const days = $derived(range
-		? store.history.filter((d) => d.date >= range!.start.toString() && d.date <= range!.end.toString())
-		: store.history);
+	let range = $state<DayRange>();
+	const days = $derived(store.history.filter((d) => inRange(d.date, range)));
 	const totalOf = (d: (typeof days)[number]) => Math.round(d.meals.reduce((s, m) => s + kcalOf(m.portions), 0));
 	const average = $derived(days.length ? Math.round(days.reduce((s, d) => s + totalOf(d), 0) / days.length) : 0);
 </script>
 
 <Screen title={t('আগের দিনগুলো', 'Past days')}>
 	{#if store.history.length}
-		<div class="row range">
-			<div class="grow">
-				<DateRangePicker label={t('কোন সময়ের হিসাব', 'Date range')} locale={locale()} max={now} months={1} {presets}
-					placeholder={t('সব দিন', 'All days')} bind:value={range} />
-			</div>
-			{#if range}<Button variant="ghost" size="sm" onclick={() => (range = undefined)}>{t('সব দিন', 'All days')}</Button>{/if}
-		</div>
+		<RangeFilter label={t('কোন সময়ের হিসাব', 'Date range')} clearable bind:value={range} />
 		{#if days.length}
 			<p class="small muted">
 				{t(`${num(days.length)} দিন · গড়ে দিনে ${num(average)} ক্যালরি (লক্ষ্য ${num(target)})`,
@@ -81,9 +63,6 @@
 </Screen>
 
 <style>
-	.range {
-		align-items: end;
-	}
 	.day {
 		display: grid;
 		gap: 0.75rem;

@@ -29,3 +29,11 @@ export function streak(log: Record<string, Prayer[]>, from = new Date()) {
   while (allFard(log[dayKey(d)])) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
+
+// Over the given days: how many had all five fard, and how many days each prayer was prayed.
+export function summary(log: Record<string, Prayer[]>, days: string[]) {
+  return {
+    full: days.filter((d) => allFard(log[d])).length,
+    per: Object.fromEntries([...fard, ...extra].map((p) => [p.id, days.filter((d) => log[d]?.includes(p.id)).length])),
+  };
+}

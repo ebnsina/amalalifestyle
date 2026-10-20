@@ -12,12 +12,34 @@
 	store.init();
 	$effect(() => void (document.documentElement.lang = i18n.lang));
 	applyTheme(theme.value);
+
+	// A new version waits until every tab of the app is closed; offer to switch now instead.
+	let waiting = $state<ServiceWorker>();
+	navigator.serviceWorker?.getRegistration().then((reg) => {
+		if (!reg) return;
+		const check = () => {
+			if (reg.waiting && navigator.serviceWorker.controller) waiting = reg.waiting;
+		};
+		check();
+		reg.addEventListener('updatefound', () => reg.installing?.addEventListener('statechange', check));
+		// An installed app can stay open for days; look for a new version whenever it comes back.
+		document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && reg.update());
+	});
+	navigator.serviceWorker?.addEventListener('controllerchange', () => location.reload());
 </script>
 
 {#if store.status === 'ready'}
 	{#if store.saveFailed}
-		<Alert tone="danger" title={t('শেষ বদলটা সেভ হয়নি', 'Your last change wasn’t saved')} class="save-failed" live>
+		<Alert tone="danger" title={t('শেষ বদলটা সেভ হয়নি', 'Your last change wasn’t saved')} class="banner" live>
 			{t('ফোনের জায়গা ভরে গেছে কিনা দেখুন, তারপর অ্যাপটা আবার খুলুন।', 'Check that your phone has free space, then open the app again.')}
+		</Alert>
+	{/if}
+	{#if waiting}
+		<Alert title={t('নতুন সংস্করণ এসেছে', 'A new version is ready')} class="banner" live>
+			{t('এক চাপে চালু করুন। আপনার তথ্য যেমন আছে তেমনই থাকবে।', 'Switch with one tap. Your data stays as it is.')}
+			{#snippet actions()}
+				<Button size="sm" onclick={() => waiting?.postMessage('skip-waiting')}>{t('এখনই চালু করুন', 'Update now')}</Button>
+			{/snippet}
 		</Alert>
 	{/if}
 	{@render children()}
@@ -49,7 +71,7 @@
 	.emoji {
 		font-size: 3.5rem;
 	}
-	:global(.save-failed) {
+	:global(.banner) {
 		position: sticky;
 		top: 0;
 		z-index: 20;

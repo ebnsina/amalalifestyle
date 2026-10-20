@@ -5,13 +5,20 @@
 	import Checkbox from '#lib/sinaui/ui/Checkbox.svelte';
 	import { num, dayKey, lastDays, weekday } from '#lib/format.js';
 	import { name, t } from '#lib/i18n.svelte.js';
-	import { extra, fard, streak } from '#lib/prayer.js';
+	import { extra, fard, streak, summary } from '#lib/prayer.js';
+	import RangeFilter from '#lib/components/RangeFilter.svelte';
+	import Progress from '#lib/sinaui/ui/Progress.svelte';
+	import { daysOf, lastN, type DayRange } from '#lib/range.js';
 	import { store } from '#lib/store.svelte.js';
 	import { rowToggle } from '#lib/row-toggle.js';
 
 	const today = dayKey();
 	const done = $derived(store.prayers[today] ?? []);
 	const fardDone = $derived(fard.filter((p) => done.includes(p.id)).length);
+	let range = $state<DayRange | undefined>(lastN(30));
+	const days = $derived(daysOf(range ?? lastN(30)));
+	const sum = $derived(summary(store.prayers, days));
+	const ratio = (v: number, max: number) => `${num(v)}/${num(max)}`;
 </script>
 
 {#snippet list(ps: typeof fard)}
@@ -60,6 +67,20 @@
 		<p class="xs muted legend"><span class="key"></span>{t('ফরজ', 'Fard')} <span class="key nafl"></span>{t('বিতর ও নফল', 'Witr & nafl')}</p>
 	</Card>
 	<p class="xs muted center">{t('আগের দিনে চিহ্ন দিতে ভুলে গেলে সেই দিনের ঘরে চাপ দিন।', 'Forgot to tick an earlier day? Tap its dot above.')}</p>
+
+	<Card title={t('হিসাব', 'Summary')} level={2}>
+		<div class="stack">
+			<RangeFilter label={t('কোন সময়ের হিসাব', 'Dates')} bind:value={range} />
+			<p><b class="num">{num(sum.full)}/{num(days.length)}</b> {t('দিন পাঁচ ওয়াক্তই পড়েছেন', 'days with all five fard')}</p>
+			{#each fard as p (p.id)}
+				<Progress label={name(p)} value={sum.per[p.id]} max={days.length} format={ratio} />
+			{/each}
+			<hr />
+			{#each extra as p (p.id)}
+				<Progress label={name(p)} value={sum.per[p.id]} max={days.length} format={ratio} style="--ui-accent: var(--blue)" />
+			{/each}
+		</div>
+	</Card>
 
 	<Alert title={t('নামাজের সময়', 'Prayer times')}>{t('আপনার এলাকার মসজিদ বা ইসলামিক ফাউন্ডেশনের সময়সূচি দেখে নিন।', 'Check the timetable from your local mosque or the Islamic Foundation.')}</Alert>
 </Screen>

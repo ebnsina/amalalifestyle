@@ -8,12 +8,20 @@
 	import Card from '#lib/sinaui/ui/Card.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import { setCount, workouts, type Workout } from '#lib/data/workouts.js';
-	import { num, dayKey, lastDays } from '#lib/format.js';
+	import { num, dayKey } from '#lib/format.js';
+	import RangeFilter from '#lib/components/RangeFilter.svelte';
+	import { daysOf, lastN, type DayRange } from '#lib/range.js';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 
 	const today = dayKey();
-	const activeDays = $derived(lastDays(7).filter((d) => store.workouts[d]?.length).length);
+	let range = $state<DayRange | undefined>(lastN(7));
+	const days = $derived(daysOf(range ?? lastN(7)));
+	// Finished workouts in the range: one entry per workout per day.
+	const done = $derived(days.flatMap((d) => store.workouts[d] ?? []).filter((id) => workouts.some((w) => w.id === id)));
+	const activeDays = $derived(days.filter((d) => store.workouts[d]?.length).length);
+	const minutes = $derived(done.reduce((m, id) => m + workouts.find((w) => w.id === id)!.minutes, 0));
+	const times = (id: string) => done.filter((x) => x === id).length;
 </script>
 
 {#snippet row(w: Workout, i: number)}
@@ -28,9 +36,21 @@
 {/snippet}
 
 <Screen title={t('ফিটনেস গাইড', 'Fitness guide')}>
-	<Card class="center">
-		<p class="big num" style:color="var(--ui-accent)">{num(activeDays)} / {num(7)} {t('দিন', 'days')}</p>
-		<p class="small muted">{t('গত সাত দিনে ব্যায়াম করেছেন', 'with exercise in the last seven days')}</p>
+	<Card title={t('হিসাব', 'Summary')} level={2}>
+		<div class="stack">
+			<RangeFilter label={t('কোন সময়ের হিসাব', 'Dates')} bind:value={range} />
+			<div class="stats">
+				<div><b>{num(activeDays)}/{num(days.length)}</b><span class="xs muted">{t('দিন ব্যায়াম', 'days active')}</span></div>
+				<div><b>{num(minutes)}</b><span class="xs muted">{t('মিনিট', 'minutes')}</span></div>
+				<div><b>{num(done.length)}</b><span class="xs muted">{t('বার শেষ করেছেন', 'workouts done')}</span></div>
+			</div>
+			{#each workouts.filter((w) => times(w.id)) as w (w.id)}
+				<div class="row">
+					<span class="grow small">{w.emoji} {name(w)}</span>
+					<b class="small num">{t(`${num(times(w.id))} বার`, `${times(w.id)}×`)}</b>
+				</div>
+			{/each}
+		</div>
 	</Card>
 
 	<h2 class="section">{t('ঘরে', 'At home')}</h2>
