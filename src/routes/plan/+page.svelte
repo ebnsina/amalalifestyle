@@ -124,21 +124,21 @@
 							</Card>
 						{/each}
 
-						<div><Button size="sm" variant="secondary" href={resolve('/cook')}><Icon icon={Add01Icon} size={16} /> {t('আরও খাবার যোগ করুন', 'Add more foods')}</Button></div>
+						<div class="actions"><Button size="sm" variant="secondary" href={resolve('/cook')}><Icon icon={Add01Icon} size={16} /> {t('আরও খাবার যোগ করুন', 'Add more foods')}</Button></div>
 
 						<Card>
 							<div class="summary" style:--ink="var({ink})" style:--soft="var({soft})">
 								<div class="row between">
 									<b>{t('এই বেলায় মোট', 'This meal')}</b>
-									<span class="big ink">{num(total)} <span class="small muted">{t('ক্যালরি', 'kcal')}</span></span>
+									<span class="big ink num">{num(total)} <span class="small muted">{t('ক্যালরি', 'kcal')}</span></span>
 								</div>
 								<div class="meter"><span style:width="{Math.min(100, (total / Math.max(rec.budget, total, 1)) * 100)}%"></span></div>
 								<div class="cells">
 									{#each [[t('পরামর্শ', 'Suggested'), rec.budget], [t('বেছেছেন', 'Chosen'), total]] as [k, v] (k)}
-										<div><span class="xs muted">{k}</span><b>{num(v as number)}</b></div>
+										<div><span class="xs muted">{k}</span><b class="num">{num(v as number)}</b></div>
 									{/each}
 									{#each [cmp.diff] as v (v)}
-										<div><span class="xs muted">{t('পার্থক্য', 'Difference')}</span><b class="ink">{v > 0 ? '+' : ''}{num(v)}</b></div>
+										<div><span class="xs muted">{t('পার্থক্য', 'Difference')}</span><b class="ink num">{v > 0 ? '+' : ''}{num(v)}</b></div>
 									{/each}
 								</div>
 								<span class="pill small">{label}</span>
@@ -154,7 +154,7 @@
 					</p>
 
 					{#if saved}
-						<div><ConfirmButton size="sm" onconfirm={remove} confirm={t('সত্যিই মুছবেন?', 'Delete it?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('এই বেলার হিসাব মুছুন', 'Delete this meal')}</ConfirmButton></div>
+						<div class="actions"><ConfirmButton size="sm" onconfirm={remove} confirm={t('সত্যিই মুছবেন?', 'Delete it?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('এই বেলার হিসাব মুছুন', 'Delete this meal')}</ConfirmButton></div>
 					{/if}
 						</div>
 					{/if}

@@ -84,14 +84,14 @@
 			{@render head(FileExportIcon, t('ব্যাকআপ ফাইল বানান', 'Make a backup file'),
 				t(`প্রোফাইল, প্রিয় খাবার, ${num(daysLogged)} দিনের খাবারের হিসাব, নামাজ, ব্যায়াম, বই আর কাজ একটি ফাইলে যাবে।`,
 					`Your profile, favourites, ${daysLogged} days of meals, prayers, workouts, books and tasks go into one file.`))}
-			<div><Button onclick={doExport} disabled={busy}>{t('ফাইলে সেভ করুন', 'Save to a file')}</Button></div>
+			<div class="actions"><Button onclick={doExport} disabled={busy}>{t('ফাইলে সেভ করুন', 'Save to a file')}</Button></div>
 		</div>
 	</Card>
 
 	<Card class="enter" style="--i: 1">
 		<div class="card">
 			{@render head(FileImportIcon, t('ব্যাকআপ থেকে ফিরিয়ে আনুন', 'Restore from a backup'), t('আগে সেভ করা ফাইল বেছে নিন। এখনকার তথ্যের জায়গায় ফাইলের তথ্য বসবে। ফোনের অ্যাপের ব্যাকআপ ফাইলও চলবে।', 'Choose a file you saved earlier. It replaces what’s here now. Backups from the phone app work too.'))}
-			<div><Button variant="secondary" onclick={doPick} disabled={busy}>{t('ফাইল বেছে নিন', 'Choose a file')}</Button></div>
+			<div class="actions"><Button variant="secondary" onclick={doPick} disabled={busy}>{t('ফাইল বেছে নিন', 'Choose a file')}</Button></div>
 		</div>
 	</Card>
 

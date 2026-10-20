@@ -46,7 +46,7 @@ location / { try_files $uri /index.html; }
 - **Two languages**: `t('বাংলা', 'English')` from `src/lib/i18n.svelte.ts`, written where each text is used.
   Numbers and dates follow the chosen language through `Intl`.
 - **UI**: [sinaui](https://github.com/ebnsina/sinaui) components in `src/lib/sinaui`, styled only through
-  `--ui-*` tokens in `src/app.css`. Noto Serif Bengali for Bangla; Clash Display (headings) and Inter Tight (body) for English, all bundled.
+  `--ui-*` tokens in `src/app.css`. Noto Serif Bengali for Bangla; Clash Display (headings), Inter Tight (body) and Geist Mono (numbers) for English, all bundled.
 
 ## Layout
 

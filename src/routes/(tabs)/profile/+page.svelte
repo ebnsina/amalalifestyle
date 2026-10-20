@@ -42,7 +42,7 @@
 
 	<div class="row">
 		{#each stats as [k, v] (k)}
-			<Card class="grow center"><b>{v}</b><br /><span class="small muted">{k}</span></Card>
+			<Card class="grow center"><b class="num">{v}</b><br /><span class="small muted">{k}</span></Card>
 		{/each}
 	</div>
 
@@ -58,7 +58,7 @@
 		</dl>
 	</Card>
 
-	<div><Button variant="secondary" href={resolve('/onboarding')}><Icon icon={PencilEdit02Icon} size={18} /> {t('তথ্য বদলান', 'Edit details')}</Button></div>
+	<div class="actions"><Button variant="secondary" href={resolve('/onboarding')}><Icon icon={PencilEdit02Icon} size={18} /> {t('তথ্য বদলান', 'Edit details')}</Button></div>
 
 	<Card>
 		<div class="prefs"><LangSwitch /><ThemeSwitch /></div>

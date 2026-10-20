@@ -29,7 +29,7 @@
 
 <Screen title={t('ফিটনেস গাইড', 'Fitness guide')}>
 	<Card class="center">
-		<p class="big" style:color="var(--ui-accent)">{num(activeDays)} / {num(7)} {t('দিন', 'days')}</p>
+		<p class="big num" style:color="var(--ui-accent)">{num(activeDays)} / {num(7)} {t('দিন', 'days')}</p>
 		<p class="small muted">{t('গত সাত দিনে ব্যায়াম করেছেন', 'with exercise in the last seven days')}</p>
 	</Card>
 

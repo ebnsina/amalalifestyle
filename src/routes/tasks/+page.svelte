@@ -5,10 +5,10 @@
 	import Screen from '#lib/components/Screen.svelte';
 	import Badge from '#lib/sinaui/ui/Badge.svelte';
 	import Button from '#lib/sinaui/ui/Button.svelte';
-	import Card from '#lib/sinaui/ui/Card.svelte';
 	import Checkbox from '#lib/sinaui/ui/Checkbox.svelte';
 	import ConfirmButton from '#lib/sinaui/ui/ConfirmButton.svelte';
 	import DatePicker from '#lib/sinaui/ui/DatePicker.svelte';
+	import Drawer from '#lib/sinaui/ui/Drawer.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
@@ -26,6 +26,7 @@
 	let due = $state<CalendarDate | undefined>(todayDate(getLocalTimeZone()));
 	let priority = $state<string>('medium');
 	let view = $state<View>('today');
+	let adding = $state(false);
 
 	const list = $derived(inView(store.tasks, view, today));
 	const count = (id: View) => inView(store.tasks, id, today).length;
@@ -44,6 +45,7 @@
 		if (!parsed.success) return;
 		store.setTasks([...store.tasks, parsed.output]);
 		text = '';
+		adding = false;
 		// Show the new task where it landed.
 		if (!views.find((x) => x.id === view)!.show(parsed.output, today)) view = 'all';
 	}
@@ -53,9 +55,13 @@
 </script>
 
 <Screen title={t('আজকের কাজ', 'Today’s tasks')}>
-	<Card>
-		<form class="add" onsubmit={add}>
-			<Input label={t('নতুন কাজ', 'New task')} hideLabel placeholder={t('নতুন কাজ লিখুন', 'Write a new task')} bind:value={text}
+	<div class="actions">
+		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('কাজ যোগ করুন', 'Add task')}</Button>
+	</div>
+
+	<Drawer bind:open={adding} title={t('নতুন কাজ', 'New task')} closeLabel={t('বন্ধ করুন', 'Close')}>
+		<form id="task-form" class="add" onsubmit={add}>
+			<Input label={t('কী করবেন', 'What to do')} placeholder={t('যেমন: বাজার করা', 'e.g. Buy groceries')} bind:value={text}
 				maxlength={200} enterkeyhint="done" />
 			<div class="row when">
 				<div class="grow">
@@ -64,13 +70,16 @@
 				{#if due}<Button variant="ghost" size="sm" onclick={() => (due = undefined)}>{t('তারিখ সরান', 'Clear date')}</Button>{/if}
 			</div>
 			<Segmented label={t('কতটা জরুরি', 'Priority')} bind:value={priority} options={priorities.map((p) => ({ value: p.id, label: name(p) }))} />
-			<Button type="submit" disabled={!text.trim()}><Icon icon={Add01Icon} size={18} /> {t('কাজ যোগ করুন', 'Add task')}</Button>
 		</form>
-	</Card>
+		{#snippet footer()}
+			<Button variant="ghost" onclick={() => (adding = false)}>{t('বাতিল', 'Cancel')}</Button>
+			<Button type="submit" form="task-form" disabled={!text.trim()}>{t('যোগ করুন', 'Add')}</Button>
+		{/snippet}
+	</Drawer>
 
 	<Tabs.Root bind:value={() => view, (v) => (view = v as View)}>
 		<Tabs.List label={t('কোন কাজ দেখাবেন', 'Show')}>
-			{#each views as x (x.id)}<Tabs.Tab value={x.id}>{name(x)} <span class="count">{num(count(x.id))}</span></Tabs.Tab>{/each}
+			{#each views as x (x.id)}<Tabs.Tab value={x.id}>{name(x)} <span class="count num">{num(count(x.id))}</span></Tabs.Tab>{/each}
 		</Tabs.List>
 		{#each views as x (x.id)}
 			<Tabs.Panel value={x.id}>
@@ -80,7 +89,7 @@
 	</Tabs.Root>
 
 	{#if view === 'done' && doneCount}
-		<div><ConfirmButton size="sm" onconfirm={() => store.setTasks(store.tasks.filter((x) => !x.done))}
+		<div class="actions"><ConfirmButton size="sm" onconfirm={() => store.setTasks(store.tasks.filter((x) => !x.done))}
 			confirm={t('সব মুছবেন?', 'Delete all?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('শেষ হওয়া সব কাজ মুছুন', 'Delete finished tasks')}</ConfirmButton></div>
 	{/if}
 </Screen>

@@ -21,9 +21,11 @@
 - Prayers, tasks and foods: tap anywhere on a row to tick it, not just the small box.
 - Prayer week view: witr and nafl now have their own rows, every row is labelled with the prayer, and today is
   highlighted.
+- Adding a task or a book opens a sheet from the bottom instead of a form that is always on screen; action
+  buttons sit on the right.
 - Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed
 - New name and brand: AMALA — "Purify Your Life, Transform Your Future."
-- Type: Noto Serif Bengali for Bangla; Clash Display for headings and Inter Tight for text in English.
+- Type: Noto Serif Bengali for Bangla; Clash Display for headings, Inter Tight for text and Geist Mono for numbers in English.
 - Book pages: one field to type the page or step it up and down.

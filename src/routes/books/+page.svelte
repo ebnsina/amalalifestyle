@@ -6,6 +6,7 @@
 	import Button from '#lib/sinaui/ui/Button.svelte';
 	import Card from '#lib/sinaui/ui/Card.svelte';
 	import ConfirmButton from '#lib/sinaui/ui/ConfirmButton.svelte';
+	import Drawer from '#lib/sinaui/ui/Drawer.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
@@ -42,7 +43,7 @@
 			<div class="row between">
 				<span class="small muted">{t(`${num(b.read)} / ${num(b.pages)} পৃষ্ঠা`, `${b.read} / ${b.pages} pages`)}</span>
 				{#if b.read >= b.pages}<Badge tone="accent" icon={false}>{t('পড়া শেষ 🎉', 'Finished 🎉')}</Badge>
-				{:else}<b class="small accent">{num(Math.round((b.read / b.pages) * 100))}%</b>{/if}
+				{:else}<b class="small accent num">{num(Math.round((b.read / b.pages) * 100))}%</b>{/if}
 			</div>
 			<div class="bar"><span style:width="{Math.min(100, (b.read / b.pages) * 100)}%"></span></div>
 			<!-- Typing only reaches the field's value on blur; tapping Save blurs it first, so the click saves what was typed. -->
@@ -56,34 +57,34 @@
 			{/if}
 		</div>
 		{#snippet footer()}
-			<ConfirmButton size="sm" onconfirm={() => store.setBooks(store.books.filter((x) => x.id !== b.id))}
-				confirm={t('সত্যিই মুছবেন?', 'Delete this book?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('বইটা মুছুন', 'Delete book')}</ConfirmButton>
+			<div class="actions">
+				<ConfirmButton size="sm" onconfirm={() => store.setBooks(store.books.filter((x) => x.id !== b.id))}
+					confirm={t('সত্যিই মুছবেন?', 'Delete this book?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('বইটা মুছুন', 'Delete book')}</ConfirmButton>
+			</div>
 		{/snippet}
 	</Card>
 {/snippet}
 
 <Screen title={t('বই পড়া', 'Reading')}>
-	{#if adding}
-		<Card>
-			<form class="book" onsubmit={add}>
-				<b>{t('নতুন বই', 'New book')}</b>
-				<!-- svelte-ignore a11y_autofocus -->
-				<Input label={t('বইয়ের নাম', 'Book title')} bind:value={title} autofocus maxlength={120} />
-				<Input label={t('মোট পৃষ্ঠা', 'Total pages')} bind:value={pages} inputmode="numeric"
-					error={error ? t('বইয়ের নাম আর মোট পৃষ্ঠা (১–৫০০০) লিখুন।', 'Enter a title and the total pages (1–5000).') : undefined}>
-					{#snippet end()}<span class="muted">{t('পৃষ্ঠা', 'pages')}</span>{/snippet}
-				</Input>
-				<div class="row">
-					<Button variant="ghost" onclick={() => { adding = false; error = false; }}>{t('বাতিল', 'Cancel')}</Button>
-					<Button type="submit">{t('যোগ করুন', 'Add')}</Button>
-				</div>
-			</form>
-		</Card>
-	{:else}
-		<Button variant="secondary" size="lg" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={20} /> {t('বই যোগ করুন', 'Add a book')}</Button>
-	{/if}
+	<div class="actions">
+		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('বই যোগ করুন', 'Add a book')}</Button>
+	</div>
 
-	{#if !store.books.length && !adding}
+	<Drawer bind:open={adding} title={t('নতুন বই', 'New book')} closeLabel={t('বন্ধ করুন', 'Close')}>
+		<form id="book-form" class="book" onsubmit={add}>
+			<Input label={t('বইয়ের নাম', 'Book title')} bind:value={title} maxlength={120} />
+			<Input label={t('মোট পৃষ্ঠা', 'Total pages')} bind:value={pages} inputmode="numeric"
+				error={error ? t('বইয়ের নাম আর মোট পৃষ্ঠা (১–৫০০০) লিখুন।', 'Enter a title and the total pages (1–5000).') : undefined}>
+				{#snippet end()}<span class="muted">{t('পৃষ্ঠা', 'pages')}</span>{/snippet}
+			</Input>
+		</form>
+		{#snippet footer()}
+			<Button variant="ghost" onclick={() => { adding = false; error = false; }}>{t('বাতিল', 'Cancel')}</Button>
+			<Button type="submit" form="book-form">{t('যোগ করুন', 'Add')}</Button>
+		{/snippet}
+	</Drawer>
+
+	{#if !store.books.length}
 		<EmptyState title={t('কোনো বই নেই', 'No books yet')} icon={Book02Icon}>{t('যে বইটি পড়ছেন সেটি যোগ করুন, প্রতিদিন কত পৃষ্ঠা পড়লেন লিখে রাখুন।', 'Add the book you’re reading and keep track of your page each day.')}</EmptyState>
 	{/if}
 
@@ -110,6 +111,7 @@
 	}
 	.page {
 		align-items: end;
+		justify-content: space-between;
 	}
 	.saved {
 		color: var(--ui-accent);

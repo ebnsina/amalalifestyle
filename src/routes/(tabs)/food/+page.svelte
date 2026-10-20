@@ -48,7 +48,7 @@
 				locale={locale()} style="--ui-accent: var({left < 0 ? '--warm' : '--ui-accent'})" />
 			<div class="grow">
 				<p class="small muted">{left < 0 ? t('আজকের লক্ষ্যের চেয়ে বেশি', 'Over today’s target by') : t('আজ আরও খেতে পারবেন প্রায়', 'You can still eat about')}</p>
-				<p class="big" style:color="var({left < 0 ? '--warm' : '--ui-accent'})">
+				<p class="big num" style:color="var({left < 0 ? '--warm' : '--ui-accent'})">
 					{num(Math.abs(left))} <span class="small muted">{t('ক্যালরি', 'kcal')}</span>
 				</p>
 				<p class="xs muted">{t('খেয়েছেন', 'Eaten')} {num(eaten)} · {t('লক্ষ্য', 'Target')} {num(target)}</p>
