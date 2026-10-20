@@ -22,7 +22,7 @@
 {#if title !== undefined}
 	<header>
 		<Button variant="ghost" square aria-label={t('ফিরে যান', 'Go back')} onclick={back}><Icon icon={ArrowLeft01Icon} size={22} /></Button>
-		<h1>{title}</h1>
+		<h1 class="heading">{title}</h1>
 	</header>
 {/if}
 <main class={{ tabs, footed: !!footer }}>

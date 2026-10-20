@@ -104,7 +104,7 @@
 				</div>
 				<div class="hero">
 					<p>{t('আপনার দিনের আনুমানিক লক্ষ্য', 'Your estimated daily target')}</p>
-					<p class="target">{num(dailyTarget(next))}</p>
+					<p class="target heading">{num(dailyTarget(next))}</p>
 					<p>{t('ক্যালরি', 'kcal')}</p>
 				</div>
 				<Alert title={t('মনে রাখবেন', 'Keep in mind')}>

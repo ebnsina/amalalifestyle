@@ -25,5 +25,5 @@
 
 ### Changed
 - New name and brand: AMALA — "Purify Your Life, Transform Your Future."
-- Serif type with a premium feel: Noto Serif Bengali for Bangla, Fraunces for English.
+- Type: Noto Serif Bengali for Bangla; Clash Display for headings and Inter Tight for text in English.
 - Book pages: one field to type the page or step it up and down.
