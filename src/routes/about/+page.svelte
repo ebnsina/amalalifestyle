@@ -25,9 +25,8 @@
 		<Card class="enter" style="--i: {i}" title={s.title}><p class="muted">{s.body}</p></Card>
 	{/each}
 	<p class="xs muted center">
-		<a class="credit" href="https://m.me/ebnsina.dev" target="_blank" rel="noopener noreferrer">
-			{t('তৈরি করেছেন ইবনে সিনা', 'Made by Ebn Sina')}
-		</a>
+		{t('তৈরি করেছেন', 'Made by')}
+		<a class="credit" href="https://m.me/ebnsina.dev" target="_blank" rel="noopener noreferrer">{t('ইবনে সিনা', 'Ebn Sina')}</a>
 	</p>
 </Screen>
 
