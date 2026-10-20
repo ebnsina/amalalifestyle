@@ -12,7 +12,7 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
-- Light and dark mode, following your phone's setting.
+- Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed
 - New name and brand: AMALA — "Purify Your Life, Transform Your Future."

@@ -12,6 +12,7 @@
 	import { activityOptions, goalOptions } from '#lib/labels.js';
 	import { dailyTarget } from '#lib/nutrition.js';
 	import LangSwitch from '#lib/components/LangSwitch.svelte';
+	import ThemeSwitch from '#lib/components/ThemeSwitch.svelte';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 
@@ -59,7 +60,9 @@
 
 	<div><Button variant="secondary" href={resolve('/onboarding')}><Icon icon={PencilEdit02Icon} size={18} /> {t('তথ্য বদলান', 'Edit details')}</Button></div>
 
-	<Card><LangSwitch /></Card>
+	<Card>
+		<div class="prefs"><LangSwitch /><ThemeSwitch /></div>
+	</Card>
 
 	<Card>
 		{#each menu as m (m.title)}
@@ -77,6 +80,10 @@
 </Screen>
 
 <style>
+	.prefs {
+		display: grid;
+		gap: 1rem;
+	}
 	.head {
 		display: grid;
 		justify-items: center;

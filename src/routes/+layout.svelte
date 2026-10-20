@@ -5,11 +5,13 @@
 	import Button from '#lib/sinaui/ui/Button.svelte';
 	import { i18n, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
+	import { applyTheme, theme } from '#lib/theme.svelte.js';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 	store.init();
 	$effect(() => void (document.documentElement.lang = i18n.lang));
+	applyTheme(theme.value);
 </script>
 
 {#if store.status === 'ready'}
