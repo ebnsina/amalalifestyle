@@ -1,20 +1,6 @@
-@import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/bricolage-grotesque/opsz.css';
 @import '@fontsource-variable/noto-serif-bengali';
 @import '@fontsource-variable/geist-mono';
-
-/* Clash Display (Indian Type Foundry, ITF Free Font License) is only on Fontshare, so it ships with the app. */
-@font-face {
-	font-family: 'Clash Display';
-	src: url('./lib/fonts/clash-display-600.woff2') format('woff2');
-	font-weight: 600;
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Clash Display';
-	src: url('./lib/fonts/clash-display-700.woff2') format('woff2');
-	font-weight: 700;
-	font-display: swap;
-}
 
 /* Fresh near-white base, leaf-green accent, warm orange for highlights. Same palette as the phone app. */
 :root {
@@ -27,8 +13,8 @@
 	--ui-danger: light-dark(#b4442f, #ff8a7a);
 	--ui-warning: light-dark(#b0561a, #f2a35e);
 	/* The Latin fonts have no Bangla letters, so Bangla falls through to Noto Serif Bengali in both stacks. */
-	--ui-font: 'Inter Tight Variable', 'Noto Serif Bengali Variable', system-ui, sans-serif;
-	--heading-font: 'Clash Display', 'Noto Serif Bengali Variable', system-ui, sans-serif;
+	--ui-font: 'Bricolage Grotesque Variable', 'Noto Serif Bengali Variable', system-ui, sans-serif;
+	--heading-font: var(--ui-font);
 	/* Geist Mono has no Bangla digits, so ১২৩ fall through to Noto Serif Bengali. */
 	--num-font: 'Geist Mono Variable', 'Noto Serif Bengali Variable', ui-monospace, monospace;
 	--ui-font-mono: var(--num-font);
