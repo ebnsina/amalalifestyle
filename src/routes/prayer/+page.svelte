@@ -38,22 +38,28 @@
 	<h2 class="section">{t('বিতর ও নফল', 'Witr & nafl')}</h2>
 	{@render list(extra)}
 
-	<h2 class="section">{t('গত সাত দিন (ফরজ)', 'Last seven days (fard)')}</h2>
+	<h2 class="section">{t('গত সাত দিন', 'Last seven days')}</h2>
 	<Card>
-		<div class="week">
+		<div class="week" role="group" aria-label={t('গত সাত দিনের নামাজ', 'Prayers over the last seven days')}>
+			<span></span>
 			{#each lastDays(7) as d (d)}
-				<div class="day">
-					<span class="xs" class:muted={d !== today}>{weekday(d)}</span>
-					{#each fard as p (p.id)}
+				<span class="xs head" class:today={d === today} title={weekday(d)}>{weekday(d, 'narrow')}</span>
+			{/each}
+			{#each [fard, extra] as group, g (g)}
+				{#if g}<hr />{/if}
+				{#each group as p (p.id)}
+					<span class="xs name">{name(p).split(' ')[0]}</span>
+					{#each lastDays(7) as d (d)}
 						{@const on = (store.prayers[d] ?? []).includes(p.id)}
-						<button class="dot" class:on aria-label="{weekday(d)} {name(p)}" aria-pressed={on}
+						<button class="dot" class:on class:nafl={g === 1} aria-label="{weekday(d)} {name(p)}" aria-pressed={on}
 							onclick={() => store.togglePrayer(d, p.id)}></button>
 					{/each}
-				</div>
+				{/each}
 			{/each}
 		</div>
+		<p class="xs muted legend"><span class="key"></span>{t('ফরজ', 'Fard')} <span class="key nafl"></span>{t('বিতর ও নফল', 'Witr & nafl')}</p>
 	</Card>
-	<p class="xs muted center">{t('আগের দিনে চিহ্ন দিতে ভুলে গেলে ওপরের ঘরে চাপ দিন।', 'Forgot to tick an earlier day? Tap its dot above.')}</p>
+	<p class="xs muted center">{t('আগের দিনে চিহ্ন দিতে ভুলে গেলে সেই দিনের ঘরে চাপ দিন।', 'Forgot to tick an earlier day? Tap its dot above.')}</p>
 
 	<Alert title={t('নামাজের সময়', 'Prayer times')}>{t('আপনার এলাকার মসজিদ বা ইসলামিক ফাউন্ডেশনের সময়সূচি দেখে নিন।', 'Check the timetable from your local mosque or the Islamic Foundation.')}</Alert>
 </Screen>
@@ -74,36 +80,70 @@
 	.prayer b {
 		font-weight: 600;
 	}
+	/* Prayer names down the side, one column per day. */
 	.week {
-		display: flex;
-		justify-content: space-between;
-	}
-	.day {
 		display: grid;
-		justify-items: center;
-		gap: 2px;
+		grid-template-columns: auto repeat(7, minmax(0, 1fr));
+		align-items: center;
+		row-gap: 2px;
 	}
-	/* 18px dot inside a 32px tap area. */
+	.head {
+		text-align: center;
+		color: var(--ui-muted);
+	}
+	.head.today {
+		color: var(--ui-accent);
+		font-weight: 600;
+	}
+	.name {
+		padding-inline-end: 0.5rem;
+		white-space: nowrap;
+	}
+	hr {
+		grid-column: 1 / -1;
+		width: 100%;
+		margin: 0.375rem 0;
+		border: 0;
+		border-top: 1px solid var(--line);
+	}
+	/* 16px dot inside a 28px-tall tap area as wide as its column. */
 	.dot {
-		width: 32px;
-		height: 26px;
+		height: 28px;
 		padding: 0;
 		border: 0;
 		background: none;
 		cursor: pointer;
 	}
-	.dot::before {
+	.dot::before, .key {
 		content: '';
 		display: block;
-		width: 18px;
-		height: 18px;
+		width: 16px;
+		height: 16px;
 		margin: auto;
 		border-radius: 50%;
 		background: var(--line);
 		transition: background-color var(--ui-dur) var(--ui-ease-out);
 	}
-	.dot.on::before {
+	.dot.on::before, .key {
 		background: var(--ui-accent);
+	}
+	.dot.nafl.on::before, .key.nafl {
+		background: var(--blue);
+	}
+	.legend {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		margin-top: 0.75rem;
+	}
+	.key {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		margin: 0 0 0 0.5rem;
+	}
+	.key:first-child {
+		margin-inline-start: 0;
 	}
 	.dot:focus-visible {
 		outline: var(--ui-ring-width) solid var(--ui-ring);
