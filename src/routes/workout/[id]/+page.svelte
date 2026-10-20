@@ -92,7 +92,7 @@
 			{#if until}
 				<div class="rest" role="timer" aria-live="off">
 					<Icon icon={Timer02Icon} size={20} />
-					<span class="grow"><span class="xs muted">{t('বিশ্রাম', 'Rest')}</span><br /><b>{clock(left)}</b></span>
+					<span class="grow"><span class="xs muted">{t('বিশ্রাম', 'Rest')}</span><br /><b class="num">{clock(left)}</b></span>
 					<Button variant="ghost" size="sm" onclick={() => (until += 15000)}>{t('+১৫ সে.', '+15 s')}</Button>
 					<Button variant="secondary" size="sm" onclick={() => (until = 0)}>{t('বাদ দিন', 'Skip')}</Button>
 				</div>

@@ -1,5 +1,6 @@
 @import '@fontsource-variable/inter-tight';
 @import '@fontsource-variable/noto-serif-bengali';
+@import '@fontsource-variable/geist-mono';
 
 /* Clash Display (Indian Type Foundry, ITF Free Font License) is only on Fontshare, so it ships with the app. */
 @font-face {
@@ -28,6 +29,9 @@
 	/* The Latin fonts have no Bangla letters, so Bangla falls through to Noto Serif Bengali in both stacks. */
 	--ui-font: 'Inter Tight Variable', 'Noto Serif Bengali Variable', system-ui, sans-serif;
 	--heading-font: 'Clash Display', 'Noto Serif Bengali Variable', system-ui, sans-serif;
+	/* Geist Mono has no Bangla digits, so ১২৩ fall through to Noto Serif Bengali. */
+	--num-font: 'Geist Mono Variable', 'Noto Serif Bengali Variable', ui-monospace, monospace;
+	--ui-font-mono: var(--num-font);
 
 	--accent-soft: light-dark(#e7f2ea, #1d3326);
 	--warm: light-dark(#c8601d, #f2a35e);
@@ -64,6 +68,13 @@ h1, h2, h3, p {
 .xs {
 	font-size: 0.8125rem;
 }
+/* Figures line up in columns and don't jump as they change. */
+.num,
+.stats b,
+.target {
+	font-family: var(--num-font);
+	font-variant-numeric: tabular-nums;
+}
 .big,
 .section,
 .heading {
@@ -78,6 +89,13 @@ h1, h2, h3, p {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+}
+/* Buttons sit on the right, the way phones place a form's main action. */
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.5rem;
 }
 .row {
 	display: flex;

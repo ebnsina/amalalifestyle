@@ -56,7 +56,7 @@
 						locale={locale()} style="--ui-accent: var({total > target ? '--warm' : '--ui-accent'})" />
 					<div class="grow">
 						<b>{dateLabel(parseDay(d.date))}</b>
-						<p class="small muted">{num(total)} / {num(target)} {t('ক্যালরি', 'kcal')}</p>
+						<p class="small muted num">{num(total)} / {num(target)} {t('ক্যালরি', 'kcal')}</p>
 					</div>
 				</div>
 				{#each d.meals as m (m.slot)}

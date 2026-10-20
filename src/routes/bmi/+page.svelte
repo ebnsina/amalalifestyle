@@ -42,7 +42,7 @@
 			<div class="result" style:--band="var({bandColor[band.id]})">
 				<div class="center">
 					<p class="muted">{t('আপনার বিএমআই', 'Your BMI')}</p>
-					<p class="value heading" aria-live="polite">{num(Math.round(value * 10) / 10)}</p>
+					<p class="value num" aria-live="polite">{num(Math.round(value * 10) / 10)}</p>
 					<span class="chip">{name(band)}</span>
 				</div>
 
@@ -58,7 +58,7 @@
 
 				<div class="soft">
 					<p class="small muted">{t('এই উচ্চতায় স্বাভাবিক ওজন', 'Healthy weight for this height')}</p>
-					<p class="range">{num(range.min)} – {num(range.max)} {t('কেজি', 'kg')}</p>
+					<p class="range num">{num(range.min)} – {num(range.max)} {t('কেজি', 'kg')}</p>
 				</div>
 			</div>
 		</Card>
