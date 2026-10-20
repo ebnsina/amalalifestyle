@@ -18,6 +18,7 @@
 	import { locale, name, t } from '#lib/i18n.svelte.js';
 	import { TaskSchema } from '#lib/schema.js';
 	import { store } from '#lib/store.svelte.js';
+	import { rowToggle } from '#lib/row-toggle.js';
 	import { dueLabel, inView, priorities, views, type View } from '#lib/tasks.js';
 
 	const today = dayKey();
@@ -87,7 +88,7 @@
 {#snippet tasks()}
 	{#each list as task (task.id)}
 		{@const late = !task.done && !!task.due && task.due < today}
-		<div class="task" class:done={task.done} class:high={task.priority === 'high' && !task.done}>
+		<div class="task" class:done={task.done} class:high={task.priority === 'high' && !task.done} {@attach rowToggle}>
 			<Checkbox class="grow" checked={task.done} onchange={() => toggle(task.id)}>
 				{task.text}
 				<span class="meta">
@@ -124,6 +125,7 @@
 		align-items: end;
 	}
 	.task {
+		cursor: pointer;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;

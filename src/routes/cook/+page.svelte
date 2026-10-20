@@ -15,6 +15,7 @@
 	import { matchScore } from '#lib/search.js';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { slotName, store } from '#lib/store.svelte.js';
+	import { rowToggle } from '#lib/row-toggle.js';
 
 	let q = $state('');
 	let cat = $state(page.url.searchParams.get('cat') ?? 'all');
@@ -36,7 +37,7 @@
 {#snippet row(f: Food)}
 	{@const on = store.cooked.includes(f.id)}
 	{@const fav = store.favourites.includes(f.id)}
-	<div class="food" class:on>
+	<div class="food" class:on {@attach rowToggle}>
 		<Plate emoji={f.emoji} size={44} />
 		<Checkbox class="grow" checked={on} onchange={() => toggle(f.id)}>
 			<b>{name(f)}</b><br /><span class="small muted">{qty(1, f.unit)} · {num(f.kcal)} {t('ক্যালরি', 'kcal')}</span>
@@ -87,6 +88,7 @@
 
 <style>
 	.food {
+		cursor: pointer;
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
