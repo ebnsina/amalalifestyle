@@ -12,6 +12,16 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
+- Install button on Home and in Profile. It opens the browser's install dialog, or shows the steps on iPhone and
+  other browsers.
+- Type Bangla on an English keyboard, as in Avro: "ami bhalo achi" becomes "আমি ভালো আছি" as you finish each word.
+  Turn it off in Profile to keep English words.
+- Fitness: make your own routine with its exercises, sets and rest; edit or delete it later.
+- 22 more foods, including শসা, টমেটো, গাজর, সালাদ, ওটস, পাউরুটি, ছোলা, ফল, বাদাম and নুডলস.
+
+### Fixed
+- The on-screen keyboard no longer covers the field you're typing in or the buttons below it.
+
 - Every tool has its own date range: prayer shows how many days you prayed each prayer and kept all five, fitness
   shows active days, minutes and routines, reading shows pages read per book, and tasks filter by due date.
 - Reading now keeps a daily log of pages moved forward, so the totals cover any dates from now on.

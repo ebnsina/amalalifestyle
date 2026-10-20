@@ -2,10 +2,12 @@
 <html lang="bn">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 		<meta name="text-scale" content="scale" />
 		<meta name="theme-color" content="#f5f8f4" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#0f1411" media="(prefers-color-scheme: dark)" />
+		<!-- Chrome may offer installing before the app has loaded; keep the offer for the install button. -->
+		<script>addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__installEvent=e})</script>
 		<!-- Applies a chosen light or dark theme before the first paint, so it never flashes the other one. -->
 		<script>try{const t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch{}</script>
 		<meta name="description" content="জীবনকে পরিশুদ্ধ করুন, ভবিষ্যৎ বদলে দিন। ঘরের খাবারের হিসাব, নামাজ, ব্যায়াম, বই পড়া আর রোজকার কাজ — এক জায়গায়। অ্যাকাউন্ট লাগে না, ইন্টারনেট ছাড়াও চলে, সব তথ্য আপনার ফোনেই থাকে।" />

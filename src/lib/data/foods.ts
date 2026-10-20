@@ -32,7 +32,10 @@ export const categories: { id: Category | 'all'; bn: string; en: string; emoji: 
 const emojis: Record<string, string> = {
   ruti: '🫓', paratha: '🫓', beef: '🥩', egg: '🥚', 'egg-fry': '🍳', kumra: '🎃', 'alu-bhorta': '🥔',
   'begun-bhorta': '🍆', milk: '🥛', doi: '🥛', guava: '🍐', singara: '🥟', muri: '🍿', khichuri: '🍛', polao: '🍛',
-  'fish-jhol': '🍲', chicken: '🍗',
+  'fish-jhol': '🍲', chicken: '🍗', shosha: '🥒', tomato: '🍅', carrot: '🥕', salad: '🥗', oats: '🥣',
+  'oats-milk': '🥣', cornflakes: '🥣', bread: '🍞', 'bread-brown': '🍞', noodles: '🍜', 'chicken-breast': '🍗',
+  'egg-white': '🥚', chola: '🫘', apple: '🍎', orange: '🍊', papaya: '🍈', khejur: '🌴', badam: '🥜',
+  'peanut-butter': '🥜', honey: '🍯', mango: '🥭', watermelon: '🍉',
 };
 
 const f = (
@@ -74,6 +77,29 @@ export const foods: Food[] = [
   f('muri', 'মুড়ি', 'Puffed rice', 'snack', 'কাপ', 15, 60, 1, 13, 0.2, 1),
   f('singara', 'সিঙ্গারা', 'Singara', 'snack', 'টি', 60, 200, 3, 22, 11, 1, 1),
   f('cha', 'দুধ চা', 'Milk tea', 'snack', 'কাপ', 150, 70, 2, 10, 2.5, 1, 1, ['tea']),
+  // Modern everyday foods; rough values for typical home portions, like the rest of this list.
+  f('oats', 'ওটস (পানিতে)', 'Oats (with water)', 'rice', 'বাটি', 40, 150, 5, 27, 2.5, 1, 0.5, ['oats', 'oatmeal']),
+  f('oats-milk', 'ওটস (দুধে)', 'Oats (with milk)', 'rice', 'বাটি', 240, 250, 11, 33, 8, 1, 0.5, ['oats', 'oatmeal']),
+  f('cornflakes', 'কর্নফ্লেক্স (দুধে)', 'Cornflakes with milk', 'rice', 'বাটি', 230, 220, 7, 38, 4.5, 1, 0.5, ['cornflakes']),
+  f('bread', 'পাউরুটি', 'White bread', 'rice', 'স্লাইস', 25, 67, 2, 12.5, 0.8, 2, 1, ['pauruti', 'bread']),
+  f('bread-brown', 'লাল আটার পাউরুটি', 'Brown bread', 'rice', 'স্লাইস', 28, 70, 3.5, 12, 1, 2, 1, ['brown bread', 'whole wheat']),
+  f('chola', 'ছোলা সেদ্ধ', 'Boiled chickpeas', 'dal', 'বাটি', 160, 270, 14.5, 45, 4.2, 1, 0.5, ['chola', 'chickpeas', 'chana']),
+  f('chicken-breast', 'গ্রিল মুরগির বুক', 'Grilled chicken breast', 'meat', 'টুকরা', 100, 165, 31, 0, 3.6, 1, 0.5, ['chicken breast', 'grilled chicken']),
+  f('egg-white', 'ডিমের সাদা অংশ', 'Egg white', 'meat', 'টি', 33, 17, 3.6, 0.2, 0, 2, 1, ['egg white', 'dim']),
+  f('shosha', 'শসা', 'Cucumber', 'veg', 'টি', 200, 30, 1.3, 7, 0.2, 1, 0.5, ['shosha', 'sosha', 'khira', 'cucumber']),
+  f('tomato', 'টমেটো', 'Tomato', 'veg', 'টি', 100, 18, 0.9, 3.9, 0.2, 1, 0.5, ['tomato']),
+  f('carrot', 'গাজর', 'Carrot', 'veg', 'টি', 60, 25, 0.6, 6, 0.1, 1, 0.5, ['gajor', 'carrot']),
+  f('salad', 'সালাদ (শসা-টমেটো-পেঁয়াজ)', 'Salad (cucumber, tomato, onion)', 'veg', 'বাটি', 150, 40, 1.5, 8, 0.3, 1, 0.5, ['salad']),
+  f('apple', 'আপেল', 'Apple', 'dairy', 'টি', 180, 95, 0.5, 25, 0.3, 1, 0.5, ['apel', 'apple']),
+  f('orange', 'কমলা', 'Orange', 'dairy', 'টি', 130, 62, 1.2, 15.4, 0.2, 1, 0.5, ['komola', 'orange']),
+  f('papaya', 'পাকা পেঁপে', 'Papaya', 'dairy', 'বাটি', 145, 62, 0.7, 16, 0.4, 1, 0.5, ['pepe', 'papaya']),
+  f('mango', 'আম', 'Mango', 'dairy', 'টি', 200, 120, 1.6, 30, 0.8, 1, 0.5, ['aam', 'mango']),
+  f('watermelon', 'তরমুজ', 'Watermelon', 'dairy', 'বাটি', 150, 45, 0.9, 11, 0.2, 1, 0.5, ['tormuj', 'watermelon']),
+  f('khejur', 'খেজুর', 'Dates', 'dairy', 'টি', 8, 23, 0.2, 6, 0, 3, 1, ['khejur', 'dates']),
+  f('noodles', 'নুডলস', 'Instant noodles', 'snack', 'প্যাকেট', 75, 350, 8, 50, 13, 1, 0.5, ['noodles', 'maggi']),
+  f('badam', 'চিনাবাদাম', 'Peanuts', 'snack', 'মুঠো', 28, 160, 7, 5, 14, 1, 0.5, ['badam', 'nuts', 'peanut']),
+  f('peanut-butter', 'পিনাট বাটার', 'Peanut butter', 'snack', 'চামচ', 16, 95, 3.5, 3.5, 8, 1, 1, ['peanut butter']),
+  f('honey', 'মধু', 'Honey', 'snack', 'চামচ', 21, 64, 0, 17, 0, 1, 1, ['modhu', 'honey']),
 ];
 
 export const foodById = Object.fromEntries(foods.map((x) => [x.id, x]));

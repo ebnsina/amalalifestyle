@@ -3,7 +3,7 @@ import * as v from 'valibot';
 
 import type { Reply, Request, Stmt } from '#lib/db.worker.js';
 import {
-	BookSchema, MealItemSchema, PrayersSchema, ProfileSchema, ReadingSchema, SetsSchema, TaskSchema, WorkoutsSchema, type Backup,
+	BookSchema, CustomWorkoutSchema, MealItemSchema, PrayersSchema, ProfileSchema, ReadingSchema, SetsSchema, TaskSchema, WorkoutsSchema, type Backup,
 	type MealItem, type Slot,
 } from '#lib/schema.js';
 
@@ -75,7 +75,7 @@ export async function migrate() {
 const ids = v.array(v.string());
 const schemas = {
 	profile: ProfileSchema, favourites: ids, recent: ids, prayers: PrayersSchema, workouts: WorkoutsSchema,
-	sets: SetsSchema, books: v.array(BookSchema), tasks: v.array(TaskSchema), reading: ReadingSchema, lang: v.picklist(['bn', 'en']),
+	sets: SetsSchema, books: v.array(BookSchema), tasks: v.array(TaskSchema), reading: ReadingSchema, customWorkouts: v.array(CustomWorkoutSchema), lang: v.picklist(['bn', 'en']),
 };
 type Settings = { [K in keyof typeof schemas]: v.InferOutput<(typeof schemas)[K]> | null };
 
@@ -122,6 +122,6 @@ export const replaceAll = (b: Backup) =>
 		{ sql: 'DELETE FROM meal_items' },
 		{ sql: "DELETE FROM settings WHERE key != 'lang'" },
 		...(b.profile ? [setting('profile', b.profile)] : []),
-		...(['favourites', 'recent', 'prayers', 'workouts', 'sets', 'books', 'tasks', 'reading'] as const).map((k) => setting(k, b[k])),
+		...(['favourites', 'recent', 'prayers', 'workouts', 'sets', 'books', 'tasks', 'reading', 'customWorkouts'] as const).map((k) => setting(k, b[k])),
 		...b.meals.map(insertItem),
 	);

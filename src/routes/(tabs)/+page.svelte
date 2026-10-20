@@ -3,6 +3,7 @@
 		BodyWeightIcon, Book02Icon, CheckListIcon, Dumbbell01Icon, Mosque01Icon, SpoonAndForkIcon,
 	} from '@hugeicons/core-free-icons';
 	import { resolve } from '$app/paths';
+	import InstallCard from '#lib/components/InstallCard.svelte';
 	import Screen from '#lib/components/Screen.svelte';
 	import Card from '#lib/sinaui/ui/Card.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
@@ -50,6 +51,8 @@
 			{/each}
 		</div>
 	</Card>
+
+	<InstallCard dismissible />
 
 	<h2 class="section">{t('সেবাসমূহ', 'Tools')}</h2>
 	<div class="tools">

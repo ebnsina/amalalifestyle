@@ -11,9 +11,12 @@
 	import { num } from '#lib/format.js';
 	import { activityOptions, goalOptions } from '#lib/labels.js';
 	import { dailyTarget } from '#lib/nutrition.js';
+	import InstallCard from '#lib/components/InstallCard.svelte';
 	import LangSwitch from '#lib/components/LangSwitch.svelte';
 	import ThemeSwitch from '#lib/components/ThemeSwitch.svelte';
-	import { name, t } from '#lib/i18n.svelte.js';
+	import { i18n, name, t } from '#lib/i18n.svelte.js';
+	import { phonetic, setPhonetic } from '#lib/phonetic.svelte.js';
+	import Switch from '#lib/sinaui/ui/Switch.svelte';
 	import { store } from '#lib/store.svelte.js';
 
 	const menu = $derived([
@@ -60,8 +63,19 @@
 
 	<div class="actions"><Button variant="secondary" href={resolve('/onboarding')}><Icon icon={PencilEdit02Icon} size={18} /> {t('তথ্য বদলান', 'Edit details')}</Button></div>
 
+	<InstallCard />
+
 	<Card>
-		<div class="prefs"><LangSwitch /><ThemeSwitch /></div>
+		<div class="prefs">
+			<LangSwitch />
+			{#if i18n.lang === 'bn'}
+				<div>
+					<Switch bind:checked={() => phonetic.on, setPhonetic}>ইংরেজি কিবোর্ডে বাংলা লিখুন</Switch>
+					<p class="xs muted hint">যেমন “ami bhalo achi” লিখে স্পেস দিলে হবে “আমি ভালো আছি”। ইংরেজি শব্দ রাখতে চাইলে বন্ধ করুন।</p>
+				</div>
+			{/if}
+			<ThemeSwitch />
+		</div>
 	</Card>
 
 	<Card>
@@ -80,6 +94,9 @@
 </Screen>
 
 <style>
+	.hint {
+		margin-top: 0.25rem;
+	}
 	.prefs {
 		display: grid;
 		gap: 1rem;

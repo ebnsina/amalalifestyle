@@ -21,7 +21,7 @@ export const dateLabel = (d: Date) =>
 const spoken: Record<number, string> = { 0.5: 'আধা', 1.5: 'দেড়', 2.5: 'আড়াই' };
 const unitEn: Record<string, string> = {
   'কাপ': 'cup', 'বাটি': 'bowl', 'টি': 'pc', 'টুকরা': 'piece', 'মাঝারি টুকরা': 'medium piece', 'চামচ': 'spoon',
-  'গ্লাস': 'glass',
+  'গ্লাস': 'glass', 'স্লাইস': 'slice', 'মুঠো': 'handful', 'প্যাকেট': 'pack',
 };
 export const unitName = (unit: string) => (i18n.lang === 'en' ? unitEn[unit] ?? unit : unit);
 
