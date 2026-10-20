@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Add01Icon, Calendar03Icon, Cancel01Icon, CheckListIcon } from '@hugeicons/core-free-icons';
+	import { getLocalTimeZone, today as todayDate, type CalendarDate } from '@internationalized/date';
 	import * as v from 'valibot';
 	import Screen from '#lib/components/Screen.svelte';
 	import Badge from '#lib/sinaui/ui/Badge.svelte';
@@ -7,19 +8,20 @@
 	import Card from '#lib/sinaui/ui/Card.svelte';
 	import Checkbox from '#lib/sinaui/ui/Checkbox.svelte';
 	import ConfirmButton from '#lib/sinaui/ui/ConfirmButton.svelte';
+	import DatePicker from '#lib/sinaui/ui/DatePicker.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
 	import Segmented from '#lib/sinaui/ui/Segmented.svelte';
 	import { num, dayKey } from '#lib/format.js';
-	import { name, t } from '#lib/i18n.svelte.js';
+	import { locale, name, t } from '#lib/i18n.svelte.js';
 	import { TaskSchema } from '#lib/schema.js';
 	import { store } from '#lib/store.svelte.js';
 	import { dueLabel, inView, priorities, views, type View } from '#lib/tasks.js';
 
 	const today = dayKey();
 	let text = $state('');
-	let due = $state(today);
+	let due = $state<CalendarDate | undefined>(todayDate(getLocalTimeZone()));
 	let priority = $state<string>('medium');
 	let view = $state<View>('today');
 
@@ -36,7 +38,7 @@
 
 	function add(e: SubmitEvent) {
 		e.preventDefault();
-		const parsed = v.safeParse(TaskSchema, { id: Date.now().toString(36), text, done: false, due: due || undefined, priority });
+		const parsed = v.safeParse(TaskSchema, { id: Date.now().toString(36), text, done: false, due: due?.toString(), priority });
 		if (!parsed.success) return;
 		store.setTasks([...store.tasks, parsed.output]);
 		text = '';
@@ -53,9 +55,11 @@
 		<form class="add" onsubmit={add}>
 			<Input label={t('নতুন কাজ', 'New task')} hideLabel placeholder={t('নতুন কাজ লিখুন', 'Write a new task')} bind:value={text}
 				maxlength={200} enterkeyhint="done" />
-			<div class="row">
-				<Input class="grow" label={t('কবে করবেন', 'When')} type="date" bind:value={due} />
-				{#if due}<Button variant="ghost" size="sm" onclick={() => (due = '')}>{t('তারিখ ছাড়া', 'No date')}</Button>{/if}
+			<div class="row when">
+				<div class="grow">
+					<DatePicker label={t('কবে করবেন', 'When')} locale={locale()} placeholder={t('তারিখ ছাড়া', 'No date')} bind:value={due} />
+				</div>
+				{#if due}<Button variant="ghost" size="sm" onclick={() => (due = undefined)}>{t('তারিখ সরান', 'Clear date')}</Button>{/if}
 			</div>
 			<Segmented label={t('কতটা জরুরি', 'Priority')} bind:value={priority} options={priorities.map((p) => ({ value: p.id, label: name(p) }))} />
 			<Button type="submit" disabled={!text.trim()}><Icon icon={Add01Icon} size={18} /> {t('কাজ যোগ করুন', 'Add task')}</Button>
@@ -99,6 +103,9 @@
 	.add {
 		display: grid;
 		gap: 0.75rem;
+	}
+	.when {
+		align-items: end;
 	}
 	.task {
 		display: flex;
