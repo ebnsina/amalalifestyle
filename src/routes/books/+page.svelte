@@ -14,6 +14,8 @@
 	import { num, parseNum } from '#lib/format.js';
 	import { BookSchema, type Book } from '#lib/schema.js';
 	import { locale, t } from '#lib/i18n.svelte.js';
+	import RangeFilter from '#lib/components/RangeFilter.svelte';
+	import { daysOf, lastN, type DayRange } from '#lib/range.js';
 	import { store } from '#lib/store.svelte.js';
 
 	let adding = $state(false);
@@ -26,7 +28,11 @@
 
 	const reading = $derived(store.books.filter((b) => b.read < b.pages));
 	const finished = $derived(store.books.filter((b) => b.read >= b.pages));
-	const update = (id: string, read: number) => store.setBooks(store.books.map((b) => (b.id === id ? { ...b, read } : b)));
+	let range = $state<DayRange | undefined>(lastN(7));
+	const days = $derived(daysOf(range ?? lastN(7)));
+	const pagesOf = (id: string) => days.reduce((n, d) => n + (store.reading[d]?.[id] ?? 0), 0);
+	const totalPages = $derived(days.reduce((n, d) => n + Object.values(store.reading[d] ?? {}).reduce((a, b) => a + b, 0), 0));
+	const readingDays = $derived(days.filter((d) => Object.keys(store.reading[d] ?? {}).length).length);
 
 	function add(e: SubmitEvent) {
 		e.preventDefault();
@@ -49,7 +55,7 @@
 			<!-- Typing only reaches the field's value on blur; tapping Save blurs it first, so the click saves what was typed. -->
 			<div class="row page" oninput={() => (typing = b.id)}>
 				<NumberField label={t('এখন কোন পৃষ্ঠায়', 'Page you’re on')} locale={locale()} min={0} max={b.pages} step={1}
-					bind:value={() => b.read, (r) => update(b.id, Math.round(r ?? 0))} />
+					bind:value={() => b.read, (r) => store.setPage(b.id, Math.round(r ?? 0))} />
 				<Button onclick={() => { typing = null; saved = b.id; }}>{t('সেভ করুন', 'Save')}</Button>
 			</div>
 			{#if saved === b.id && typing !== b.id}
@@ -83,6 +89,26 @@
 			<Button type="submit" form="book-form">{t('যোগ করুন', 'Add')}</Button>
 		{/snippet}
 	</Drawer>
+
+	{#if store.books.length}
+		<Card title={t('হিসাব', 'Summary')} level={2}>
+			<div class="stack">
+				<RangeFilter label={t('কোন সময়ের হিসাব', 'Dates')} bind:value={range} />
+				<div class="stats">
+					<div><b>{num(totalPages)}</b><span class="xs muted">{t('পৃষ্ঠা পড়েছেন', 'pages read')}</span></div>
+					<div><b>{num(readingDays)}/{num(days.length)}</b><span class="xs muted">{t('দিন পড়েছেন', 'days reading')}</span></div>
+				</div>
+				{#each store.books.filter((b) => pagesOf(b.id)) as b (b.id)}
+					<div class="row">
+						<span class="grow small">{b.title}</span>
+						<b class="small num">{t(`${num(pagesOf(b.id))} পৃষ্ঠা`, `${pagesOf(b.id)} pages`)}</b>
+					</div>
+				{:else}
+					<p class="small muted">{t('এই সময়ে পড়ার হিসাব নেই। পৃষ্ঠা এগোলেই এখানে জমা হবে।', 'No reading logged in these dates. It adds up here as you move your page forward.')}</p>
+				{/each}
+			</div>
+		</Card>
+	{/if}
 
 	{#if !store.books.length}
 		<EmptyState title={t('কোনো বই নেই', 'No books yet')} icon={Book02Icon}>{t('যে বইটি পড়ছেন সেটি যোগ করুন, প্রতিদিন কত পৃষ্ঠা পড়লেন লিখে রাখুন।', 'Add the book you’re reading and keep track of your page each day.')}</EmptyState>

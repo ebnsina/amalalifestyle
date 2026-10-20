@@ -12,6 +12,11 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
 });
 
+// The page sends this when someone taps "update now", so a new version never replaces one mid-task on its own.
+self.addEventListener('message', (event) => {
+	if (event.data === 'skip-waiting') self.skipWaiting();
+});
+
 self.addEventListener('activate', (event) => {
 	event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))));
 });

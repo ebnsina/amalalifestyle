@@ -12,6 +12,10 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
+- Every tool has its own date range: prayer shows how many days you prayed each prayer and kept all five, fitness
+  shows active days, minutes and routines, reading shows pages read per book, and tasks filter by due date.
+- Reading now keeps a daily log of pages moved forward, so the totals cover any dates from now on.
+- When a new version is out, a banner offers to switch to it in one tap; your data stays as it is.
 - Past days: filter by a date range, with quick picks for the last 7 days, last 30 days and this month, and the
   average calories a day for the range.
 - Tasks: pick the date from a calendar in your language.

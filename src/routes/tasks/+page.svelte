@@ -20,6 +20,8 @@
 	import { store } from '#lib/store.svelte.js';
 	import { rowToggle } from '#lib/row-toggle.js';
 	import { dueLabel, inView, priorities, views, type View } from '#lib/tasks.js';
+	import RangeFilter from '#lib/components/RangeFilter.svelte';
+	import { inRange, type DayRange } from '#lib/range.js';
 
 	const today = dayKey();
 	let text = $state('');
@@ -28,8 +30,11 @@
 	let view = $state<View>('today');
 	let adding = $state(false);
 
-	const list = $derived(inView(store.tasks, view, today));
-	const count = (id: View) => inView(store.tasks, id, today).length;
+	// A date range keeps only tasks due in it; undated tasks drop out while it's set.
+	let range = $state<DayRange>();
+	const shown = $derived(range ? store.tasks.filter((x) => x.due && inRange(x.due, range)) : store.tasks);
+	const list = $derived(inView(shown, view, today));
+	const count = (id: View) => inView(shown, id, today).length;
 	const doneCount = $derived(store.tasks.filter((x) => x.done).length);
 	const empty = $derived<Record<View, string>>({
 		today: t('আজকের সব কাজ শেষ, বা এখনো কিছু লেখা হয়নি।', 'Everything for today is done, or nothing is added yet.'),
@@ -76,6 +81,8 @@
 			<Button type="submit" form="task-form" disabled={!text.trim()}>{t('যোগ করুন', 'Add')}</Button>
 		{/snippet}
 	</Drawer>
+
+	<RangeFilter label={t('কোন তারিখের কাজ', 'Due between')} clearable future bind:value={range} />
 
 	<Tabs.Root bind:value={() => view, (v) => (view = v as View)}>
 		<Tabs.List label={t('কোন কাজ দেখাবেন', 'Show')}>

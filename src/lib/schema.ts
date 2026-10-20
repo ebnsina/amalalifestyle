@@ -33,6 +33,9 @@ export const WorkoutsSchema = v.record(Day, v.array(Id));
 // day → workout → ticked sets, as "exercise-set" indexes
 export const SetsSchema = v.record(Day, v.record(Id, v.array(v.pipe(v.string(), v.regex(/^\d+-\d+$/)))));
 
+// day → book → pages read that day; lets the reading screen total any date range
+export const ReadingSchema = v.record(Day, v.record(Id, v.pipe(v.number(), v.integer(), v.minValue(0))));
+
 export const BookSchema = v.object({
   id: Id,
   title: v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(120)),
@@ -65,6 +68,7 @@ export const BackupSchema = v.object({
   sets: v.optional(SetsSchema, {}),
   books: v.optional(v.array(BookSchema), []),
   tasks: v.optional(v.array(TaskSchema), []),
+  reading: v.optional(ReadingSchema, {}),
 });
 
 export type Profile = v.InferOutput<typeof ProfileSchema>;

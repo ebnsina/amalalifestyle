@@ -8,7 +8,8 @@ import { i18n } from '#lib/i18n.svelte.js';
 import { compareToBudget, dailyTarget, recommend } from '#lib/nutrition.js';
 import type { Backup, Profile, Task } from '#lib/schema.js';
 import { dueLabel, inView, type View } from '#lib/tasks.js';
-import { streak } from '#lib/prayer.js';
+import { streak, summary } from '#lib/prayer.js';
+import { daysOf, inRange, lastN } from '#lib/range.js';
 import { matchScore } from '#lib/search.js';
 
 const woman: Profile = {
@@ -99,15 +100,16 @@ describe('parseBackup', () => {
     prayers: { '2026-10-17': ['fajr', 'isha'] }, workouts: { '2026-10-17': ['walk'] },
     sets: { '2026-10-17': { walk: ['0-0', '1-0'] } },
     books: [{ id: 'b1', title: 'পথের পাঁচালী', pages: 300, read: 40 }], tasks: [{ id: 't1', text: 'বাজার', done: false, priority: 'medium' }],
+    reading: { '2026-10-17': { b1: 12 } },
   };
   it('accepts its own export', () => {
     const r = parseBackup(JSON.stringify(good));
     expect(r.ok && r.backup).toEqual(good);
   });
   it('still imports a file saved before prayers, books and tasks existed', () => {
-    const { prayers, workouts, sets, books, tasks, ...old } = good;
+    const { prayers, workouts, sets, books, tasks, reading, ...old } = good;
     const r = parseBackup(JSON.stringify(old));
-    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [] });
+    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [], reading: {} });
   });
   it('drops meals for unknown foods and counts them', () => {
     const r = parseBackup(JSON.stringify({ ...good, meals: [...good.meals, { ...good.meals[0], foodId: 'pizza' }] }));
@@ -177,5 +179,28 @@ describe('english', () => {
       i18n.lang = 'bn';
     }
     expect(num(1480)).toBe('১,৪৮০');
+  });
+});
+
+describe('date ranges', () => {
+  it('lists every day, across a month end, inclusive', () => {
+    expect(daysOf({ start: '2026-09-29', end: '2026-10-02' })).toEqual(['2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02']);
+  });
+  it('last 7 days ends today and has seven days', () => {
+    const r = lastN(7, new Date(2026, 9, 20));
+    expect(r).toEqual({ start: '2026-10-14', end: '2026-10-20' });
+    expect(daysOf(r)).toHaveLength(7);
+  });
+  it('no range means every day', () => {
+    expect(inRange('2020-01-01')).toBe(true);
+    expect(inRange('2026-10-21', { start: '2026-10-14', end: '2026-10-20' })).toBe(false);
+  });
+  it('sums prayers over a range', () => {
+    const five = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+    const log = { '2026-10-01': [...five, 'witr' as const], '2026-10-02': ['fajr' as const], '2026-09-01': [...five] };
+    const s = summary(log, daysOf({ start: '2026-10-01', end: '2026-10-03' }));
+    expect(s.full).toBe(1);
+    expect(s.per.fajr).toBe(2);
+    expect(s.per.witr).toBe(1);
   });
 });

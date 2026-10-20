@@ -55,6 +55,7 @@ class Store {
 	workouts = $state<Record<string, string[]>>({});
 	sets = $state<Record<string, Record<string, string[]>>>({});
 	books = $state<Book[]>([]);
+	reading = $state<Record<string, Record<string, number>>>({});
 	tasks = $state<Task[]>([]);
 
 	// The meal being written right now: which meal, and the foods ticked for it.
@@ -89,6 +90,7 @@ class Store {
 		this.workouts = d.workouts ?? {};
 		this.sets = d.sets ?? {};
 		this.books = d.books ?? [];
+		this.reading = d.reading ?? {};
 		this.tasks = d.tasks ?? [];
 		if (d.lang) i18n.lang = d.lang;
 	}
@@ -97,7 +99,7 @@ class Store {
 		p.then(() => (this.saveFailed = false), (e) => { console.error(e); this.saveFailed = true; });
 	}
 
-	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks'>(key: K, value: Store[K]) {
+	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks' | 'reading'>(key: K, value: Store[K]) {
 		(this as Store)[key] = value;
 		this.#write(db.setSetting(key, $state.snapshot(value)));
 	}
@@ -108,6 +110,14 @@ class Store {
 	toggleWorkout = (id: string) => this.#save('workouts', { ...this.workouts, [dayKey()]: flip(this.workouts[dayKey()], id) });
 	setSets = (id: string, done: string[]) => this.#save('sets', { ...this.sets, [dayKey()]: { ...this.sets[dayKey()], [id]: done } });
 	setBooks = (b: Book[]) => this.#save('books', b);
+	// Moving forward logs the pages to today; moving back only fixes the page, since nothing was read.
+	setPage = (id: string, read: number) => {
+		const was = this.books.find((b) => b.id === id)?.read ?? read;
+		this.setBooks(this.books.map((b) => (b.id === id ? { ...b, read } : b)));
+		if (read <= was) return;
+		const day = dayKey(), today = this.reading[day] ?? {};
+		this.#save('reading', { ...this.reading, [day]: { ...today, [id]: (today[id] ?? 0) + read - was } });
+	};
 	setTasks = (t: Task[]) => this.#save('tasks', t);
 	setLang = (l: Lang) => {
 		i18n.lang = l;
@@ -125,7 +135,7 @@ class Store {
 	exportData = (): Backup => $state.snapshot({
 		app: BACKUP_APP, version: 1, exportedAt: new Date().toISOString(), profile: this.profile,
 		favourites: this.favourites, recent: this.recent, meals: this.items, prayers: this.prayers,
-		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks,
+		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks, reading: this.reading,
 	});
 
 	// Unlike everyday saves, an import waits for the database: the screen says whether it worked.
