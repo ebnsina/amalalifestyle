@@ -19,6 +19,8 @@
   onto several rows.
 - Books: a clear Save button for the page you typed, with a "Saved" note, and a tidier card.
 - Prayers, tasks and foods: tap anywhere on a row to tick it, not just the small box.
+- Prayer week view: witr and nafl now have their own rows, every row is labelled with the prayer, and today is
+  highlighted.
 - Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed

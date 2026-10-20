@@ -44,8 +44,8 @@ export const parseDay = (key: string) => {
 export const lastDays = (n: number, from = new Date()) =>
   Array.from({ length: n }, (_, i) => dayKey(new Date(from.getFullYear(), from.getMonth(), from.getDate() - (n - 1 - i))));
 
-export const weekday = (key: string) =>
-  fmt('weekday', (l) => new Intl.DateTimeFormat(l, { weekday: 'short' })).format(parseDay(key));
+export const weekday = (key: string, width: 'short' | 'narrow' = 'short') =>
+  fmt(`weekday-${width}`, (l) => new Intl.DateTimeFormat(l, { weekday: width })).format(parseDay(key));
 
 export const shortDate = (key: string) =>
   fmt('short', (l) => new Intl.DateTimeFormat(l, { day: 'numeric', month: 'short' })).format(parseDay(key));
