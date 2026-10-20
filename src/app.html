@@ -4,7 +4,10 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<meta name="text-scale" content="scale" />
-		<meta name="theme-color" content="#F5F8F4" />
+		<meta name="theme-color" content="#f5f8f4" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#0f1411" media="(prefers-color-scheme: dark)" />
+		<!-- Applies a chosen light or dark theme before the first paint, so it never flashes the other one. -->
+		<script>try{const t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch{}</script>
 		<meta name="description" content="Purify Your Life, Transform Your Future. খাবারের হিসাব, নামাজ, ব্যায়াম, বই আর কাজের তালিকা। ইন্টারনেট ছাড়াই চলে।" />
 		<meta property="og:title" content="AMALA Lifestyle" />
 		<meta property="og:description" content="Where Better Habits Build Better Lives. আপনার তথ্য শুধু আপনার ফোনেই থাকে।" />
