@@ -13,6 +13,7 @@
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
 	import Segmented from '#lib/sinaui/ui/Segmented.svelte';
+	import * as Tabs from '#lib/sinaui/ui/tabs/index.js';
 	import { num, dayKey } from '#lib/format.js';
 	import { locale, name, t } from '#lib/i18n.svelte.js';
 	import { TaskSchema } from '#lib/schema.js';
@@ -66,9 +67,24 @@
 		</form>
 	</Card>
 
-	<Segmented label={t('কোন কাজ দেখাবেন', 'Show')} hideLabel bind:value={view}
-		options={views.map((x) => ({ value: x.id, label: `${name(x)} (${num(count(x.id))})` }))} />
+	<Tabs.Root bind:value={() => view, (v) => (view = v as View)}>
+		<Tabs.List label={t('কোন কাজ দেখাবেন', 'Show')}>
+			{#each views as x (x.id)}<Tabs.Tab value={x.id}>{name(x)} <span class="count">{num(count(x.id))}</span></Tabs.Tab>{/each}
+		</Tabs.List>
+		{#each views as x (x.id)}
+			<Tabs.Panel value={x.id}>
+				{#if view === x.id}<div class="stack">{@render tasks()}</div>{/if}
+			</Tabs.Panel>
+		{/each}
+	</Tabs.Root>
 
+	{#if view === 'done' && doneCount}
+		<div><ConfirmButton size="sm" onconfirm={() => store.setTasks(store.tasks.filter((x) => !x.done))}
+			confirm={t('সব মুছবেন?', 'Delete all?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('শেষ হওয়া সব কাজ মুছুন', 'Delete finished tasks')}</ConfirmButton></div>
+	{/if}
+</Screen>
+
+{#snippet tasks()}
 	{#each list as task (task.id)}
 		{@const late = !task.done && !!task.due && task.due < today}
 		<div class="task" class:done={task.done} class:high={task.priority === 'high' && !task.done}>
@@ -92,17 +108,17 @@
 	{:else}
 		<EmptyState title={t('এখানে কিছু নেই', 'Nothing here')} icon={CheckListIcon}>{empty[view]}</EmptyState>
 	{/each}
-
-	{#if view === 'done' && doneCount}
-		<div><ConfirmButton size="sm" onconfirm={() => store.setTasks(store.tasks.filter((x) => !x.done))}
-			confirm={t('সব মুছবেন?', 'Delete all?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('শেষ হওয়া সব কাজ মুছুন', 'Delete finished tasks')}</ConfirmButton></div>
-	{/if}
-</Screen>
+{/snippet}
 
 <style>
 	.add {
 		display: grid;
 		gap: 0.75rem;
+	}
+	.count {
+		margin-inline-start: 0.25rem;
+		color: var(--ui-muted);
+		font-variant-numeric: tabular-nums;
 	}
 	.when {
 		align-items: end;

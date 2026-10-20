@@ -15,6 +15,8 @@
 - Past days: filter by a date range, with quick picks for the last 7 days, last 30 days and this month, and the
   average calories a day for the range.
 - Tasks: pick the date from a calendar in your language.
+- Food categories, task filters and the meal switcher sit on one line that scrolls sideways, instead of wrapping
+  onto several rows.
 - Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed

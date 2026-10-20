@@ -9,7 +9,7 @@
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
-	import Segmented from '#lib/sinaui/ui/Segmented.svelte';
+	import * as Tabs from '#lib/sinaui/ui/tabs/index.js';
 	import { categories, foodById, foods, type Food } from '#lib/data/foods.js';
 	import { num, qty } from '#lib/format.js';
 	import { matchScore } from '#lib/search.js';
@@ -53,16 +53,28 @@
 	<Input label={t('খাবার খুঁজুন', 'Search foods')} hideLabel type="search" bind:value={q} placeholder={t('খাবার খুঁজুন (যেমন: ডাল, মিষ্টি কুমড়া)', 'Search foods (e.g. dal, rice, ডাল)')}>
 		{#snippet start()}<Icon icon={Search01Icon} size={20} />{/snippet}
 	</Input>
-	<Segmented label={t('ধরন', 'Category')} hideLabel bind:value={cat} options={categories.map((k) => ({ value: k.id, label: `${k.emoji} ${name(k)}` }))} />
-
-	{#if !query && cat === 'all' && quick.length}
-		<h2 class="section">{t('প্রিয় ও সাম্প্রতিক', 'Favourites & recent')}</h2>
-		{#each quick as f (f.id)}{@render row(f)}{/each}
-		<h2 class="section">{t('সব খাবার', 'All foods')}</h2>
-	{/if}
-	{#each list as f (f.id)}{@render row(f)}{:else}
-		<EmptyState title={t('কিছু পাওয়া যায়নি', 'Nothing found')} icon={Search01Icon}>{t(`“${q}” নামে কিছু নেই। অন্য নামে খুঁজে দেখুন।`, `Nothing called “${q}”. Try another name.`)}</EmptyState>
-	{/each}
+	<Tabs.Root bind:value={cat}>
+		<Tabs.List label={t('ধরন', 'Category')}>
+			{#each categories as k (k.id)}<Tabs.Tab value={k.id}>{k.emoji} {name(k)}</Tabs.Tab>{/each}
+		</Tabs.List>
+		{#each categories as k (k.id)}
+			<Tabs.Panel value={k.id}>
+				<!-- Only the open tab builds its list; hidden panels stay empty. -->
+				{#if cat === k.id}
+					<div class="stack">
+						{#if !query && cat === 'all' && quick.length}
+							<h2 class="section">{t('প্রিয় ও সাম্প্রতিক', 'Favourites & recent')}</h2>
+							{#each quick as f (f.id)}{@render row(f)}{/each}
+							<h2 class="section">{t('সব খাবার', 'All foods')}</h2>
+						{/if}
+						{#each list as f (f.id)}{@render row(f)}{:else}
+							<EmptyState title={t('কিছু পাওয়া যায়নি', 'Nothing found')} icon={Search01Icon}>{t(`“${q}” নামে কিছু নেই। অন্য নামে খুঁজে দেখুন।`, `Nothing called “${q}”. Try another name.`)}</EmptyState>
+						{/each}
+					</div>
+				{/if}
+			</Tabs.Panel>
+		{/each}
+	</Tabs.Root>
 
 	{#snippet footer()}
 		{#if store.cooked.length}
