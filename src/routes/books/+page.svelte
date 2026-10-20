@@ -19,6 +19,9 @@
 	let title = $state('');
 	let pages = $state('');
 	let error = $state(false);
+	// The book whose page is being typed, and the one just saved (for the "Saved" note).
+	let typing = $state<string | null>(null);
+	let saved = $state<string | null>(null);
 
 	const reading = $derived(store.books.filter((b) => b.read < b.pages));
 	const finished = $derived(store.books.filter((b) => b.read >= b.pages));
@@ -34,18 +37,28 @@
 </script>
 
 {#snippet book(b: Book, i: number)}
-	<Card class="enter" style="--i: {i}">
+	<Card class="enter" style="--i: {i}" title={b.title}>
 		<div class="book">
-			<div class="row">
-				<b class="grow">{b.title}</b>
-				{#if b.read >= b.pages}<Badge tone="accent">{t('শেষ 🎉', 'Finished 🎉')}</Badge>{:else}<span class="small muted">{num(Math.round((b.read / b.pages) * 100))}%</span>{/if}
+			<div class="row between">
+				<span class="small muted">{t(`${num(b.read)} / ${num(b.pages)} পৃষ্ঠা`, `${b.read} / ${b.pages} pages`)}</span>
+				{#if b.read >= b.pages}<Badge tone="accent" icon={false}>{t('পড়া শেষ 🎉', 'Finished 🎉')}</Badge>
+				{:else}<b class="small accent">{num(Math.round((b.read / b.pages) * 100))}%</b>{/if}
 			</div>
 			<div class="bar"><span style:width="{Math.min(100, (b.read / b.pages) * 100)}%"></span></div>
-			<NumberField label={t(`এখন কোন পৃষ্ঠায় (মোট ${num(b.pages)})`, `Current page (of ${b.pages})`)} locale={locale()} min={0} max={b.pages} step={5}
-				bind:value={() => b.read, (r) => update(b.id, Math.round(r ?? 0))} />
-			<div><ConfirmButton size="sm" onconfirm={() => store.setBooks(store.books.filter((x) => x.id !== b.id))}
-				confirm={t('সত্যিই মুছবেন?', 'Delete it?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('মুছুন', 'Delete')}</ConfirmButton></div>
+			<!-- Typing only reaches the field's value on blur; tapping Save blurs it first, so the click saves what was typed. -->
+			<div class="row page" oninput={() => (typing = b.id)}>
+				<NumberField label={t('এখন কোন পৃষ্ঠায়', 'Page you’re on')} locale={locale()} min={0} max={b.pages} step={1}
+					bind:value={() => b.read, (r) => update(b.id, Math.round(r ?? 0))} />
+				<Button onclick={() => { typing = null; saved = b.id; }}>{t('সেভ করুন', 'Save')}</Button>
+			</div>
+			{#if saved === b.id && typing !== b.id}
+				<p class="small saved" role="status">{t('সেভ হয়েছে ✓', 'Saved ✓')}</p>
+			{/if}
 		</div>
+		{#snippet footer()}
+			<ConfirmButton size="sm" onconfirm={() => store.setBooks(store.books.filter((x) => x.id !== b.id))}
+				confirm={t('সত্যিই মুছবেন?', 'Delete this book?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('বইটা মুছুন', 'Delete book')}</ConfirmButton>
+		{/snippet}
 	</Card>
 {/snippet}
 
@@ -88,5 +101,17 @@
 	}
 	b {
 		font-weight: 600;
+	}
+	.between {
+		justify-content: space-between;
+	}
+	.accent {
+		color: var(--ui-accent);
+	}
+	.page {
+		align-items: end;
+	}
+	.saved {
+		color: var(--ui-accent);
 	}
 </style>

@@ -17,6 +17,7 @@
 - Tasks: pick the date from a calendar in your language.
 - Food categories, task filters and the meal switcher sit on one line that scrolls sideways, instead of wrapping
   onto several rows.
+- Books: a clear Save button for the page you typed, with a "Saved" note, and a tidier card.
 - Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed
