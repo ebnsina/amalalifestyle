@@ -7,6 +7,7 @@
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { extra, fard, streak } from '#lib/prayer.js';
 	import { store } from '#lib/store.svelte.js';
+	import { rowToggle } from '#lib/row-toggle.js';
 
 	const today = dayKey();
 	const done = $derived(store.prayers[today] ?? []);
@@ -15,7 +16,7 @@
 
 {#snippet list(ps: typeof fard)}
 	{#each ps as p (p.id)}
-		<div class="prayer" class:on={done.includes(p.id)}>
+		<div class="prayer" class:on={done.includes(p.id)} {@attach rowToggle}>
 			<Checkbox checked={done.includes(p.id)} onchange={() => store.togglePrayer(today, p.id)} hint={t(p.whenBn, p.whenEn)}>
 				<b>{name(p)}</b>
 			</Checkbox>
@@ -59,6 +60,7 @@
 
 <style>
 	.prayer {
+		cursor: pointer;
 		padding: 0.75rem 1rem;
 		border-radius: var(--ui-radius);
 		background: var(--ui-surface);

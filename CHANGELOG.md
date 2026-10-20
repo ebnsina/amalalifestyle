@@ -18,6 +18,7 @@
 - Food categories, task filters and the meal switcher sit on one line that scrolls sideways, instead of wrapping
   onto several rows.
 - Books: a clear Save button for the page you typed, with a "Saved" note, and a tidier card.
+- Prayers, tasks and foods: tap anywhere on a row to tick it, not just the small box.
 - Light and dark themes: follow your phone, or pick light or dark in Profile.
 
 ### Changed
