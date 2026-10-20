@@ -5,7 +5,7 @@ export type Priority = Task['priority'];
 export const priorities: { id: Priority; bn: string; en: string }[] = [
 	{ id: 'high', bn: 'জরুরি', en: 'Urgent' },
 	{ id: 'medium', bn: 'সাধারণ', en: 'Normal' },
-	{ id: 'low', bn: 'পরে হলেও চলবে', en: 'Can wait' },
+	{ id: 'low', bn: 'পরে', en: 'Later' },
 ];
 
 export type View = 'today' | 'upcoming' | 'late' | 'done' | 'all';
