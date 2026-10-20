@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
+	import { Add01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 	import { resolve } from '$app/paths';
 	import Plate from '#lib/components/Plate.svelte';
 	import Screen from '#lib/components/Screen.svelte';
@@ -7,7 +7,9 @@
 	import Badge from '#lib/sinaui/ui/Badge.svelte';
 	import Card from '#lib/sinaui/ui/Card.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
-	import { setCount, workouts, type Workout } from '#lib/data/workouts.js';
+	import { setCount, type Workout } from '#lib/data/workouts.js';
+	import WorkoutForm from '#lib/components/WorkoutForm.svelte';
+	import Button from '#lib/sinaui/ui/Button.svelte';
 	import { num, dayKey } from '#lib/format.js';
 	import RangeFilter from '#lib/components/RangeFilter.svelte';
 	import { daysOf, lastN, type DayRange } from '#lib/range.js';
@@ -17,6 +19,8 @@
 	const today = dayKey();
 	let range = $state<DayRange | undefined>(lastN(7));
 	const days = $derived(daysOf(range ?? lastN(7)));
+	const workouts = $derived(store.allWorkouts);
+	let adding = $state(false);
 	// Finished workouts in the range: one entry per workout per day.
 	const done = $derived(days.flatMap((d) => store.workouts[d] ?? []).filter((id) => workouts.some((w) => w.id === id)));
 	const activeDays = $derived(days.filter((d) => store.workouts[d]?.length).length);
@@ -36,6 +40,11 @@
 {/snippet}
 
 <Screen title={t('ফিটনেস গাইড', 'Fitness guide')}>
+	<div class="actions">
+		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('নতুন রুটিন', 'New routine')}</Button>
+	</div>
+	<WorkoutForm bind:open={adding} />
+
 	<Card title={t('হিসাব', 'Summary')} level={2}>
 		<div class="stack">
 			<RangeFilter label={t('কোন সময়ের হিসাব', 'Dates')} bind:value={range} />

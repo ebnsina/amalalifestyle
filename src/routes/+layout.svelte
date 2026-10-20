@@ -6,12 +6,14 @@
 	import { i18n, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 	import { applyTheme, theme } from '#lib/theme.svelte.js';
+	import { watchTyping } from '#lib/phonetic.svelte.js';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 	store.init();
 	$effect(() => void (document.documentElement.lang = i18n.lang));
 	applyTheme(theme.value);
+	watchTyping();
 
 	// A new version waits until every tab of the app is closed; offer to switch now instead.
 	let waiting = $state<ServiceWorker>();
@@ -26,6 +28,13 @@
 		document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && reg.update());
 	});
 	navigator.serviceWorker?.addEventListener('controllerchange', () => location.reload());
+
+	// Once the on-screen keyboard has opened, bring the field being typed in to the middle of what's left.
+	addEventListener('focusin', (e) => {
+		const el = e.target as HTMLElement;
+		if (!el.matches('input:not([type="checkbox"], [type="radio"]), textarea')) return;
+		setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300);
+	});
 </script>
 
 {#if store.status === 'ready'}

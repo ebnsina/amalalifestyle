@@ -33,6 +33,11 @@
 	color-scheme: light dark;
 }
 
+/* Fields scrolled into view stay clear of the fixed footer buttons. */
+html {
+	scroll-padding-block: 4.5rem 6.5rem;
+}
+
 body {
 	margin: 0;
 	background: var(--ui-bg);

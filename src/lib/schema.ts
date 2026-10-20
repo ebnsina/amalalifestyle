@@ -43,6 +43,22 @@ export const BookSchema = v.object({
   read: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(5000)),
 });
 
+const Name = (max: number) => v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(max));
+
+// A routine someone made themselves; shown beside the built-in ones.
+export const CustomWorkoutSchema = v.object({
+  id: Id,
+  name: Name(60),
+  place: v.picklist(['home', 'gym']),
+  minutes: v.pipe(v.number(), v.integer(), v.minValue(5), v.maxValue(180)),
+  rest: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(300)),
+  exercises: v.pipe(v.array(v.object({
+    name: Name(60),
+    sets: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(10)),
+    reps: Name(20),
+  })), v.minLength(1), v.maxLength(20)),
+});
+
 export const TaskSchema = v.object({
   id: Id,
   text: v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(200)),
@@ -69,6 +85,7 @@ export const BackupSchema = v.object({
   books: v.optional(v.array(BookSchema), []),
   tasks: v.optional(v.array(TaskSchema), []),
   reading: v.optional(ReadingSchema, {}),
+  customWorkouts: v.optional(v.array(CustomWorkoutSchema), []),
 });
 
 export type Profile = v.InferOutput<typeof ProfileSchema>;
@@ -78,3 +95,4 @@ export type Backup = v.InferOutput<typeof BackupSchema>;
 export type Prayer = v.InferOutput<typeof PrayerSchema>;
 export type Book = v.InferOutput<typeof BookSchema>;
 export type Task = v.InferOutput<typeof TaskSchema>;
+export type CustomWorkout = v.InferOutput<typeof CustomWorkoutSchema>;

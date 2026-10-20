@@ -4,6 +4,8 @@ export type Exercise = { bn: string; en: string; sets: number; repsBn: string; r
 export type Workout = {
   id: string; bn: string; en: string; subBn: string; subEn: string; emoji: string; minutes: number; place: 'home' | 'gym';
   rest: number; exercises: Exercise[];
+  // Made by the person, editable and removable.
+  custom?: boolean;
 };
 
 const x = (bn: string, en: string, sets: number, repsBn: string, repsEn: string, tipBn: string, tipEn: string): Exercise =>

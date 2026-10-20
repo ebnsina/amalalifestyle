@@ -1,15 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
-import { foodById } from '#lib/data/foods.js';
+import { foodById, foods } from '#lib/data/foods.js';
 import { parseBackup } from '#lib/backup.js';
 import { bmi, bmiBand, healthyRange } from '#lib/bmi.js';
-import { dayKey, lastDays, num, parseNum, qty } from '#lib/format.js';
+import { dayKey, lastDays, num, parseNum, qty, unitName } from '#lib/format.js';
 import { i18n } from '#lib/i18n.svelte.js';
 import { compareToBudget, dailyTarget, recommend } from '#lib/nutrition.js';
 import type { Backup, Profile, Task } from '#lib/schema.js';
 import { dueLabel, inView, type View } from '#lib/tasks.js';
 import { streak, summary } from '#lib/prayer.js';
 import { daysOf, inRange, lastN } from '#lib/range.js';
+import { convertWords } from '#lib/phonetic.svelte.js';
 import { matchScore } from '#lib/search.js';
 
 const woman: Profile = {
@@ -101,15 +102,16 @@ describe('parseBackup', () => {
     sets: { '2026-10-17': { walk: ['0-0', '1-0'] } },
     books: [{ id: 'b1', title: 'পথের পাঁচালী', pages: 300, read: 40 }], tasks: [{ id: 't1', text: 'বাজার', done: false, priority: 'medium' }],
     reading: { '2026-10-17': { b1: 12 } },
+    customWorkouts: [{ id: 'w1', name: 'পায়ের দিন', place: 'gym', minutes: 40, rest: 60, exercises: [{ name: 'স্কোয়াট', sets: 3, reps: '১০টি' }] }],
   };
   it('accepts its own export', () => {
     const r = parseBackup(JSON.stringify(good));
     expect(r.ok && r.backup).toEqual(good);
   });
   it('still imports a file saved before prayers, books and tasks existed', () => {
-    const { prayers, workouts, sets, books, tasks, reading, ...old } = good;
+    const { prayers, workouts, sets, books, tasks, reading, customWorkouts, ...old } = good;
     const r = parseBackup(JSON.stringify(old));
-    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [], reading: {} });
+    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [], reading: {}, customWorkouts: [] });
   });
   it('drops meals for unknown foods and counts them', () => {
     const r = parseBackup(JSON.stringify({ ...good, meals: [...good.meals, { ...good.meals[0], foodId: 'pizza' }] }));
@@ -202,5 +204,33 @@ describe('date ranges', () => {
     expect(s.full).toBe(1);
     expect(s.per.fajr).toBe(2);
     expect(s.per.witr).toBe(1);
+  });
+});
+
+describe('phonetic typing', () => {
+  it('converts finished words and keeps the caret in place', () => {
+    expect(convertWords('ami bhalo', 9)).toEqual({ text: 'আমি bhalo', caret: 9 - 3 + 3 });
+    expect(convertWords('ami bhalo', 9, true).text).toBe('আমি ভালো');
+  });
+  it('leaves Bangla, digits and spacing alone', () => {
+    expect(convertWords('বাজার 2 dal ', 12).text).toBe('বাজার 2 ডাল ');
+    expect(convertWords('বাজার', 5, true).text).toBe('বাজার');
+  });
+});
+
+describe('food list', () => {
+  it('has unique ids, and every unit has an English name', () => {
+    expect(new Set(foods.map((f) => f.id)).size).toBe(foods.length);
+    i18n.lang = 'en';
+    try {
+      for (const f of foods) expect(unitName(f.unit)).toMatch(/^[a-z ]+$/);
+    } finally {
+      i18n.lang = 'bn';
+    }
+  });
+  it('finds the new foods by their everyday names', () => {
+    for (const [q, id] of [['shosha', 'shosha'], ['tomato', 'tomato'], ['oats', 'oats'], ['শসা', 'shosha'], ['pauruti', 'bread']]) {
+      expect(foods.filter((f) => matchScore(q, [f.bn, f.en, ...f.aliases]) >= 0).map((f) => f.id)).toContain(id);
+    }
   });
 });

@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { Tick02Icon, TickDouble02Icon, Timer02Icon } from '@hugeicons/core-free-icons';
+	import { PencilEdit02Icon, Tick02Icon, TickDouble02Icon, Timer02Icon } from '@hugeicons/core-free-icons';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import WorkoutForm from '#lib/components/WorkoutForm.svelte';
+	import ConfirmButton from '#lib/sinaui/ui/ConfirmButton.svelte';
 	import { page } from '$app/state';
 	import Plate from '#lib/components/Plate.svelte';
 	import Screen from '#lib/components/Screen.svelte';
@@ -9,12 +13,19 @@
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import ToggleGroup from '#lib/sinaui/ui/ToggleGroup.svelte';
-	import { setCount, workoutById } from '#lib/data/workouts.js';
+	import { setCount } from '#lib/data/workouts.js';
 	import { num, clock, dayKey } from '#lib/format.js';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 
-	const w = $derived(workoutById[page.params.id ?? '']);
+	const w = $derived(store.allWorkouts.find((x) => x.id === page.params.id));
+	// The saved routine behind one of the person's own workouts, for editing and removing.
+	const mine = $derived(w?.custom ? store.customWorkouts.find((c) => `my-${c.id}` === w.id) : undefined);
+	let editing = $state(false);
+	function remove() {
+		store.setCustomWorkouts(store.customWorkouts.filter((c) => c.id !== mine?.id));
+		goto(resolve('/fitness'), { replace: true });
+	}
 	const finished = $derived(!!w && (store.workouts[dayKey()] ?? []).includes(w.id));
 	const done = $derived((w && store.sets[dayKey()]?.[w.id]) || []);
 	const total = $derived(w ? setCount(w) : 0);
@@ -35,8 +46,9 @@
 
 	// A newly ticked set restarts the rest timer from full.
 	function setDone(i: number, sets: number, on: string[]) {
-		const mine = keys(i, sets);
-		const next = [...done.filter((k) => !mine.includes(k)), ...on];
+		if (!w) return;
+		const these = keys(i, sets);
+		const next = [...done.filter((k) => !these.includes(k)), ...on];
 		const added = next.length > done.length;
 		store.setSets(w.id, next);
 		if (added && w.rest && next.length < total) {
@@ -45,7 +57,7 @@
 		}
 	}
 	function finish() {
-		if (!finished) store.toggleWorkout(w.id);
+		if (w && !finished) store.toggleWorkout(w.id);
 		history.back();
 	}
 </script>
@@ -71,20 +83,28 @@
 		</div>
 
 		{#each w.exercises as e, i (i)}
-			{@const mine = keys(i, e.sets)}
+			{@const these = keys(i, e.sets)}
 			<Card class="enter" style="--i: {i}">
 				<div class="exercise">
-					<span class="num" class:complete={mine.every((k) => done.includes(k))}>{num(i + 1)}</span>
+					<span class="num" class:complete={these.every((k) => done.includes(k))}>{num(i + 1)}</span>
 					<div class="grow">
 						<div class="row between"><b>{name(e)}</b><b class="small accent">{e.sets > 1 ? `${num(e.sets)} ${t('সেট', 'sets')} × ${t(e.repsBn, e.repsEn)}` : t(e.repsBn, e.repsEn)}</b></div>
-						<p class="small muted">{t(e.tipBn, e.tipEn)}</p>
+						{#if e.tipBn}<p class="small muted">{t(e.tipBn, e.tipEn)}</p>{/if}
 						<ToggleGroup size="sm" label={t(`${e.bn}: শেষ হওয়া সেট`, `${e.en}: sets done`)}
-							items={mine.map((k, j) => ({ value: k, label: e.sets > 1 ? t(`সেট ${num(j + 1)}`, `Set ${j + 1}`) : t('করেছি', 'Done') }))}
-							bind:value={() => done.filter((k) => mine.includes(k)), (on) => setDone(i, e.sets, on)} />
+							items={these.map((k, j) => ({ value: k, label: e.sets > 1 ? t(`সেট ${num(j + 1)}`, `Set ${j + 1}`) : t('করেছি', 'Done') }))}
+							bind:value={() => done.filter((k) => these.includes(k)), (on) => setDone(i, e.sets, on)} />
 					</div>
 				</div>
 			</Card>
 		{/each}
+
+		{#if mine}
+			<div class="actions">
+				<ConfirmButton size="sm" onconfirm={remove} confirm={t('সত্যিই মুছবেন?', 'Delete it?')} done={t('মোছা হয়েছে', 'Deleted')}>{t('রুটিনটা মুছুন', 'Delete routine')}</ConfirmButton>
+				<Button size="sm" variant="secondary" onclick={() => (editing = true)}><Icon icon={PencilEdit02Icon} size={16} /> {t('বদলান', 'Edit')}</Button>
+			</div>
+			<WorkoutForm bind:open={editing} editing={mine} />
+		{/if}
 
 		<Alert title={t('ভঙ্গি আগে', 'Form first')}>{t('ওজনের চেয়ে সঠিক ভঙ্গি বেশি জরুরি। সব সেট না পারলে যতটুকু পেরেছেন ততটুকুই শেষ করুন — সেটাও গোনা হবে।', 'Good form matters more than weight. If you can’t do every set, finish with what you did — it still counts.')}</Alert>
 

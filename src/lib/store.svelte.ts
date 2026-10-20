@@ -3,8 +3,9 @@ import * as db from '#lib/db.js';
 import { dayKey } from '#lib/format.js';
 import { i18n, name, type Lang } from '#lib/i18n.svelte.js';
 import type { Portion } from '#lib/nutrition.js';
+import { workouts as builtIn, type Workout } from '#lib/data/workouts.js';
 import {
-	BACKUP_APP, type Backup, type Book, type MealItem, type Prayer, type Profile, type Slot, type Task,
+	BACKUP_APP, type Backup, type Book, type CustomWorkout, type MealItem, type Prayer, type Profile, type Slot, type Task,
 } from '#lib/schema.js';
 
 export type { Slot };
@@ -34,6 +35,13 @@ const toMeals = (items: MealItem[]): Meal[] =>
 		return portions.length ? [{ slot: id, portions }] : [];
 	});
 
+// Own routines carry one name, used in both languages; their ids can't clash with the built-in ones.
+export const toWorkout = (c: CustomWorkout): Workout => ({
+	id: `my-${c.id}`, bn: c.name, en: c.name, subBn: 'নিজের রুটিন', subEn: 'Your routine', emoji: '⭐',
+	minutes: c.minutes, place: c.place, rest: c.rest, custom: true,
+	exercises: c.exercises.map((e) => ({ bn: e.name, en: e.name, sets: e.sets, repsBn: e.reps, repsEn: e.reps, tipBn: '', tipEn: '' })),
+});
+
 // ponytail: prefills setup during UI review; start blank before release.
 export const dummyProfile: Profile = {
 	age: 34, heightCm: 163, weightKg: 68, sex: 'female', activity: 'medium', goal: 'lose', mealsPerDay: 3, avoid: [],
@@ -56,6 +64,9 @@ class Store {
 	sets = $state<Record<string, Record<string, string[]>>>({});
 	books = $state<Book[]>([]);
 	reading = $state<Record<string, Record<string, number>>>({});
+	customWorkouts = $state<CustomWorkout[]>([]);
+	// Built-in routines first, then the person's own, all in the same shape.
+	allWorkouts = $derived<Workout[]>([...builtIn, ...this.customWorkouts.map(toWorkout)]);
 	tasks = $state<Task[]>([]);
 
 	// The meal being written right now: which meal, and the foods ticked for it.
@@ -91,6 +102,7 @@ class Store {
 		this.sets = d.sets ?? {};
 		this.books = d.books ?? [];
 		this.reading = d.reading ?? {};
+		this.customWorkouts = d.customWorkouts ?? [];
 		this.tasks = d.tasks ?? [];
 		if (d.lang) i18n.lang = d.lang;
 	}
@@ -99,7 +111,7 @@ class Store {
 		p.then(() => (this.saveFailed = false), (e) => { console.error(e); this.saveFailed = true; });
 	}
 
-	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks' | 'reading'>(key: K, value: Store[K]) {
+	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks' | 'reading' | 'customWorkouts'>(key: K, value: Store[K]) {
 		(this as Store)[key] = value;
 		this.#write(db.setSetting(key, $state.snapshot(value)));
 	}
@@ -119,6 +131,7 @@ class Store {
 		this.#save('reading', { ...this.reading, [day]: { ...today, [id]: (today[id] ?? 0) + read - was } });
 	};
 	setTasks = (t: Task[]) => this.#save('tasks', t);
+	setCustomWorkouts = (w: CustomWorkout[]) => this.#save('customWorkouts', w);
 	setLang = (l: Lang) => {
 		i18n.lang = l;
 		this.#write(db.setSetting('lang', l));
@@ -135,7 +148,7 @@ class Store {
 	exportData = (): Backup => $state.snapshot({
 		app: BACKUP_APP, version: 1, exportedAt: new Date().toISOString(), profile: this.profile,
 		favourites: this.favourites, recent: this.recent, meals: this.items, prayers: this.prayers,
-		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks, reading: this.reading,
+		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks, reading: this.reading, customWorkouts: this.customWorkouts,
 	});
 
 	// Unlike everyday saves, an import waits for the database: the screen says whether it worked.
