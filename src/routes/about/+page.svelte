@@ -24,7 +24,11 @@
 	{#each sections as s, i (s.title)}
 		<Card class="enter" style="--i: {i}" title={s.title}><p class="muted">{s.body}</p></Card>
 	{/each}
-	<p class="xs muted center">{t('তৈরি করেছেন ইবনে সিনা', 'Made by Ebn Sina')}</p>
+	<p class="xs muted center">
+		<a class="credit" href="https://m.me/ebnsina.dev" target="_blank" rel="noopener noreferrer">
+			{t('তৈরি করেছেন ইবনে সিনা', 'Made by Ebn Sina')}
+		</a>
+	</p>
 </Screen>
 
 <style>
@@ -33,6 +37,10 @@
 		justify-items: center;
 		gap: 0.25rem;
 		padding-block: 1rem;
+	}
+	.credit {
+		color: inherit;
+		text-underline-offset: 3px;
 	}
 	.logo {
 		display: grid;
