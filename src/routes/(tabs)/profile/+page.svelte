@@ -48,7 +48,7 @@
 
 	<div class="hero">
 		<p class="small">{t('আপনার দিনের আনুমানিক লক্ষ্য', 'Your estimated daily target')}</p>
-		<p class="target">{num(dailyTarget(p))} <span>{t('ক্যালরি', 'kcal')}</span></p>
+		<p class="target heading">{num(dailyTarget(p))} <span>{t('ক্যালরি', 'kcal')}</span></p>
 	</div>
 
 	<Card>

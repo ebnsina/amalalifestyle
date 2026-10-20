@@ -42,7 +42,7 @@
 			<div class="result" style:--band="var({bandColor[band.id]})">
 				<div class="center">
 					<p class="muted">{t('আপনার বিএমআই', 'Your BMI')}</p>
-					<p class="value" aria-live="polite">{num(Math.round(value * 10) / 10)}</p>
+					<p class="value heading" aria-live="polite">{num(Math.round(value * 10) / 10)}</p>
 					<span class="chip">{name(band)}</span>
 				</div>
 

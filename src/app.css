@@ -1,5 +1,19 @@
-@import '@fontsource-variable/fraunces/opsz.css';
+@import '@fontsource-variable/inter-tight';
 @import '@fontsource-variable/noto-serif-bengali';
+
+/* Clash Display (Indian Type Foundry, ITF Free Font License) is only on Fontshare, so it ships with the app. */
+@font-face {
+	font-family: 'Clash Display';
+	src: url('./lib/fonts/clash-display-600.woff2') format('woff2');
+	font-weight: 600;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Clash Display';
+	src: url('./lib/fonts/clash-display-700.woff2') format('woff2');
+	font-weight: 700;
+	font-display: swap;
+}
 
 /* Fresh near-white base, leaf-green accent, warm orange for highlights. Same palette as the phone app. */
 :root {
@@ -11,8 +25,9 @@
 	--ui-on-accent: light-dark(#ffffff, #08200f);
 	--ui-danger: light-dark(#b4442f, #ff8a7a);
 	--ui-warning: light-dark(#b0561a, #f2a35e);
-	/* Fraunces has no Bangla letters, so they fall through to Noto Serif Bengali; one stack serves both languages. */
-	--ui-font: 'Fraunces Variable', 'Noto Serif Bengali Variable', Georgia, serif;
+	/* The Latin fonts have no Bangla letters, so Bangla falls through to Noto Serif Bengali in both stacks. */
+	--ui-font: 'Inter Tight Variable', 'Noto Serif Bengali Variable', system-ui, sans-serif;
+	--heading-font: 'Clash Display', 'Noto Serif Bengali Variable', system-ui, sans-serif;
 
 	--accent-soft: light-dark(#e7f2ea, #1d3326);
 	--warm: light-dark(#c8601d, #f2a35e);
@@ -48,6 +63,11 @@ h1, h2, h3, p {
 }
 .xs {
 	font-size: 0.8125rem;
+}
+.big,
+.section,
+.heading {
+	font-family: var(--heading-font);
 }
 .big {
 	font-size: 1.375rem;
