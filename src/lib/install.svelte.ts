@@ -17,7 +17,16 @@ export const install = $state({
 	installed: standalone(),
 	event: window.__installEvent as InstallEvent | undefined,
 	ios,
+	// Chrome, Edge and Samsung Internet offer their own dialog, but only after a tap and 30 seconds on the page.
+	chromium: 'onbeforeinstallprompt' in window,
 });
+
+// Opened in a browser tab while already installed: Chrome can tell, so don't offer it again.
+(navigator as Navigator & { getInstalledRelatedApps?: () => Promise<unknown[]> }).getInstalledRelatedApps?.()
+	.then((apps) => {
+		if (apps.length) install.installed = true;
+	})
+	.catch(() => {});
 
 addEventListener('beforeinstallprompt', (e) => {
 	e.preventDefault();

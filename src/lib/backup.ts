@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { foodById } from '#lib/data/foods.js';
+import { foodById, foodId } from '#lib/data/foods.js';
 import { dayKey } from '#lib/format.js';
 import { BackupSchema, type Backup } from '#lib/schema.js';
 
@@ -18,6 +18,7 @@ export function parseBackup(text: string): ParseResult {
   }
   const parsed = v.safeParse(BackupSchema, raw);
   if (!parsed.success) return { ok: false, reason: 'format' };
-  const meals = parsed.output.meals.filter((m) => foodById[m.foodId]);
+  const own = new Set(parsed.output.customFoods.map((c) => foodId(c.id)));
+  const meals = parsed.output.meals.filter((m) => foodById[m.foodId] || own.has(m.foodId));
   return { ok: true, backup: { ...parsed.output, meals }, skipped: parsed.output.meals.length - meals.length };
 }

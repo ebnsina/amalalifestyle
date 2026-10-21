@@ -1,6 +1,8 @@
 // General beginner guidance, not a personal programme.
 // One set per tick; timed steps like warm-ups are a single set.
-export type Exercise = { bn: string; en: string; sets: number; repsBn: string; repsEn: string; tipBn: string; tipEn: string };
+export type Exercise = {
+  bn: string; en: string; sets: number; repsBn: string; repsEn: string; tipBn: string; tipEn: string; kg?: number;
+};
 export type Workout = {
   id: string; bn: string; en: string; subBn: string; subEn: string; emoji: string; minutes: number; place: 'home' | 'gym';
   rest: number; exercises: Exercise[];

@@ -12,7 +12,6 @@
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import NumberField from '#lib/sinaui/ui/NumberField.svelte';
 	import * as Tabs from '#lib/sinaui/ui/tabs/index.js';
-	import { foodById } from '#lib/data/foods.js';
 	import { num, qty, unitName } from '#lib/format.js';
 	import { compareToBudget, dailyTarget, kcalOf, macrosOf, recommend } from '#lib/nutrition.js';
 	import { i18n, locale, name, t } from '#lib/i18n.svelte.js';
@@ -28,7 +27,7 @@
 	const target = $derived(dailyTarget(store.profile!));
 	const remaining = $derived(target - others.reduce((s, m) => s + kcalOf(m.portions), 0));
 	const mealsLeft = $derived(store.profile!.mealsPerDay - others.filter((m) => m.slot !== 'snack').length);
-	const rec = $derived(recommend(store.cooked.map((id) => foodById[id]).filter(Boolean), remaining, mealsLeft, slot === 'snack'));
+	const rec = $derived(recommend(store.cooked.map((id) => store.foodById[id]).filter(Boolean), remaining, mealsLeft, slot === 'snack'));
 	const portions = $derived(rec.portions.map((p) => ({
 		food: p.food,
 		units: edits[slot]?.[p.food.id] ?? saved?.portions.find((x) => x.food.id === p.food.id)?.units ?? p.units,

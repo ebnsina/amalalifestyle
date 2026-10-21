@@ -45,6 +45,22 @@ export const BookSchema = v.object({
 
 const Name = (max: number) => v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(max));
 
+const Grams = v.optional(v.pipe(v.number(), v.minValue(0), v.maxValue(500)), 0);
+
+// A food someone added; nutrition is per one household unit, like the built-in list.
+export const CustomFoodSchema = v.object({
+  id: Id,
+  name: Name(60),
+  category: v.picklist(['rice', 'dal', 'fish', 'meat', 'veg', 'dairy', 'snack']),
+  unit: Name(20),
+  grams: v.optional(v.pipe(v.number(), v.minValue(0), v.maxValue(2000)), 0),
+  kcal: v.pipe(v.number(), v.minValue(1), v.maxValue(3000)),
+  protein: Grams,
+  carbs: Grams,
+  fat: Grams,
+  fiber: Grams,
+});
+
 // A routine someone made themselves; shown beside the built-in ones.
 export const CustomWorkoutSchema = v.object({
   id: Id,
@@ -56,6 +72,8 @@ export const CustomWorkoutSchema = v.object({
     name: Name(60),
     sets: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(10)),
     reps: Name(20),
+    // Weight lifted, if any; added later, so older routines and backups still load.
+    kg: v.optional(v.pipe(v.number(), v.minValue(0), v.maxValue(500))),
   })), v.minLength(1), v.maxLength(20)),
 });
 
@@ -86,6 +104,7 @@ export const BackupSchema = v.object({
   tasks: v.optional(v.array(TaskSchema), []),
   reading: v.optional(ReadingSchema, {}),
   customWorkouts: v.optional(v.array(CustomWorkoutSchema), []),
+  customFoods: v.optional(v.array(CustomFoodSchema), []),
 });
 
 export type Profile = v.InferOutput<typeof ProfileSchema>;
@@ -96,3 +115,4 @@ export type Prayer = v.InferOutput<typeof PrayerSchema>;
 export type Book = v.InferOutput<typeof BookSchema>;
 export type Task = v.InferOutput<typeof TaskSchema>;
 export type CustomWorkout = v.InferOutput<typeof CustomWorkoutSchema>;
+export type CustomFood = v.InferOutput<typeof CustomFoodSchema>;

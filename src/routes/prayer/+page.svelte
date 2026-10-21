@@ -22,6 +22,7 @@
 </script>
 
 {#snippet list(ps: typeof fard)}
+	<div class="pgrid">
 	{#each ps as p (p.id)}
 		<div class="prayer" class:on={done.includes(p.id)} {@attach rowToggle}>
 			<Checkbox checked={done.includes(p.id)} onchange={() => store.togglePrayer(today, p.id)} hint={t(p.whenBn, p.whenEn)}>
@@ -29,6 +30,7 @@
 			</Checkbox>
 		</div>
 	{/each}
+	</div>
 {/snippet}
 
 <Screen title={t('নামাজের হিসাব', 'Prayer tracker')}>
@@ -86,9 +88,15 @@
 </Screen>
 
 <style>
+	/* Two prayers a row, so all ten fit without much scrolling. */
+	.pgrid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+		gap: 0.5rem;
+	}
 	.prayer {
 		cursor: pointer;
-		padding: 0.75rem 1rem;
+		padding: 0.625rem 0.75rem;
 		border-radius: var(--ui-radius);
 		background: var(--ui-surface);
 		outline: 1.5px solid var(--line);

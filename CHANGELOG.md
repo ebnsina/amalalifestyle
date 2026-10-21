@@ -12,6 +12,11 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
+- Add your own foods with their measure, calories, protein, carbs, fat and fiber; edit or delete them later. A food
+  you add while picking a meal is ticked for it straight away.
+- Your own gym routines can record the weight (kg) for each exercise.
+- More compact screens: search and the category filter share one line, and foods, prayers and routines show two
+  or three to a row.
 - Install button on Home and in Profile. It opens the browser's install dialog, or shows the steps on iPhone and
   other browsers.
 - Type Bangla on an English keyboard, as in Avro: "ami bhalo achi" becomes "আমি ভালো আছি" as you finish each word.
@@ -20,6 +25,9 @@
 - 22 more foods, including শসা, টমেটো, গাজর, সালাদ, ওটস, পাউরুটি, ছোলা, ফল, বাদাম and নুডলস.
 
 ### Fixed
+- Install: on Chrome the Home card waits until Chrome can install, so the button always works; Profile explains the
+  30-second wait. An already installed app no longer offers itself again.
+- The browser no longer machine-translates the app, which garbled food names; use the app's own English instead.
 - The on-screen keyboard no longer covers the field you're typing in or the buttons below it.
 
 - Every tool has its own date range: prayer shows how many days you prayed each prayer and kept all five, fitness

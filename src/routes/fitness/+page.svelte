@@ -31,11 +31,14 @@
 {#snippet row(w: Workout, i: number)}
 	{@const n = store.sets[today]?.[w.id]?.length ?? 0}
 	<a class="workout enter" style="--i: {i}" href={resolve('/workout/[id]', { id: w.id })}>
-		<Plate emoji={w.emoji} size={44} />
-		<span class="grow"><b>{name(w)}</b><br /><span class="small muted">{num(w.minutes)} {t('মিনিট', 'min')} · {t(w.subBn, w.subEn)}</span></span>
-		{#if store.workouts[today]?.includes(w.id)}<Badge tone="accent">{t('আজ শেষ', 'Done today')}</Badge>
-		{:else if n}<Badge tone="warning" icon={false}>{num(n)}/{num(setCount(w))} {t('সেট', 'sets')}</Badge>
-		{:else}<Icon icon={ArrowRight01Icon} size={18} />{/if}
+		<span class="top">
+			<Plate emoji={w.emoji} size={36} />
+			{#if store.workouts[today]?.includes(w.id)}<Badge tone="accent">{t('আজ শেষ', 'Done today')}</Badge>
+			{:else if n}<Badge tone="warning" icon={false}>{num(n)}/{num(setCount(w))} {t('সেট', 'sets')}</Badge>
+			{:else}<Icon icon={ArrowRight01Icon} size={16} />{/if}
+		</span>
+		<b>{name(w)}</b>
+		<span class="xs muted">{num(w.minutes)} {t('মিনিট', 'min')} · {t(w.subBn, w.subEn)}</span>
 	</a>
 {/snippet}
 
@@ -63,9 +66,9 @@
 	</Card>
 
 	<h2 class="section">{t('ঘরে', 'At home')}</h2>
-	{#each workouts.filter((w) => w.place === 'home') as w, i (w.id)}{@render row(w, i)}{/each}
+	<div class="wgrid">{#each workouts.filter((w) => w.place === 'home') as w, i (w.id)}{@render row(w, i)}{/each}</div>
 	<h2 class="section">{t('জিমে', 'At the gym')}</h2>
-	{#each workouts.filter((w) => w.place === 'gym') as w, i (w.id)}{@render row(w, i + 3)}{/each}
+	<div class="wgrid">{#each workouts.filter((w) => w.place === 'gym') as w, i (w.id)}{@render row(w, i + 3)}{/each}</div>
 
 	<Alert title={t('নিরাপদে ব্যায়াম', 'Exercise safely')}>
 		{t('সপ্তাহে অন্তত ১৫০ মিনিট হাঁটা বা হালকা ব্যায়াম ভালো। নতুন হলে হালকা দিয়ে শুরু করুন। বুকে ব্যথা, মাথা ঘোরা বা শ্বাসকষ্ট হলে থামুন। হার্ট, ডায়াবেটিস বা অন্য অসুখ থাকলে আগে ডাক্তারের পরামর্শ নিন।', 'Aim for at least 150 minutes of walking or light exercise a week. If you’re new, start easy. Stop if you feel chest pain, dizziness or shortness of breath. With heart disease, diabetes or another condition, ask your doctor first.')}
@@ -73,16 +76,28 @@
 </Screen>
 
 <style>
+	/* Two routines a row on phones, three when there's room. */
+	.wgrid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+		gap: 0.5rem;
+	}
 	.workout {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		padding: 1rem;
-		border-radius: calc(var(--ui-radius) * 1.5);
+		display: grid;
+		align-content: start;
+		gap: 0.25rem;
+		padding: 0.75rem;
+		border-radius: var(--ui-radius);
 		background: var(--ui-surface);
 		box-shadow: var(--ui-shadow-xs);
 		color: inherit;
 		text-decoration: none;
+	}
+	.top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.25rem;
 	}
 	.workout b {
 		font-weight: 600;
