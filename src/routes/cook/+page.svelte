@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, ArrowRight01Icon, FavouriteIcon, PencilEdit02Icon, Search01Icon } from '@hugeicons/core-free-icons';
 	import FoodForm from '#lib/components/FoodForm.svelte';
 	import { resolve } from '$app/paths';
@@ -63,6 +64,12 @@
 	{#snippet action()}
 		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন খাবার', 'New food')}</Button>
 	{/snippet}
+	<Guide id="cook" steps={[
+		t('যা যা খাবেন, সবগুলোতে টিক দিন। তারপর নিচের বোতাম চাপুন।', 'Tick everything you’ll eat, then tap the button at the bottom.'),
+		t('খুঁজতে বাংলা বা ইংরেজি, যেভাবে সুবিধা লিখুন।', 'Search in Bangla or English, whichever is easier.'),
+		t('তালিকায় না থাকলে ওপরের “নতুন খাবার” দিয়ে যোগ করুন।', 'Not in the list? Add it with “New food” at the top.'),
+	]} />
+
 	<p class="small muted">{slotName(store.slot)} · {t('যা যা খাবেন সবগুলোতে টিক দিন', 'Tick everything you’ll eat')}</p>
 	<!-- A food someone adds here is for this meal, so it starts ticked. -->
 	<FoodForm bind:open={adding} onsaved={(id) => !store.cooked.includes(id) && (store.cooked = [...store.cooked, id])} />

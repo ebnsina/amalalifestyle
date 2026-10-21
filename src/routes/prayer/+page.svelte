@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import Screen from '#lib/components/Screen.svelte';
 	import Alert from '#lib/sinaui/ui/Alert.svelte';
 	import Card from '#lib/sinaui/ui/Card.svelte';
@@ -34,6 +35,12 @@
 {/snippet}
 
 <Screen title={t('নামাজের হিসাব', 'Prayer tracker')}>
+	<Guide id="prayer" steps={[
+		t('নামাজ পড়লে তার ঘরে চাপ দিন। আবার চাপলে টিক উঠে যাবে।', 'Tap a prayer once you’ve prayed it. Tap again to undo.'),
+		t('আগের দিনে টিক দিতে ভুলে গেলে “গত সাত দিন” থেকে সেই দিনের ঘরে চাপুন।', 'Forgot a past day? Tap its dot under “Last seven days”.'),
+		t('“হিসাব” অংশে যেকোনো সময়ের সারাংশ দেখতে পারেন।', 'The “Summary” card shows any range of dates.'),
+	]} />
+
 	<Card>
 		<div class="stats">
 			<div><b>{num(fardDone)} / {num(5)}</b><span class="xs muted">{t('আজকের ফরজ', 'Fard today')}</span></div>

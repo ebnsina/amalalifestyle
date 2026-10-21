@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Calendar03Icon } from '@hugeicons/core-free-icons';
 	import Plate from '#lib/components/Plate.svelte';
 	import Screen from '#lib/components/Screen.svelte';
@@ -20,6 +21,11 @@
 </script>
 
 <Screen title={t('আগের দিনগুলো', 'Past days')}>
+	<Guide id="history" steps={[
+		t('আগের প্রতিটি দিনের খাওয়ার হিসাব এখানে জমা থাকে।', 'Every earlier day’s meals are kept here.'),
+		t('তারিখ বেছে নিলে সেই সময়ের দিনগুলো আর গড় ক্যালরি দেখাবে।', 'Pick dates to see just those days and their average calories.'),
+	]} />
+
 	{#if store.history.length}
 		<RangeFilter label={t('কোন সময়ের হিসাব', 'Date range')} clearable bind:value={range} />
 		{#if days.length}

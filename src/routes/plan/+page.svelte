@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, Delete02Icon, Tick02Icon } from '@hugeicons/core-free-icons';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -91,6 +92,12 @@
 	</Screen>
 {:else}
 	<Screen title={t('কতটুকু খাবেন', 'How much to eat')}>
+		<Guide id="plan" steps={[
+			t('প্রতিটি খাবারের পরামর্শের পরিমাণ আগেই বসানো আছে। কম-বেশি করতে +/− চাপুন।', 'Each food already has a suggested amount. Use +/− to change it.'),
+			t('নিচের ঘরটা দেখায় পরামর্শের চেয়ে কম না বেশি হলো, আর দিনের বাকি হিসাব।', 'The box below shows whether you’re over or under the suggestion, and what’s left for the day.'),
+			t('শেষে “খেয়েছি, লিখে রাখুন” চাপুন।', 'When you’re done, tap “I ate this — log it”.'),
+		]} />
+
 		<Tabs.Root bind:value={() => store.slot, (v) => (store.slot = v as Slot)}>
 			<Tabs.List label={t('কোন বেলা', 'Which meal')}>
 				{#each slots as s (s.id)}<Tabs.Tab value={s.id}>{name(s)}</Tabs.Tab>{/each}
