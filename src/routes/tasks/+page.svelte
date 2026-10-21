@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, Calendar03Icon, Cancel01Icon, CheckListIcon } from '@hugeicons/core-free-icons';
 	import { getLocalTimeZone, today as todayDate, type CalendarDate } from '@internationalized/date';
 	import * as v from 'valibot';
@@ -81,6 +82,12 @@
 			<Button type="submit" form="task-form" disabled={!text.trim()}>{t('যোগ করুন', 'Add')}</Button>
 		{/snippet}
 	</Drawer>
+
+	<Guide id="tasks" steps={[
+		t('ওপরের “নতুন কাজ” দিয়ে কাজ, তারিখ আর কতটা জরুরি লিখুন।', 'Add a task with “New task”: what, when and how urgent.'),
+		t('কাজ শেষ হলে তার ওপর চাপ দিন।', 'Tap a task when it’s done.'),
+		t('“দেখান” থেকে আজকের, দেরি হওয়া বা সামনের কাজ বেছে নিন।', 'Use “Show” to see today’s, overdue or upcoming tasks.'),
+	]} />
 
 	<div class="row toolbar">
 		<div class="view">

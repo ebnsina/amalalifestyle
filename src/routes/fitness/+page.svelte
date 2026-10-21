@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 	import { resolve } from '$app/paths';
 	import Plate from '#lib/components/Plate.svelte';
@@ -47,6 +48,12 @@
 		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন রুটিন', 'New routine')}</Button>
 	{/snippet}
 	<WorkoutForm bind:open={adding} />
+
+	<Guide id="fitness" steps={[
+		t('একটা রুটিন বেছে নিন। ভেতরে প্রতিটি সেট শেষ হলে টিক দিন।', 'Pick a routine. Inside, tick each set as you finish it.'),
+		t('সেটের মাঝের বিশ্রামের টাইমার নিজে থেকেই চলবে।', 'The rest timer between sets starts on its own.'),
+		t('নিজের রুটিন বানাতে ওপরের “নতুন রুটিন” চাপুন।', 'To make your own, tap “New routine” at the top.'),
+	]} />
 
 	<Card title={t('হিসাব', 'Summary')} level={2}>
 		<div class="stack">

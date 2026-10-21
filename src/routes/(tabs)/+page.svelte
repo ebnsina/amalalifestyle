@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import {
 		BodyWeightIcon, Book02Icon, CheckListIcon, Dumbbell01Icon, Mosque01Icon, SpoonAndForkIcon,
 	} from '@hugeicons/core-free-icons';
@@ -51,6 +52,12 @@
 			{/each}
 		</div>
 	</Card>
+
+	<Guide id="home" steps={[
+		t('ওপরের কার্ডে আজকের হিসাব এক নজরে: ক্যালরি, নামাজ আর কাজ। যেটায় চাপবেন, সেই পাতা খুলবে।', 'The card at the top sums up today: calories, prayers and tasks. Tap one to open it.'),
+		t('নিচের সেবাগুলো থেকে যেটা দরকার বেছে নিন। খাবারের হিসাব দিয়ে শুরু করতে পারেন।', 'Pick any tool below. The food log is a good place to start.'),
+		t('ভাষা, রং আর ব্যাকআপ পাবেন প্রোফাইলে।', 'Language, theme and backup are in Profile.'),
+	]} />
 
 	<InstallCard dismissible />
 

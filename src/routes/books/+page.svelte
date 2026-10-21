@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, Book02Icon } from '@hugeicons/core-free-icons';
 	import * as v from 'valibot';
 	import Screen from '#lib/components/Screen.svelte';
@@ -89,6 +90,12 @@
 			<Button type="submit" form="book-form">{t('যোগ করুন', 'Add')}</Button>
 		{/snippet}
 	</Drawer>
+
+	<Guide id="books" steps={[
+		t('ওপরের “নতুন বই” দিয়ে বইয়ের নাম আর মোট পৃষ্ঠা লিখুন।', 'Add a book with “New book” at the top: its title and total pages.'),
+		t('প্রতিদিন যে পৃষ্ঠায় আছেন সেটা লিখে “সেভ করুন” চাপুন।', 'Each day, enter the page you’re on and tap “Save”.'),
+		t('“হিসাব” অংশে দেখবেন কোন সময়ে কত পৃষ্ঠা পড়লেন।', 'The “Summary” card shows how many pages you read and when.'),
+	]} />
 
 	{#if store.books.length}
 		<Card title={t('হিসাব', 'Summary')} level={2}>

@@ -12,6 +12,8 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
+- A short “how it works” guide on each tool: two or three plain steps on where to begin. “Got it” tucks it into a
+  small link that brings it back any time.
 - Every tool keeps its add button on the right of the header, across from the title.
 - Number fields fill the width they're given, so forms no longer leave empty space beside them.
 - New food form: calories are suggested from protein, carbs and fat, with a button to use it; left at 0, the

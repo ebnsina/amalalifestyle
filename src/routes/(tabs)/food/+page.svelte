@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { Add01Icon, ArrowRight01Icon, Calendar03Icon, FavouriteIcon } from '@hugeicons/core-free-icons';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -55,6 +56,12 @@
 			</div>
 		</div>
 	</Card>
+
+	<Guide id="food" steps={[
+		t('কোন বেলার খাবার লিখবেন, সেটায় চাপ দিন।', 'Tap the meal you want to log.'),
+		t('বাসায় যা রান্না হয়েছে, তার সবগুলোতে টিক দিন।', 'Tick everything that was cooked at home.'),
+		t('পরামর্শমতো পরিমাণ বসানো থাকবে, দরকারে বদলে সেভ করুন। বৃত্তটা দেখায় দিনের লক্ষ্যের কতটা খেলেন।', 'Suggested amounts are filled in; adjust and save. The ring shows how much of your daily target you’ve eaten.'),
+	]} />
 
 	{#if suggested}
 		<Button size="lg" onclick={() => openSlot(suggested)}><Icon icon={Add01Icon} size={20} /> {t(`${slotName(suggested)} লিখুন`, `Log ${slotName(suggested).toLowerCase()}`)}</Button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Guide from '#lib/components/Guide.svelte';
 	import { PencilEdit02Icon, Tick02Icon, TickDouble02Icon, Timer02Icon } from '@hugeicons/core-free-icons';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -68,6 +69,11 @@
 	</Screen>
 {:else}
 	<Screen title="">
+		<Guide id="workout" steps={[
+			t('প্রতিটি সেট শেষ হলে তার বোতামে চাপ দিন। বিশ্রামের টাইমার শুরু হবে।', 'Tap a set’s button when you finish it. The rest timer starts.'),
+			t('সব সেট না পারলেও সমস্যা নেই। যতটুকু করেছেন, “শেষ করুন” চাপলে সেটাই গোনা হবে।', 'Couldn’t do every set? Tap “Finish” and what you did still counts.'),
+		]} />
+
 		<div class="head">
 			<Plate emoji={w.emoji} />
 			<h2 class="big">{name(w)}</h2>
