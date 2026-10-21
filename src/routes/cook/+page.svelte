@@ -1,13 +1,12 @@
 <script lang="ts">
 	import Guide from '#lib/components/Guide.svelte';
-	import { Add01Icon, ArrowRight01Icon, FavouriteIcon, PencilEdit02Icon, Search01Icon } from '@hugeicons/core-free-icons';
+	import { Add01Icon, ArrowRight01Icon, FavouriteIcon, PencilEdit02Icon, Search01Icon, Tick02Icon } from '@hugeicons/core-free-icons';
 	import FoodForm from '#lib/components/FoodForm.svelte';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import Plate from '#lib/components/Plate.svelte';
 	import Screen from '#lib/components/Screen.svelte';
 	import Button from '#lib/sinaui/ui/Button.svelte';
-	import Checkbox from '#lib/sinaui/ui/Checkbox.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
@@ -17,7 +16,6 @@
 	import { matchScore } from '#lib/search.js';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { slotName, store } from '#lib/store.svelte.js';
-	import { rowToggle } from '#lib/row-toggle.js';
 
 	let q = $state('');
 	let adding = $state(false);
@@ -40,10 +38,17 @@
 {#snippet row(f: Food)}
 	{@const on = store.cooked.includes(f.id)}
 	{@const fav = store.favourites.includes(f.id)}
-	<div class="food" class:on {@attach rowToggle}>
-		<div class="top">
-			<Plate emoji={f.emoji} size={36} />
-			<span class="grow"></span>
+	<div class="food" class:on>
+		<!-- The card is one toggle; the corner buttons sit beside it, not inside it. -->
+		<button type="button" class="pick" aria-pressed={on} onclick={() => toggle(f.id)}>
+			<span class="plate">
+				<Plate emoji={f.emoji} size={36} />
+				{#if on}<span class="tick" aria-hidden="true"><Icon icon={Tick02Icon} size={12} strokeWidth={3} /></span>{/if}
+			</span>
+			<b>{name(f)}</b>
+			<span class="xs muted">{qty(1, f.unit)} · {num(f.kcal)} {t('ক্যালরি', 'kcal')}</span>
+		</button>
+		<div class="corner">
 			{#if f.custom}
 				<Button variant="ghost" size="sm" square href={resolve('/food/[id]', { id: f.id })} aria-label={t(`${f.bn} দেখুন ও বদলান`, `View and edit ${f.en}`)}>
 					<Icon icon={PencilEdit02Icon} size={16} />
@@ -54,9 +59,6 @@
 				<Icon icon={FavouriteIcon} size={18} fill={fav ? 'var(--warm)' : 'none'} color={fav ? 'var(--warm)' : 'currentColor'} />
 			</Button>
 		</div>
-		<Checkbox checked={on} onchange={() => toggle(f.id)}>
-			<b>{name(f)}</b><br /><span class="xs muted">{qty(1, f.unit)} · {num(f.kcal)} {t('ক্যালরি', 'kcal')}</span>
-		</Checkbox>
 	</div>
 {/snippet}
 
@@ -122,23 +124,58 @@
 		gap: 0.5rem;
 	}
 	.food {
-		display: grid;
-		gap: 0.375rem;
-		padding: 0.5rem 0.5rem 0.75rem 0.75rem;
+		position: relative;
 		border-radius: var(--ui-radius);
 		background: var(--ui-surface);
 		box-shadow: var(--ui-shadow-xs);
 		outline: 1.5px solid transparent;
-		cursor: pointer;
 		transition: background-color var(--ui-dur) var(--ui-ease-out);
 	}
 	.food.on {
 		background: var(--accent-soft);
 		outline-color: var(--ui-accent);
 	}
-	.top {
+	.pick {
+		display: grid;
+		justify-items: start;
+		gap: 0.125rem;
+		inline-size: 100%;
+		padding: 0.625rem 0.75rem 0.75rem;
+		border: 0;
+		border-radius: inherit;
+		background: none;
+		color: inherit;
+		font: inherit;
+		text-align: start;
+		cursor: pointer;
+	}
+	.pick:focus-visible {
+		outline: var(--ui-ring-width) solid var(--ui-ring);
+		outline-offset: var(--ui-ring-offset);
+	}
+	.plate {
+		position: relative;
+		margin-bottom: 0.25rem;
+	}
+	/* Chosen: a check on the plate as well as the green card, so it never rests on color alone. */
+	.tick {
+		position: absolute;
+		inset-block-end: -2px;
+		inset-inline-end: -4px;
+		display: grid;
+		place-items: center;
+		inline-size: 18px;
+		block-size: 18px;
+		border-radius: 50%;
+		background: var(--ui-accent);
+		color: var(--ui-on-accent);
+		box-shadow: 0 0 0 2px var(--ui-surface);
+	}
+	.corner {
+		position: absolute;
+		inset-block-start: 0.375rem;
+		inset-inline-end: 0.375rem;
 		display: flex;
-		align-items: center;
 	}
 	.food b {
 		font-weight: 600;
