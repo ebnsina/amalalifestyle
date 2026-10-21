@@ -1,11 +1,11 @@
-import { foodById } from '#lib/data/foods.js';
+import { foods as builtInFoods, toFood, type Food } from '#lib/data/foods.js';
 import * as db from '#lib/db.js';
 import { dayKey } from '#lib/format.js';
 import { i18n, name, type Lang } from '#lib/i18n.svelte.js';
 import type { Portion } from '#lib/nutrition.js';
 import { workouts as builtIn, type Workout } from '#lib/data/workouts.js';
 import {
-	BACKUP_APP, type Backup, type Book, type CustomWorkout, type MealItem, type Prayer, type Profile, type Slot, type Task,
+	BACKUP_APP, type Backup, type Book, type CustomFood, type CustomWorkout, type MealItem, type Prayer, type Profile, type Slot, type Task,
 } from '#lib/schema.js';
 
 export type { Slot };
@@ -28,7 +28,7 @@ export type Meal = { slot: Slot; portions: Portion[] };
 export type Day = { date: string; meals: Meal[] };
 
 // Foods removed from a later food list are skipped instead of crashing old logs.
-const toMeals = (items: MealItem[]): Meal[] =>
+const toMeals = (items: MealItem[], foodById: Record<string, Food>): Meal[] =>
 	slots.flatMap(({ id }) => {
 		const portions = items.filter((i) => i.slot === id && foodById[i.foodId])
 			.map((i) => ({ food: foodById[i.foodId], units: i.units }));
@@ -39,7 +39,7 @@ const toMeals = (items: MealItem[]): Meal[] =>
 export const toWorkout = (c: CustomWorkout): Workout => ({
 	id: `my-${c.id}`, bn: c.name, en: c.name, subBn: 'নিজের রুটিন', subEn: 'Your routine', emoji: '⭐',
 	minutes: c.minutes, place: c.place, rest: c.rest, custom: true,
-	exercises: c.exercises.map((e) => ({ bn: e.name, en: e.name, sets: e.sets, repsBn: e.reps, repsEn: e.reps, tipBn: '', tipEn: '' })),
+	exercises: c.exercises.map((e) => ({ bn: e.name, en: e.name, sets: e.sets, repsBn: e.reps, repsEn: e.reps, tipBn: '', tipEn: '', kg: e.kg || undefined })),
 });
 
 // ponytail: prefills setup during UI review; start blank before release.
@@ -73,10 +73,15 @@ class Store {
 	slot = $state<Slot>(nextSlot());
 	cooked = $state<string[]>([]);
 
-	today = $derived(toMeals(this.items.filter((i) => i.day === dayKey())));
+	customFoods = $state<CustomFood[]>([]);
+	// Built-in foods first, then the person's own, all in the same shape.
+	allFoods = $derived<Food[]>([...builtInFoods, ...this.customFoods.map(toFood)]);
+	foodById = $derived<Record<string, Food>>(Object.fromEntries(this.allFoods.map((f) => [f.id, f])));
+
+	today = $derived(toMeals(this.items.filter((i) => i.day === dayKey()), this.foodById));
 	history = $derived(
 		[...new Set(this.items.map((i) => i.day))].filter((d) => d !== dayKey())
-			.map((d): Day => ({ date: d, meals: toMeals(this.items.filter((i) => i.day === d)) })),
+			.map((d): Day => ({ date: d, meals: toMeals(this.items.filter((i) => i.day === d), this.foodById) })),
 	);
 
 	async init() {
@@ -103,6 +108,7 @@ class Store {
 		this.books = d.books ?? [];
 		this.reading = d.reading ?? {};
 		this.customWorkouts = d.customWorkouts ?? [];
+		this.customFoods = d.customFoods ?? [];
 		this.tasks = d.tasks ?? [];
 		if (d.lang) i18n.lang = d.lang;
 	}
@@ -111,7 +117,7 @@ class Store {
 		p.then(() => (this.saveFailed = false), (e) => { console.error(e); this.saveFailed = true; });
 	}
 
-	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks' | 'reading' | 'customWorkouts'>(key: K, value: Store[K]) {
+	#save<K extends 'profile' | 'favourites' | 'prayers' | 'workouts' | 'sets' | 'books' | 'tasks' | 'reading' | 'customWorkouts' | 'customFoods'>(key: K, value: Store[K]) {
 		(this as Store)[key] = value;
 		this.#write(db.setSetting(key, $state.snapshot(value)));
 	}
@@ -132,6 +138,7 @@ class Store {
 	};
 	setTasks = (t: Task[]) => this.#save('tasks', t);
 	setCustomWorkouts = (w: CustomWorkout[]) => this.#save('customWorkouts', w);
+	setCustomFoods = (f: CustomFood[]) => this.#save('customFoods', f);
 	setLang = (l: Lang) => {
 		i18n.lang = l;
 		this.#write(db.setSetting('lang', l));
@@ -148,7 +155,7 @@ class Store {
 	exportData = (): Backup => $state.snapshot({
 		app: BACKUP_APP, version: 1, exportedAt: new Date().toISOString(), profile: this.profile,
 		favourites: this.favourites, recent: this.recent, meals: this.items, prayers: this.prayers,
-		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks, reading: this.reading, customWorkouts: this.customWorkouts,
+		workouts: this.workouts, sets: this.sets, books: this.books, tasks: this.tasks, reading: this.reading, customWorkouts: this.customWorkouts, customFoods: this.customFoods,
 	});
 
 	// Unlike everyday saves, an import waits for the database: the screen says whether it worked.

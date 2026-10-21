@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { foodById, foods } from '#lib/data/foods.js';
+import { foodById, foodId, foods } from '#lib/data/foods.js';
 import { parseBackup } from '#lib/backup.js';
 import { bmi, bmiBand, healthyRange } from '#lib/bmi.js';
 import { dayKey, lastDays, num, parseNum, qty, unitName } from '#lib/format.js';
@@ -102,6 +102,7 @@ describe('parseBackup', () => {
     sets: { '2026-10-17': { walk: ['0-0', '1-0'] } },
     books: [{ id: 'b1', title: 'পথের পাঁচালী', pages: 300, read: 40 }], tasks: [{ id: 't1', text: 'বাজার', done: false, priority: 'medium' }],
     reading: { '2026-10-17': { b1: 12 } },
+    customFoods: [{ id: 'f1', name: 'চিকেন স্যালাড', category: 'meat', unit: 'বাটি', grams: 200, kcal: 220, protein: 25, carbs: 8, fat: 9, fiber: 3 }],
     customWorkouts: [{ id: 'w1', name: 'পায়ের দিন', place: 'gym', minutes: 40, rest: 60, exercises: [{ name: 'স্কোয়াট', sets: 3, reps: '১০টি' }] }],
   };
   it('accepts its own export', () => {
@@ -109,9 +110,16 @@ describe('parseBackup', () => {
     expect(r.ok && r.backup).toEqual(good);
   });
   it('still imports a file saved before prayers, books and tasks existed', () => {
-    const { prayers, workouts, sets, books, tasks, reading, customWorkouts, ...old } = good;
+    const { prayers, workouts, sets, books, tasks, reading, customWorkouts, customFoods, ...old } = good;
     const r = parseBackup(JSON.stringify(old));
-    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [], reading: {}, customWorkouts: [] });
+    expect(r.ok && r.backup).toEqual({ ...old, prayers: {}, workouts: {}, sets: {}, books: [], tasks: [], reading: {}, customWorkouts: [], customFoods: [] });
+  });
+  it('keeps meals of foods the person added, and drops them if that food is missing', () => {
+    const own = { ...good.meals[0], foodId: foodId('f1') };
+    const kept = parseBackup(JSON.stringify({ ...good, meals: [own] }));
+    expect(kept.ok && kept.backup.meals).toEqual([own]);
+    const lost = parseBackup(JSON.stringify({ ...good, meals: [own], customFoods: [] }));
+    expect(lost.ok && lost.skipped).toBe(1);
   });
   it('drops meals for unknown foods and counts them', () => {
     const r = parseBackup(JSON.stringify({ ...good, meals: [...good.meals, { ...good.meals[0], foodId: 'pizza' }] }));

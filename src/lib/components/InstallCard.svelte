@@ -33,7 +33,8 @@
 	}
 </script>
 
-{#if !install.installed && !(dismissible && later)}
+<!-- Home waits until Chrome can show its own dialog, so the button never falls back to steps there; Profile always offers it. -->
+{#if !install.installed && !(dismissible && (later || (install.chromium && !install.event)))}
 	<Card title={t('অ্যাপটি ফোনে বসান', 'Install the app')} level={2}>
 		<p class="small muted">
 			{t('হোম স্ক্রিন থেকে এক চাপে খুলুন, অন্য অ্যাপের মতো। ইন্টারনেট ছাড়াও চলবে।', 'Open it from your home screen like any other app. It works without internet.')}
@@ -53,10 +54,14 @@
 			<li>{t('নিচের শেয়ার বোতামে (⬆️ চিহ্ন) চাপ দিন।', 'Tap the Share button (⬆️) at the bottom.')}</li>
 			<li>{t('“হোম স্ক্রিনে যোগ করুন” (Add to Home Screen) বেছে নিন।', 'Choose “Add to Home Screen”.')}</li>
 			<li>{t('ওপরে ডানদিকে “যোগ করুন” চাপুন।', 'Tap “Add” at the top right.')}</li>
+		{:else if install.chromium}
+			<li>{t('পেজটা অন্তত ৩০ সেকেন্ড খোলা রাখুন আর কোথাও একবার চাপ দিন। Chrome এর আগে ইনস্টল করতে দেয় না।', 'Keep the page open for at least 30 seconds and tap anywhere once. Chrome doesn’t allow installing before that.')}</li>
+			<li>{t('তারপর আবার “ইনস্টল করুন” চাপুন, Chrome নিজেই জিজ্ঞেস করবে।', 'Then tap “Install” again and Chrome will ask you itself.')}</li>
+			<li>{t('অথবা ওপরে ডানদিকের ⋮ মেনু থেকে “অ্যাপ ইনস্টল করুন” বা “হোম স্ক্রিনে যোগ করুন” → “ইনস্টল”।', 'Or use the ⋮ menu at the top right: “Install app”, or “Add to Home screen” → “Install”.')}</li>
 		{:else}
-			<li>{t('ব্রাউজারের মেনু খুলুন (ওপরে ডানদিকে ⋮)।', 'Open the browser menu (⋮ at the top right).')}</li>
-			<li>{t('“অ্যাপ ইনস্টল করুন” বা “হোম স্ক্রিনে যোগ করুন” চাপুন।', 'Tap “Install app” or “Add to Home screen”.')}</li>
-			<li>{t('“ইনস্টল” চেপে নিশ্চিত করুন।', 'Confirm with “Install”.')}</li>
+			<li>{t('ব্রাউজারের মেনু খুলুন।', 'Open the browser menu.')}</li>
+			<li>{t('“অ্যাপ ইনস্টল করুন” বা “হোম স্ক্রিনে যোগ করুন” চাপুন।', 'Tap “Install” or “Add to Home screen”.')}</li>
+			<li>{t('এই ব্রাউজারে সেটা না থাকলে Chrome বা Safari-তে খুলে ইনস্টল করুন।', 'If this browser doesn’t have it, open the app in Chrome or Safari and install from there.')}</li>
 		{/if}
 	</ol>
 	<p class="small muted">{t('এরপর হোম স্ক্রিনে আমালার আইকন দেখবেন।', 'You’ll then see the AMALA icon on your home screen.')}</p>

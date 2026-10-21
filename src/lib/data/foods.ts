@@ -1,3 +1,5 @@
+import type { CustomFood } from '#lib/schema.js';
+
 // DUMMY DATA for UI review only. Values are rough placeholders, not verified nutrition facts.
 export type Category = 'rice' | 'dal' | 'fish' | 'meat' | 'veg' | 'dairy' | 'snack';
 
@@ -16,6 +18,8 @@ export type Food = {
   typical: number; // usual units per meal
   step: number;
   emoji: string; // ponytail: stand-in for food photos until we have licensed images
+  fiber?: number; // grams per unit; only foods people add themselves have it
+  custom?: boolean; // added by the person, editable and removable
 };
 
 export const categories: { id: Category | 'all'; bn: string; en: string; emoji: string }[] = [
@@ -103,3 +107,11 @@ export const foods: Food[] = [
 ];
 
 export const foodById = Object.fromEntries(foods.map((x) => [x.id, x]));
+
+// Foods people add carry one name, used in both languages; the prefix keeps their ids apart from the built-in ones.
+export const foodId = (id: string) => `my-${id}`;
+export const toFood = (c: CustomFood): Food => ({
+  id: foodId(c.id), bn: c.name, en: c.name, aliases: [], category: c.category, unit: c.unit, grams: c.grams,
+  kcal: c.kcal, protein: c.protein, carbs: c.carbs, fat: c.fat, fiber: c.fiber, typical: 1, step: 0.5,
+  emoji: categories.find((x) => x.id === c.category)!.emoji, custom: true,
+});

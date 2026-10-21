@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { Add01Icon, FavouriteIcon } from '@hugeicons/core-free-icons';
+	import { Add01Icon, FavouriteIcon, PencilEdit02Icon } from '@hugeicons/core-free-icons';
+	import FoodForm from '#lib/components/FoodForm.svelte';
+	import ConfirmButton from '#lib/sinaui/ui/ConfirmButton.svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
@@ -11,16 +13,24 @@
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Progress from '#lib/sinaui/ui/Progress.svelte';
-	import { categories, foodById } from '#lib/data/foods.js';
+	import { categories, foodId } from '#lib/data/foods.js';
 	import { num, qty } from '#lib/format.js';
 	import { dailyTarget } from '#lib/nutrition.js';
 	import { locale, name, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 
-	const f = $derived(foodById[page.params.id ?? '']);
+	const f = $derived(store.foodById[page.params.id ?? '']);
 	const fav = $derived(!!f && store.favourites.includes(f.id));
 	const target = $derived(store.profile ? dailyTarget(store.profile) : 2000);
 	const energy = $derived(f ? f.protein * 4 + f.carbs * 4 + f.fat * 9 || 1 : 1);
+	// The saved entry behind a food the person added, for editing and removing.
+	const mine = $derived(f?.custom ? store.customFoods.find((c) => foodId(c.id) === f.id) : undefined);
+	let editing = $state(false);
+	function remove() {
+		store.setCustomFoods(store.customFoods.filter((c) => c.id !== mine?.id));
+		store.cooked = store.cooked.filter((id) => id !== f?.id);
+		goto(resolve('/cook'), { replace: true });
+	}
 	const macros = $derived(f ? [
 		{ bn: 'আমিষ', en: 'Protein', g: f.protein, share: (f.protein * 4) / energy, color: '--protein' },
 		{ bn: 'চর্বি', en: 'Fat', g: f.fat, share: (f.fat * 9) / energy, color: '--fat' },
@@ -68,8 +78,20 @@
 				</Card>
 			{/each}
 		</div>
+		{#if f.fiber}
+			<p class="small muted center">{t('আঁশ', 'Fiber')} <b class="num">{num(f.fiber)}</b>{t(' গ্রাম', ' g')}</p>
+		{/if}
 
-		<Alert title={t('নমুনা তথ্য', 'Sample values')}>{t('রান্নার তেল ও রেসিপিভেদে আসল মান কমবেশি হবে।', 'Real values vary with cooking oil and recipe.')}</Alert>
+		{#if mine}
+			<div class="actions">
+				<ConfirmButton size="sm" onconfirm={remove} confirm={t('সত্যিই মুছবেন? আগের হিসাবে এটা আর দেখাবে না।', 'Delete it? Past meals with it won’t show it.')}
+					done={t('মোছা হয়েছে', 'Deleted')}>{t('খাবারটা মুছুন', 'Delete food')}</ConfirmButton>
+				<Button size="sm" variant="secondary" onclick={() => (editing = true)}><Icon icon={PencilEdit02Icon} size={16} /> {t('বদলান', 'Edit')}</Button>
+			</div>
+			<FoodForm bind:open={editing} editing={mine} />
+		{:else}
+			<Alert title={t('নমুনা তথ্য', 'Sample values')}>{t('রান্নার তেল ও রেসিপিভেদে আসল মান কমবেশি হবে।', 'Real values vary with cooking oil and recipe.')}</Alert>
+		{/if}
 
 		{#snippet footer()}
 			<Button size="lg" onclick={() => {

@@ -13,7 +13,7 @@
 	import Icon from '#lib/sinaui/ui/Icon.svelte';
 	import Input from '#lib/sinaui/ui/Input.svelte';
 	import Segmented from '#lib/sinaui/ui/Segmented.svelte';
-	import * as Tabs from '#lib/sinaui/ui/tabs/index.js';
+	import CustomSelect from '#lib/sinaui/ui/CustomSelect.svelte';
 	import { num, dayKey } from '#lib/format.js';
 	import { locale, name, t } from '#lib/i18n.svelte.js';
 	import { TaskSchema } from '#lib/schema.js';
@@ -82,18 +82,17 @@
 		{/snippet}
 	</Drawer>
 
-	<RangeFilter label={t('কোন তারিখের কাজ', 'Due between')} clearable future bind:value={range} />
+	<div class="row toolbar">
+		<div class="view">
+			<CustomSelect label={t('দেখান', 'Show')} bind:value={() => view, (v) => (view = v as View)}
+				options={views.map((x) => ({ value: x.id, label: `${name(x)} (${num(count(x.id))})` }))} />
+		</div>
+		<div class="grow">
+			<RangeFilter label={t('কোন তারিখের', 'Due between')} clearable future bind:value={range} />
+		</div>
+	</div>
 
-	<Tabs.Root bind:value={() => view, (v) => (view = v as View)}>
-		<Tabs.List label={t('কোন কাজ দেখাবেন', 'Show')}>
-			{#each views as x (x.id)}<Tabs.Tab value={x.id}>{name(x)} <span class="count num">{num(count(x.id))}</span></Tabs.Tab>{/each}
-		</Tabs.List>
-		{#each views as x (x.id)}
-			<Tabs.Panel value={x.id}>
-				{#if view === x.id}<div class="stack">{@render tasks()}</div>{/if}
-			</Tabs.Panel>
-		{/each}
-	</Tabs.Root>
+	<div class="stack">{@render tasks()}</div>
 
 	{#if view === 'done' && doneCount}
 		<div class="actions"><ConfirmButton size="sm" onconfirm={() => store.setTasks(store.tasks.filter((x) => !x.done))}
@@ -132,10 +131,13 @@
 		display: grid;
 		gap: 0.75rem;
 	}
-	.count {
-		margin-inline-start: 0.25rem;
-		color: var(--ui-muted);
-		font-variant-numeric: tabular-nums;
+	.toolbar {
+		align-items: end;
+		gap: 0.5rem;
+	}
+	.view {
+		width: 9.5rem;
+		flex: none;
 	}
 	.when {
 		align-items: end;

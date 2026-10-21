@@ -17,7 +17,7 @@
 		open?: boolean; editing?: CustomWorkout; onsaved?: (w: CustomWorkout) => void;
 	} = $props();
 
-	const blank = () => ({ name: '', sets: 3, reps: '' });
+	const blank = () => ({ name: '', sets: 3, reps: '', kg: 0 });
 	let name = $state('');
 	let place = $state('gym');
 	let minutes = $state(30);
@@ -32,7 +32,7 @@
 		place = editing?.place ?? 'gym';
 		minutes = editing?.minutes ?? 30;
 		rest = editing?.rest ?? 60;
-		exercises = editing ? editing.exercises.map((e) => ({ ...e })) : [blank()];
+		exercises = editing ? editing.exercises.map((e) => ({ ...e, kg: e.kg ?? 0 })) : [blank()];
 		error = false;
 	});
 
@@ -40,7 +40,8 @@
 		e.preventDefault();
 		const parsed = v.safeParse(CustomWorkoutSchema, {
 			id: editing?.id ?? Date.now().toString(36), name, place, minutes, rest,
-			exercises: exercises.filter((x) => x.name.trim() || x.reps.trim()),
+			// 0 kg means bodyweight or not tracked, so it isn't saved.
+			exercises: exercises.filter((x) => x.name.trim() || x.reps.trim()).map((x) => ({ ...x, kg: x.kg || undefined })),
 		});
 		if (!parsed.success) return (error = true);
 		const w = parsed.output;
@@ -77,6 +78,8 @@
 					<div class="grow"><NumberField label={t('সেট', 'Sets')} locale={locale()} min={1} max={10} bind:value={ex.sets} /></div>
 					<div class="grow"><Input label={t('প্রতি সেটে', 'Per set')} placeholder={t('যেমন: ১০টি', 'e.g. 10 reps')} bind:value={ex.reps} maxlength={20} /></div>
 				</div>
+				<NumberField label={t('ওজন (কেজি, না থাকলে ০)', 'Weight (kg, 0 if none)')} locale={locale()} min={0} max={500} step={2.5}
+					format={{ maximumFractionDigits: 1 }} bind:value={ex.kg} />
 			</div>
 		{/each}
 		{#if exercises.length < 20}

@@ -5,12 +5,11 @@
 	import Screen from '#lib/components/Screen.svelte';
 	import Badge from '#lib/sinaui/ui/Badge.svelte';
 	import EmptyState from '#lib/sinaui/ui/EmptyState.svelte';
-	import { foodById } from '#lib/data/foods.js';
 	import { num, qty } from '#lib/format.js';
 	import { name, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 
-	const list = $derived(store.favourites.map((id) => foodById[id]).filter(Boolean));
+	const list = $derived(store.favourites.map((id) => store.foodById[id]).filter(Boolean));
 </script>
 
 <Screen title={t('প্রিয় খাবার', 'Favourite foods')}>

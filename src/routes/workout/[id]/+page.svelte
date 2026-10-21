@@ -88,7 +88,7 @@
 				<div class="exercise">
 					<span class="num" class:complete={these.every((k) => done.includes(k))}>{num(i + 1)}</span>
 					<div class="grow">
-						<div class="row between"><b>{name(e)}</b><b class="small accent">{e.sets > 1 ? `${num(e.sets)} ${t('সেট', 'sets')} × ${t(e.repsBn, e.repsEn)}` : t(e.repsBn, e.repsEn)}</b></div>
+						<div class="row between"><b>{name(e)}</b><b class="small accent">{e.sets > 1 ? `${num(e.sets)} ${t('সেট', 'sets')} × ${t(e.repsBn, e.repsEn)}` : t(e.repsBn, e.repsEn)}{e.kg ? ` · ${num(e.kg)} ${t('কেজি', 'kg')}` : ''}</b></div>
 						{#if e.tipBn}<p class="small muted">{t(e.tipBn, e.tipEn)}</p>{/if}
 						<ToggleGroup size="sm" label={t(`${e.bn}: শেষ হওয়া সেট`, `${e.en}: sets done`)}
 							items={these.map((k, j) => ({ value: k, label: e.sets > 1 ? t(`সেট ${num(j + 1)}`, `Set ${j + 1}`) : t('করেছি', 'Done') }))}
