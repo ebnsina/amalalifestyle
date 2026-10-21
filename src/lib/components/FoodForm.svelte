@@ -74,21 +74,21 @@
 				<Input label={t('পরিমাপ', 'Measure')} placeholder={t('বাটি, কাপ, টি…', 'bowl, cup, piece…')} bind:value={unit} maxlength={20} />
 			</div>
 			<div class="grow">
-				<NumberField label={t('এক পরিমাপে কত গ্রাম', 'Grams per measure')} locale={locale()} min={0} max={2000} step={10} bind:value={grams} />
+				<NumberField fill label={t('এক পরিমাপে কত গ্রাম', 'Grams per measure')} locale={locale()} min={0} max={2000} step={10} bind:value={grams} />
 			</div>
 		</div>
 		<p class="xs muted note">{t('গ্রাম শুধু তথ্যের জন্য, জানা না থাকলে ০ রাখুন। এতে ক্যালরি বদলায় না।', 'Grams are just for reference; leave 0 if unsure. They don’t change the calories.')}</p>
 
 		<p class="label">{t('পুষ্টি, এক পরিমাপে কত গ্রাম (জানা না থাকলে ০)', 'Nutrition per measure, in grams (0 if unknown)')}</p>
 		<div class="grid">
-			<NumberField label={t('আমিষ', 'Protein')} {...grams$} bind:value={protein} />
-			<NumberField label={t('শর্করা', 'Carbs')} {...grams$} bind:value={carbs} />
-			<NumberField label={t('চর্বি', 'Fat')} {...grams$} bind:value={fat} />
-			<NumberField label={t('আঁশ', 'Fiber')} {...grams$} bind:value={fiber} />
+			<NumberField fill label={t('আমিষ', 'Protein')} {...grams$} bind:value={protein} />
+			<NumberField fill label={t('শর্করা', 'Carbs')} {...grams$} bind:value={carbs} />
+			<NumberField fill label={t('চর্বি', 'Fat')} {...grams$} bind:value={fat} />
+			<NumberField fill label={t('আঁশ', 'Fiber')} {...grams$} bind:value={fiber} />
 		</div>
 
 		<div class="kcal">
-			<NumberField label={t('ক্যালরি (এক পরিমাপে)', 'Calories (per measure)')} locale={locale()} min={0} max={3000} step={10} bind:value={kcal} />
+			<NumberField fill label={t('ক্যালরি (এক পরিমাপে)', 'Calories (per measure)')} locale={locale()} min={0} max={3000} step={10} bind:value={kcal} />
 			{#if estimate}
 				<div class="row suggest">
 					<p class="small muted grow">{t(`আমিষ-শর্করা-চর্বি থেকে প্রায় ${num(estimate)} ক্যালরি`, `About ${estimate} kcal from protein, carbs and fat`)}</p>

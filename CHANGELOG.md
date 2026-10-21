@@ -12,6 +12,8 @@
   Overdue tasks are marked in red; home shows how many tasks are left today.
 - Everything from the phone app: food log with suggested portions, prayer tracker with streak, fitness routines with
   a rest timer, reading tracker, BMI, favourites, history, and backup to a file. Phone app backups import here too.
+- Every tool keeps its add button on the right of the header, across from the title.
+- Number fields fill the width they're given, so forms no longer leave empty space beside them.
 - New food form: calories are suggested from protein, carbs and fat, with a button to use it; left at 0, the
   suggestion is saved. Nutrients now come before calories, and the kind is a compact dropdown.
 - Add your own foods with their measure, calories, protein, carbs, fat and fiber; edit or delete them later. A food

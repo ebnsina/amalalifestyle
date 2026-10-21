@@ -60,9 +60,9 @@
 </script>
 
 <Screen title={t('আজকের কাজ', 'Today’s tasks')}>
-	<div class="actions">
-		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('কাজ যোগ করুন', 'Add task')}</Button>
-	</div>
+	{#snippet action()}
+		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন কাজ', 'New task')}</Button>
+	{/snippet}
 
 	<Drawer bind:open={adding} title={t('নতুন কাজ', 'New task')} closeLabel={t('বন্ধ করুন', 'Close')}>
 		<form id="task-form" class="add" onsubmit={add}>

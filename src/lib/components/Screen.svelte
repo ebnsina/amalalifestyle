@@ -7,8 +7,9 @@
 	import { t } from '#lib/i18n.svelte.js';
 
 	// title: a pushed screen with a back button. Without it, the page draws its own heading (tab screens).
-	let { title, tabs = false, footer, children }: {
-		title?: string; tabs?: boolean; footer?: Snippet; children: Snippet;
+	// action: the screen's main button, such as "add", on the right of the header.
+	let { title, tabs = false, action, footer, children }: {
+		title?: string; tabs?: boolean; action?: Snippet; footer?: Snippet; children: Snippet;
 	} = $props();
 
 	// Opened straight from a link or the home screen, there is no page to go back to.
@@ -23,6 +24,7 @@
 	<header>
 		<Button variant="ghost" square aria-label={t('ফিরে যান', 'Go back')} onclick={back}><Icon icon={ArrowLeft01Icon} size={22} /></Button>
 		<h1 class="heading">{title}</h1>
+		{#if action}<div class="action">{@render action()}</div>{/if}
 	</header>
 {/if}
 <main class={{ tabs, footed: !!footer }}>
@@ -44,8 +46,16 @@
 		background: var(--ui-bg);
 	}
 	h1 {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		font-size: 1.0625rem;
 		font-weight: 600;
+	}
+	.action {
+		flex: none;
 	}
 	main {
 		display: flex;

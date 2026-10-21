@@ -54,8 +54,8 @@
 			<div class="bar"><span style:width="{Math.min(100, (b.read / b.pages) * 100)}%"></span></div>
 			<!-- Typing only reaches the field's value on blur; tapping Save blurs it first, so the click saves what was typed. -->
 			<div class="row page" oninput={() => (typing = b.id)}>
-				<NumberField label={t('এখন কোন পৃষ্ঠায়', 'Page you’re on')} locale={locale()} min={0} max={b.pages} step={1}
-					bind:value={() => b.read, (r) => store.setPage(b.id, Math.round(r ?? 0))} />
+				<div class="grow"><NumberField fill label={t('এখন কোন পৃষ্ঠায়', 'Page you’re on')} locale={locale()} min={0} max={b.pages} step={1}
+					bind:value={() => b.read, (r) => store.setPage(b.id, Math.round(r ?? 0))} /></div>
 				<Button onclick={() => { typing = null; saved = b.id; }}>{t('সেভ করুন', 'Save')}</Button>
 			</div>
 			{#if saved === b.id && typing !== b.id}
@@ -72,9 +72,9 @@
 {/snippet}
 
 <Screen title={t('বই পড়া', 'Reading')}>
-	<div class="actions">
-		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('বই যোগ করুন', 'Add a book')}</Button>
-	</div>
+	{#snippet action()}
+		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন বই', 'New book')}</Button>
+	{/snippet}
 
 	<Drawer bind:open={adding} title={t('নতুন বই', 'New book')} closeLabel={t('বন্ধ করুন', 'Close')}>
 		<form id="book-form" class="book" onsubmit={add}>

@@ -118,7 +118,7 @@
 										<Icon icon={Delete02Icon} size={18} />
 									</Button>
 								</div>
-								<NumberField label={t(`পরিমাণ (${food.unit})`, `Amount (${unitName(food.unit)})`)} locale={locale()} min={0} max={50} step={food.step}
+								<NumberField fill label={t(`পরিমাণ (${food.unit})`, `Amount (${unitName(food.unit)})`)} locale={locale()} min={0} max={50} step={food.step}
 									bind:value={() => units, (v) => setUnits(food.id, v ?? 0)} />
 							</Card>
 						{/each}
