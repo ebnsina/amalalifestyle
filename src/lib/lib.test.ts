@@ -5,7 +5,7 @@ import { parseBackup } from '#lib/backup.js';
 import { bmi, bmiBand, healthyRange } from '#lib/bmi.js';
 import { dayKey, lastDays, num, parseNum, qty, unitName } from '#lib/format.js';
 import { i18n } from '#lib/i18n.svelte.js';
-import { compareToBudget, dailyTarget, recommend } from '#lib/nutrition.js';
+import { compareToBudget, dailyTarget, kcalFromMacros, recommend } from '#lib/nutrition.js';
 import type { Backup, Profile, Task } from '#lib/schema.js';
 import { dueLabel, inView, type View } from '#lib/tasks.js';
 import { streak, summary } from '#lib/prayer.js';
@@ -240,5 +240,13 @@ describe('food list', () => {
     for (const [q, id] of [['shosha', 'shosha'], ['tomato', 'tomato'], ['oats', 'oats'], ['শসা', 'shosha'], ['pauruti', 'bread']]) {
       expect(foods.filter((f) => matchScore(q, [f.bn, f.en, ...f.aliases]) >= 0).map((f) => f.id)).toContain(id);
     }
+  });
+});
+
+describe('kcalFromMacros', () => {
+  it('uses 4/4/9 calories per gram and treats blanks as zero', () => {
+    expect(kcalFromMacros(25, 8, 9)).toBe(213);
+    expect(kcalFromMacros(0, 0, 0)).toBe(0);
+    expect(kcalFromMacros(NaN, 10, 0)).toBe(40);
   });
 });
