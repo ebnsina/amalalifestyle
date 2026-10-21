@@ -48,3 +48,8 @@ export function compareToBudget(total: number, budget: number) {
   const slack = Math.max(30, budget * 0.1);
   return { diff, state: Math.abs(diff) <= slack ? 'near' : diff > 0 ? 'over' : 'under' } as const;
 }
+
+// Calories implied by the nutrients (4 per gram of protein or carbs, 9 per gram of fat). Fiber is left out:
+// labels usually count it inside carbs already.
+export const kcalFromMacros = (protein: number, carbs: number, fat: number) =>
+  Math.round((protein || 0) * 4 + (carbs || 0) * 4 + (fat || 0) * 9);
