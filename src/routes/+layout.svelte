@@ -3,6 +3,8 @@
 	import '../app.css';
 	import Alert from '#lib/sinaui/ui/Alert.svelte';
 	import Button from '#lib/sinaui/ui/Button.svelte';
+	import Icon from '#lib/sinaui/ui/Icon.svelte';
+	import { InformationCircleIcon } from '@hugeicons/core-free-icons';
 	import { i18n, t } from '#lib/i18n.svelte.js';
 	import { store } from '#lib/store.svelte.js';
 	import { applyTheme, theme } from '#lib/theme.svelte.js';
@@ -39,17 +41,17 @@
 
 {#if store.status === 'ready'}
 	{#if store.saveFailed}
-		<Alert tone="danger" title={t('শেষ বদলটা সেভ হয়নি', 'Your last change wasn’t saved')} class="banner" live>
+		<Alert tone="danger" title={t('শেষ বদলটা সেভ হয়নি', 'Your last change wasn’t saved')} live>
 			{t('ফোনের জায়গা ভরে গেছে কিনা দেখুন, তারপর অ্যাপটা আবার খুলুন।', 'Check that your phone has free space, then open the app again.')}
 		</Alert>
 	{/if}
 	{#if waiting}
-		<Alert title={t('নতুন সংস্করণ এসেছে', 'A new version is ready')} class="banner" live>
-			{t('এক চাপে চালু করুন। আপনার তথ্য যেমন আছে তেমনই থাকবে।', 'Switch with one tap. Your data stays as it is.')}
-			{#snippet actions()}
-				<Button size="sm" onclick={() => waiting?.postMessage('skip-waiting')}>{t('এখনই চালু করুন', 'Update now')}</Button>
-			{/snippet}
-		</Alert>
+		<!-- One slim line at the top of the page; it scrolls away instead of sitting on the screen's header. -->
+		<div class="update" role="status">
+			<Icon icon={InformationCircleIcon} size={18} />
+			<span class="grow small">{t('নতুন সংস্করণ এসেছে', 'A new version is ready')}</span>
+			<Button size="sm" onclick={() => waiting?.postMessage('skip-waiting')}>{t('চালু করুন', 'Update')}</Button>
+		</div>
 	{/if}
 	{@render children()}
 {:else if store.status === 'failed'}
@@ -80,9 +82,12 @@
 	.emoji {
 		font-size: 3.5rem;
 	}
-	:global(.banner) {
-		position: sticky;
-		top: 0;
-		z-index: 20;
+	.update {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: calc(env(safe-area-inset-top) + 0.375rem) 1rem 0.375rem;
+		background: var(--accent-soft);
+		color: var(--ui-fg);
 	}
 </style>
