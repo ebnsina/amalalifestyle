@@ -59,8 +59,8 @@
 		<Segmented label={t('কোথায়', 'Where')} bind:value={place}
 			options={[{ value: 'gym', label: t('জিমে', 'At the gym') }, { value: 'home', label: t('ঘরে', 'At home') }]} />
 		<div class="row two">
-			<div class="grow"><NumberField label={t('মোট সময় (মিনিট)', 'Total time (min)')} locale={locale()} min={5} max={180} step={5} bind:value={minutes} /></div>
-			<div class="grow"><NumberField label={t('বিশ্রাম (সেকেন্ড)', 'Rest (sec)')} locale={locale()} min={0} max={300} step={15} bind:value={rest} /></div>
+			<div class="grow"><NumberField fill label={t('মোট সময় (মিনিট)', 'Total time (min)')} locale={locale()} min={5} max={180} step={5} bind:value={minutes} /></div>
+			<div class="grow"><NumberField fill label={t('বিশ্রাম (সেকেন্ড)', 'Rest (sec)')} locale={locale()} min={0} max={300} step={15} bind:value={rest} /></div>
 		</div>
 
 		<p class="label">{t('ব্যায়ামগুলো', 'Exercises')}</p>
@@ -75,10 +75,10 @@
 					{/if}
 				</div>
 				<div class="row two">
-					<div class="grow"><NumberField label={t('সেট', 'Sets')} locale={locale()} min={1} max={10} bind:value={ex.sets} /></div>
+					<div class="grow"><NumberField fill label={t('সেট', 'Sets')} locale={locale()} min={1} max={10} bind:value={ex.sets} /></div>
 					<div class="grow"><Input label={t('প্রতি সেটে', 'Per set')} placeholder={t('যেমন: ১০টি', 'e.g. 10 reps')} bind:value={ex.reps} maxlength={20} /></div>
 				</div>
-				<NumberField label={t('ওজন (কেজি, না থাকলে ০)', 'Weight (kg, 0 if none)')} locale={locale()} min={0} max={500} step={2.5}
+				<NumberField fill label={t('ওজন (কেজি, না থাকলে ০)', 'Weight (kg, 0 if none)')} locale={locale()} min={0} max={500} step={2.5}
 					format={{ maximumFractionDigits: 1 }} bind:value={ex.kg} />
 			</div>
 		{/each}

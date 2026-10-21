@@ -60,10 +60,10 @@
 {/snippet}
 
 <Screen title={t('খাবার বেছে নিন', 'Choose foods')}>
-	<div class="row">
-		<p class="small muted grow">{slotName(store.slot)} · {t('যা যা খাবেন সবগুলোতে টিক দিন', 'Tick everything you’ll eat')}</p>
-		<Button size="sm" variant="secondary" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন খাবার', 'New food')}</Button>
-	</div>
+	{#snippet action()}
+		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন খাবার', 'New food')}</Button>
+	{/snippet}
+	<p class="small muted">{slotName(store.slot)} · {t('যা যা খাবেন সবগুলোতে টিক দিন', 'Tick everything you’ll eat')}</p>
 	<!-- A food someone adds here is for this meal, so it starts ticked. -->
 	<FoodForm bind:open={adding} onsaved={(id) => !store.cooked.includes(id) && (store.cooked = [...store.cooked, id])} />
 	<div class="row toolbar">

@@ -43,9 +43,9 @@
 {/snippet}
 
 <Screen title={t('ফিটনেস গাইড', 'Fitness guide')}>
-	<div class="actions">
-		<Button onclick={() => (adding = true)}><Icon icon={Add01Icon} size={18} /> {t('নতুন রুটিন', 'New routine')}</Button>
-	</div>
+	{#snippet action()}
+		<Button size="sm" onclick={() => (adding = true)}><Icon icon={Add01Icon} size={16} /> {t('নতুন রুটিন', 'New routine')}</Button>
+	{/snippet}
 	<WorkoutForm bind:open={adding} />
 
 	<Card title={t('হিসাব', 'Summary')} level={2}>
